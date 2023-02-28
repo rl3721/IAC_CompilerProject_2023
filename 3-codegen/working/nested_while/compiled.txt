@@ -1,0 +1,50 @@
+const _res_0 0
+const _zero_f_1 0
+add x _res_0 _zero_f_1
+const _res_0 0
+const _zero_f_2 0
+add z _res_0 _zero_f_2
+:_while_loop_4
+const _zero_8 0
+add _t1_6 z _zero_8
+const _t2_7 4
+lt _res_0 _t1_6 _t2_7
+const _zero_3 0
+beq _res_0 _zero_3 _end_5
+const _res_0 0
+const _zero_f_9 0
+add i _res_0 _zero_f_9
+:_while_loop_11
+const _zero_15 0
+add _t1_13 i _zero_15
+const _t2_14 5
+lt _res_0 _t1_13 _t2_14
+const _zero_10 0
+beq _res_0 _zero_10 _end_12
+const _zero_19 0
+add _t1_17 x _zero_19
+const _zero_20 0
+add _t2_18 z _zero_20
+add _res_0 _t1_17 _t2_18
+const _zero_f_16 0
+add x _res_0 _zero_f_16
+const _zero_24 0
+add _t1_22 i _zero_24
+const _t2_23 1
+add _res_0 _t1_22 _t2_23
+const _zero_f_21 0
+add i _res_0 _zero_f_21
+bne _res_0 _zero_10 _while_loop_11
+:_end_12
+const _zero_25 0
+add _res_0 x _zero_25
+output _res_0
+const _zero_29 0
+add _t1_27 z _zero_29
+const _t2_28 1
+add _res_0 _t1_27 _t2_28
+const _zero_f_26 0
+add z _res_0 _zero_f_26
+bne _res_0 _zero_3 _while_loop_4
+:_end_5
+halt _res_0

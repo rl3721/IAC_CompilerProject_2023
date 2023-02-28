@@ -1,0 +1,11 @@
+const _zero_f_3 0
+param _res_0 0
+beq _res_0 _zero_f_3 _top_4
+param _t1_1 1
+add _res_0 _t1_1 _zero_f_3
+beq _zero_f_3 _zero_f_3 _bottom_5
+:_top_4
+param _t2_2 2
+add _res_0 _t2_2 _zero_f_3
+:_bottom_5
+halt _res_0
