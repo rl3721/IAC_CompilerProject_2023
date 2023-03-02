@@ -1,3 +1,25 @@
+%code requires{
+  #include "ast_tree.hpp"
+
+  #include <cassert>
+
+  extern const Node *g_root; // A way of getting the AST out
+
+  //! This is to fix problems when generating C++
+  // We are declaring the functions provided by Flex, so
+  // that Bison generated code can call them.
+  int yylex(void);
+  void yyerror(const char *);
+}
+
+// Represents the value associated with any kind of
+// AST node.
+%union{
+  const Tree *Tree;
+  double number;
+  std::string *string;
+}
+
 %token IDENTIFIER CONSTANT STRING_LITERAL SIZEOF
 %token PTR_OP INC_OP DEC_OP LEFT_OP RIGHT_OP LE_OP GE_OP EQ_OP NE_OP
 %token AND_OP OR_OP MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN
@@ -12,6 +34,8 @@
 
 %start translation_unit
 %%
+
+ROOT: translation_unit {g_root = $1;}
 
 primary_expression
 	: IDENTIFIER
@@ -37,7 +61,7 @@ argument_expression_list
 	;
 
 unary_expression
-	: postfix_expression
+	: postfix_expression              {$$ = $1;}
 	| INC_OP unary_expression
 	| DEC_OP unary_expression
 	| unary_operator cast_expression
@@ -46,12 +70,12 @@ unary_expression
 	;
 
 unary_operator
-	: '&'
-	| '*'
-	| '+'
-	| '-'
-	| '~'
-	| '!'
+	: '&'     {new Tree(Unary_operator, $1);}
+	| '*'     {new Tree(Unary_operator, $1);}
+	| '+'     {new Tree(Unary_operator, $1);}
+	| '-'     {new Tree(Unary_operator, $1);}
+	| '~'     {new Tree(Unary_operator, $1);}
+	| '!'     {new Tree(Unary_operator, $1);}
 	;
 
 cast_expression
@@ -61,7 +85,7 @@ cast_expression
 
 multiplicative_expression
 	: cast_expression
-	| multiplicative_expression '*' cast_expression
+	| multiplicative_expression '*' cast_expression 
 	| multiplicative_expression '/' cast_expression
 	| multiplicative_expression '%' cast_expression
 	;

@@ -2,6 +2,7 @@
     "files.associations": {
         "*.y": "c",
         "*.flex": "lex",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "iosfwd": "cpp"
     }
 }
