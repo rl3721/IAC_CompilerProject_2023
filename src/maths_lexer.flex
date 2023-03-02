@@ -7,13 +7,14 @@ IS			(u|U|l|L)*
 
 %{
 #include <stdio.h>
-#include "y.tab.h"
+#include "maths_parser.tab.hpp"
 
 void count();
 %}
 
 %%
-"/*"			{ comment(); }
+"/*"			{ ;}//comment(); }
+"hello_world"			{ count(); return(HELLO_WORLD); }
 
 "auto"			{ count(); return(AUTO); }
 "break"			{ count(); return(BREAK); }
@@ -48,7 +49,7 @@ void count();
 "volatile"		{ count(); return(VOLATILE); }
 "while"			{ count(); return(WHILE); }
 
-{L}({L}|{D})*		{ count(); return(check_type()); }
+{L}({L}|{D})*		{ count(); return(IDENTIFIER); }
 
 0[xX]{H}+{IS}?		{ count(); return(CONSTANT); }
 0{D}+{IS}?		{ count(); return(CONSTANT); }
@@ -113,17 +114,17 @@ L?\"(\\.|[^\\"])*\"	{ count(); return(STRING_LITERAL); }
 
 %%
 
-yywrap()
+int yywrap()
 {
 	return(1);
 }
 
 
-comment()
+/*comment()
 {
-	char c, c1;
+	char c, c1;*/
 
-loop:
+/*loop:
 	while ((c = input()) != '*' && c != 0)
 		putchar(c);
 
@@ -135,7 +136,7 @@ loop:
 
 	if (c != 0)
 		putchar(c1);
-}
+}*/
 
 
 int column = 0;
@@ -156,20 +157,20 @@ void count()
 }
 
 
-int check_type()
+/*int check_type()
 {
-/*
+
 * pseudo code --- this is what it should check
 *
 *	if (yytext == type_name)
 *		return(TYPE_NAME);
 *
 *	return(IDENTIFIER);
-*/
 
-/*
+
+
 *	it actually will only return IDENTIFIER
-*/
+
 
 	return(IDENTIFIER);
-}
+}*/

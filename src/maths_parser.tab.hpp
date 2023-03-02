@@ -47,11 +47,11 @@ extern int yydebug;
 /* "%code requires" blocks.  */
 #line 1 "src/maths_parser.y"
 
-  #include "ast.hpp"
+  #include "ast_tree.hpp"
 
   #include <cassert>
 
-  extern const Expression *g_root; // A way of getting the AST out
+ extern const Tree *g_root; // A way of getting the AST out
 
   //! This is to fix problems when generating C++
   // We are declaring the functions provided by Flex, so
@@ -70,18 +70,65 @@ extern int yydebug;
     YYEOF = 0,                     /* "end of file"  */
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
-    T_TIMES = 258,                 /* T_TIMES  */
-    T_DIVIDE = 259,                /* T_DIVIDE  */
-    T_PLUS = 260,                  /* T_PLUS  */
-    T_MINUS = 261,                 /* T_MINUS  */
-    T_EXPONENT = 262,              /* T_EXPONENT  */
-    T_LBRACKET = 263,              /* T_LBRACKET  */
-    T_RBRACKET = 264,              /* T_RBRACKET  */
-    T_LOG = 265,                   /* T_LOG  */
-    T_EXP = 266,                   /* T_EXP  */
-    T_SQRT = 267,                  /* T_SQRT  */
-    T_NUMBER = 268,                /* T_NUMBER  */
-    T_VARIABLE = 269               /* T_VARIABLE  */
+    IDENTIFIER = 258,              /* IDENTIFIER  */
+    CONSTANT = 259,                /* CONSTANT  */
+    STRING_LITERAL = 260,          /* STRING_LITERAL  */
+    SIZEOF = 261,                  /* SIZEOF  */
+    PTR_OP = 262,                  /* PTR_OP  */
+    INC_OP = 263,                  /* INC_OP  */
+    DEC_OP = 264,                  /* DEC_OP  */
+    LEFT_OP = 265,                 /* LEFT_OP  */
+    RIGHT_OP = 266,                /* RIGHT_OP  */
+    LE_OP = 267,                   /* LE_OP  */
+    GE_OP = 268,                   /* GE_OP  */
+    EQ_OP = 269,                   /* EQ_OP  */
+    NE_OP = 270,                   /* NE_OP  */
+    AND_OP = 271,                  /* AND_OP  */
+    OR_OP = 272,                   /* OR_OP  */
+    MUL_ASSIGN = 273,              /* MUL_ASSIGN  */
+    DIV_ASSIGN = 274,              /* DIV_ASSIGN  */
+    MOD_ASSIGN = 275,              /* MOD_ASSIGN  */
+    ADD_ASSIGN = 276,              /* ADD_ASSIGN  */
+    SUB_ASSIGN = 277,              /* SUB_ASSIGN  */
+    LEFT_ASSIGN = 278,             /* LEFT_ASSIGN  */
+    RIGHT_ASSIGN = 279,            /* RIGHT_ASSIGN  */
+    AND_ASSIGN = 280,              /* AND_ASSIGN  */
+    XOR_ASSIGN = 281,              /* XOR_ASSIGN  */
+    OR_ASSIGN = 282,               /* OR_ASSIGN  */
+    TYPE_NAME = 283,               /* TYPE_NAME  */
+    TYPEDEF = 284,                 /* TYPEDEF  */
+    EXTERN = 285,                  /* EXTERN  */
+    STATIC = 286,                  /* STATIC  */
+    AUTO = 287,                    /* AUTO  */
+    REGISTER = 288,                /* REGISTER  */
+    CHAR = 289,                    /* CHAR  */
+    SHORT = 290,                   /* SHORT  */
+    INT = 291,                     /* INT  */
+    LONG = 292,                    /* LONG  */
+    SIGNED = 293,                  /* SIGNED  */
+    UNSIGNED = 294,                /* UNSIGNED  */
+    FLOAT = 295,                   /* FLOAT  */
+    DOUBLE = 296,                  /* DOUBLE  */
+    CONST = 297,                   /* CONST  */
+    VOLATILE = 298,                /* VOLATILE  */
+    VOID = 299,                    /* VOID  */
+    STRUCT = 300,                  /* STRUCT  */
+    UNION = 301,                   /* UNION  */
+    ENUM = 302,                    /* ENUM  */
+    ELLIPSIS = 303,                /* ELLIPSIS  */
+    CASE = 304,                    /* CASE  */
+    DEFAULT = 305,                 /* DEFAULT  */
+    IF = 306,                      /* IF  */
+    ELSE = 307,                    /* ELSE  */
+    SWITCH = 308,                  /* SWITCH  */
+    WHILE = 309,                   /* WHILE  */
+    DO = 310,                      /* DO  */
+    FOR = 311,                     /* FOR  */
+    GOTO = 312,                    /* GOTO  */
+    CONTINUE = 313,                /* CONTINUE  */
+    BREAK = 314,                   /* BREAK  */
+    RETURN = 315,                  /* RETURN  */
+    HELLO_WORLD = 316              /* HELLO_WORLD  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -92,11 +139,11 @@ union YYSTYPE
 {
 #line 17 "src/maths_parser.y"
 
-  const Expression *expr;
+  const Tree *tree;
   double number;
   std::string *string;
 
-#line 100 "src/maths_parser.tab.hpp"
+#line 147 "src/maths_parser.tab.hpp"
 
 };
 typedef union YYSTYPE YYSTYPE;

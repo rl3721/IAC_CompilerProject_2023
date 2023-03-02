@@ -1,3 +1,1 @@
-int x(){
-    return 1;
-}
+hello_world

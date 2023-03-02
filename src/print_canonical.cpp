@@ -1,8 +1,8 @@
-#include "ast.hpp"
+#include "ast_tree.hpp"
 
 int main()
 {
-    const Expression *ast=parseAST();
+    const Tree *ast=parseAST();
 
     ast->print(std::cout);
     std::cout<<std::endl;

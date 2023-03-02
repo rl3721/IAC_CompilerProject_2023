@@ -3,7 +3,7 @@
 
   #include <cassert>
 
-  extern const Node *g_root; // A way of getting the AST out
+ extern const Tree *g_root; // A way of getting the AST out
 
   //! This is to fix problems when generating C++
   // We are declaring the functions provided by Flex, so
@@ -15,7 +15,7 @@
 // Represents the value associated with any kind of
 // AST node.
 %union{
-  const Tree *Tree;
+  const Tree *tree;
   double number;
   std::string *string;
 }
@@ -31,11 +31,14 @@
 %token STRUCT UNION ENUM ELLIPSIS
 
 %token CASE DEFAULT IF ELSE SWITCH WHILE DO FOR GOTO CONTINUE BREAK RETURN
+%token HELLO_WORLD
 
-%start translation_unit
+%start ROOT
 %%
 
-ROOT: translation_unit {g_root = $1;}
+ROOT
+  :HELLO_WORLD  {g_root = new Tree(goodbye_world);}
+  |translation_unit
 
 primary_expression
 	: IDENTIFIER
@@ -61,7 +64,7 @@ argument_expression_list
 	;
 
 unary_expression
-	: postfix_expression              {$$ = $1;}
+	: postfix_expression              //{$$ = $1;}
 	| INC_OP unary_expression
 	| DEC_OP unary_expression
 	| unary_operator cast_expression
@@ -70,12 +73,12 @@ unary_expression
 	;
 
 unary_operator
-	: '&'     {new Tree(Unary_operator, $1);}
-	| '*'     {new Tree(Unary_operator, $1);}
-	| '+'     {new Tree(Unary_operator, $1);}
-	| '-'     {new Tree(Unary_operator, $1);}
-	| '~'     {new Tree(Unary_operator, $1);}
-	| '!'     {new Tree(Unary_operator, $1);}
+	: '&'     //{new Tree(Unary_operator, $1);}
+	| '*'     //{new Tree(Unary_operator, $1);}
+	| '+'     //{new Tree(Unary_operator, $1);}
+	| '-'     //{new Tree(Unary_operator, $1);}
+	| '~'     //{new Tree(Unary_operator, $1);}
+	| '!'     //{new Tree(Unary_operator, $1);}
 	;
 
 cast_expression
@@ -441,19 +444,23 @@ function_definition
 %%
 #include <stdio.h>
 
-extern char yytext[];
-extern int column;
+//extern char yytext[];
+//extern int column;
 
-yyerror(s)
+/*yyerror(s)
 char *s;
 {
 	fflush(stdout);
 	printf("\n%*s\n%*s\n", column, "^", column, s);
+}*/
+void yyerror(const char *s) {
+    std::cerr << "Error: " << s << std::endl;
 }
 
+const Tree *g_root; // Definition of variable (to match declaration earlier)
 const Tree *parseAST()
 {
-  g_root=0;
+  g_root =0;
   yyparse();
   return g_root;
 }

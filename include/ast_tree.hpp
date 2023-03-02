@@ -3,12 +3,23 @@
 
 #include <string>
 #include <iostream>
-#include <map>
 #include <vector>
-#include <memory>
 
+
+struct Tree;
 
 typedef const Tree *TreePtr;
+
+enum TreeType{
+    goodbye_world, //0
+    Identifier, //1: value = NAME
+    Int_constant, //2
+    Float_constant, //3: _value = CONSTANT
+    Unary_operator, //4_value = Operator
+    While, 
+    For, 
+    If
+};
 
 struct Tree
 {
@@ -30,39 +41,36 @@ struct Tree
     {}
     
     template<class ...TArgs>
-    Tree(TreeType _type, TArgs ...args)
+    Tree(int _type, TArgs ...args)
         : type(_type)
         , branches{args...}
     {}
 
+    Tree(TreeType _type)
+        : type(_type)
+    {}
+
     /*the destructor*/
     ~Tree(){
-        for (int i = 0; i<branches.size();i++){
+        for (std::vector<const Tree*>::size_type i = 0; i<branches.size();i++){
             delete branches[i];
         }
     }
     /*for printing the ast with print_conanical*/
-    void print(std::ostream &dst){
-        dst<<type<<":"<<value<<"[";
-        for (int i = 0; i<branches.size();i++){
+    void print(std::ostream &dst) const {
+        dst << type << ":" << value << "[";
+        for (std::vector<const Tree*>::size_type i = 0; i < branches.size(); i++) {
             branches[i]->print(dst);
         }
-        dst<<"]\n";
-    }
-
-
+        dst << "]\n";
+}
     TreeType type;
     std::string value;
     std::vector<TreePtr> branches;
 };
 
-enum TreeType{
-    Identifier, //value = NAME
-    Int_constant, Float_constant, //_value = CONSTANT
-    Unary_operator, //_value = Operator
-    While, For, If, 
-    /*....*/
-};
 
+
+extern const Tree *parseAST();
 
 #endif

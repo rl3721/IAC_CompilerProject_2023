@@ -22,7 +22,7 @@ echo "========================================"
 echo " Cleaning the temporaries and outputs"
 make clean
 echo " Force building bin/print_canonical"
-make bin/print_canonical bin/eval_expr -B
+make bin/print_canonical -B
 if [[ "$?" -ne 0 ]]; then
     echo "Build failed.";
 fi
@@ -38,11 +38,12 @@ if [[ -f test/valid_expressions.got.txt ]]; then
     rm test/valid_expressions.got.txt
 fi
 
-INPUT_FILE="/test/input.cpp"
+INPUT_FILE="test/input.cpp"
 INPUT=$(cat "$INPUT_FILE")
 
 # Process the input with print_canonical and print the output
-GOT=$(echo -n "$INPUT" | bin/print_canonical)
+GOT=$(echo "$INPUT" | bin/print_canonical)
+echo "========================================="
 echo "$GOT"
 
 
