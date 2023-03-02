@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.y": "c",
+        "*.flex": "lex",
+        "stdio.h": "c"
+    }
+}
