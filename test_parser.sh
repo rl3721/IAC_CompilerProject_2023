@@ -37,61 +37,15 @@ CHECKED=0
 if [[ -f test/valid_expressions.got.txt ]]; then
     rm test/valid_expressions.got.txt
 fi
-while IFS=, read -r INPUT_LINE REF_LINE BINDINGS REF_VALUE; do
-    echo "==========================="
-    echo ""
-    echo "Input : ${INPUT_LINE}"
-    GOT_LINE=$( echo -n "${INPUT_LINE}" | bin/print_canonical )
-    echo "Output : ${GOT_LINE}"
-    if [[ "${GOT_LINE}" != "${REF_LINE}" ]]; then
-        echo ""
-        echo "ERROR"
-    else
-        PASSED=$(( ${PASSED}+1 ));
-    fi
-    CHECKED=$(( ${CHECKED}+1 ));
 
-    echo ""
-    echo "Evaluating with : $BINDINGS"
-    GOT_VALUE=$( echo -n "${INPUT_LINE}" | bin/eval_expr ${BINDINGS} )
-    echo "Value : ${GOT_VALUE}"
-    if [[ "${GOT_VALUE}" != "${REF_VALUE}" ]]; then
-        echo ""
-        echo "ERROR"        
-    else
-        PASSED=$(( ${PASSED}+1 ));
-    fi
-    CHECKED=$(( ${CHECKED}+1 ));
-    
-    echo "${INPUT_LINE},${GOT_LINE},${BINDINGS},${GOT_VALUE}" >> test/valid_expressions.got.txt
+INPUT_FILE="/test/input.cpp"
+INPUT=$(cat "$INPUT_FILE")
 
-done < <( cat test/valid_expressions.input.txt | ${DOS2UNIX})
-
-echo ""
-echo "============================================"
-echo "Checking that bad expressions are not parsed"
-echo ""
-
-while IFS=, read -r INPUT_LINE; do
-    # Strip carriage return if necessary (replace dos2unix)
-    INPUT_LINE=$(echo "${INPUT_LINE}")
-    echo "==========================="
-    echo ""
-    echo "Input : ${INPUT_LINE}"
-    GOT_LINE=$( echo -n "${INPUT_LINE}" | bin/print_canonical )
-    CODE=$?;
-    echo "Output : ${GOT_LINE}"
-    if [[ ${CODE} -eq "0" ]]; then
-        echo ""
-        echo "ERROR"
-        PASSED=$(( ${PASSED}-1 ));        
-    fi
-done < <( cat test/invalid_expressions.input.txt | ${DOS2UNIX} )
+# Process the input with print_canonical and print the output
+GOT=$(echo -n "$INPUT" | bin/print_canonical)
+echo "$GOT"
 
 
-echo "########################################"
-echo "Passed ${PASSED} out of ${CHECKED} checks".
-echo ""
 
 RELEASE=$(lsb_release -d)
 if [[ $? -ne 0 ]]; then

@@ -1,5 +1,5 @@
-#ifndef ast_node_hpp
-#define ast_node_hpp
+#ifndef ast_tree_hpp
+#define ast_tree_hpp
 
 #include <string>
 #include <iostream>
