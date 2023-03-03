@@ -20,25 +20,85 @@
   std::string *string;
 }
 
-%token IDENTIFIER CONSTANT STRING_LITERAL SIZEOF
-%token PTR_OP INC_OP DEC_OP LEFT_OP RIGHT_OP LE_OP GE_OP EQ_OP NE_OP
-%token AND_OP OR_OP MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN
-%token SUB_ASSIGN LEFT_ASSIGN RIGHT_ASSIGN AND_ASSIGN
-%token XOR_ASSIGN OR_ASSIGN TYPE_NAME
+%token <number> CONSTANT 
+%token <string> IDENTIFIER STRING_LITERAL 
 
-%token TYPEDEF EXTERN STATIC AUTO REGISTER
-%token CHAR SHORT INT LONG SIGNED UNSIGNED FLOAT DOUBLE CONST VOLATILE VOID
-%token STRUCT UNION ENUM ELLIPSIS
+%token  SIZEOF PTR_OP INC_OP DEC_OP LEFT_OP RIGHT_OP LE_OP GE_OP EQ_OP NE_OP
+%token  AND_OP OR_OP MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN
+%token  SUB_ASSIGN LEFT_ASSIGN RIGHT_ASSIGN AND_ASSIGN
+%token  XOR_ASSIGN OR_ASSIGN TYPE_NAME
+
+%token  TYPEDEF EXTERN STATIC AUTO REGISTER
+%token  CHAR SHORT INT LONG SIGNED UNSIGNED FLOAT DOUBLE CONST VOLATILE VOID
+%token  STRUCT UNION ENUM ELLIPSIS
 
 %token CASE DEFAULT IF ELSE SWITCH WHILE DO FOR GOTO CONTINUE BREAK RETURN
 %token HELLO_WORLD
+
+%type <tree> ROOT
+%type <tree> translation_unit
+%type <tree> primary_expression
+%type <tree> postfix_expression
+%type <tree> argument_expression_list
+%type <tree> unary_expression
+%type <tree> unary_operator
+%type <tree> cast_expression
+%type <tree> multiplicative_expression
+%type <tree> additive_expression
+%type <tree> shift_expression
+%type <tree> relational_expression
+%type <tree> equality_expression
+%type <tree> and_expression
+%type <tree> exclusive_or_expression
+%type <tree> inclusive_or_expression
+%type <tree> logical_and_expression
+%type <tree> logical_or_expression
+%type <tree> conditional_expression
+%type <tree> assignment_expression
+%type <tree> constant_expression
+%type <tree> declaration
+%type <tree> declaration_specifiers
+%type <tree> init_declarator_list
+%type <tree> init_declarator
+%type <tree> storage_class_specifier
+%type <tree> type_specifier
+%type <tree> struct_or_union_specifier
+%type <tree> struct_or_union
+%type <tree> struct_declaration_list
+%type <tree> struct_declaration
+%type <tree> specifier_qualifier_list
+%type <tree> struct_declarator_list
+%type <tree> struct_declarator
+%type <tree> enum_specifier
+%type <tree> enumerator_list
+%type <tree> enumerator
+%type <tree> type_qualifier
+%type <tree> parameter_type_list
+%type <tree> parameter_declaration
+%type <tree> identifier_list
+%type <tree> initializer
+%type <tree> type_name
+%type <tree> abstract_declarator
+%type <tree> direct_abstract_declarator
+%type <tree> declarator
+%type <tree> direct_declarator
+%type <tree> statement
+%type <tree> labeled_statement
+%type <tree> compound_statement
+%type <tree> declaration_list
+%type <tree> statement_list
+%type <tree> expression_statement
+%type <tree> selection_statement
+%type <tree> iteration_statement
+%type <tree> jump_statement
+
 
 %start ROOT
 %%
 
 ROOT
   :HELLO_WORLD  {g_root = new Tree(goodbye_world);}
-  |translation_unit
+  |translation_unit {$$ = $1;}
 
 primary_expression
 	: IDENTIFIER
@@ -185,7 +245,7 @@ declaration
 declaration_specifiers
 	: storage_class_specifier
 	| storage_class_specifier declaration_specifiers
-	| type_specifier
+	| type_specifier									{$$ = $1;}
 	| type_specifier declaration_specifiers
 	| type_qualifier
 	| type_qualifier declaration_specifiers
@@ -213,7 +273,7 @@ type_specifier
 	: VOID
 	| CHAR
 	| SHORT
-	| INT
+	| INT									{new Tree(typeSpecifier, "INT");}
 	| LONG
 	| FLOAT
 	| DOUBLE
@@ -221,7 +281,7 @@ type_specifier
 	| UNSIGNED
 	| struct_or_union_specifier
 	| enum_specifier
-	| TYPE_NAME
+	//| TYPE_NAME //removed from lexer
 	;
 
 struct_or_union_specifier
@@ -245,8 +305,8 @@ struct_declaration
 	;
 
 specifier_qualifier_list
-	: type_specifier specifier_qualifier_list
-	| type_specifier
+	: type_specifier specifier_qualifier_list	{new Tree(specifierQualifierList, $1, $2);}
+	| type_specifier							{new Tree(specifierQualifierList, $1);}
 	| type_qualifier specifier_qualifier_list
 	| type_qualifier
 	;
@@ -285,17 +345,17 @@ type_qualifier
 
 declarator
 	: pointer direct_declarator
-	| direct_declarator
+	| direct_declarator				{$$ = $1;}
 	;
 
 direct_declarator
-	: IDENTIFIER
+	: IDENTIFIER										{new Tree(directDeclarator, $1);}
 	| '(' declarator ')'
 	| direct_declarator '[' constant_expression ']'
 	| direct_declarator '[' ']'
 	| direct_declarator '(' parameter_type_list ')'
 	| direct_declarator '(' identifier_list ')'
-	| direct_declarator '(' ')'
+	| direct_declarator '(' ')'							{$$ = $1;}
 	;
 
 pointer
@@ -382,7 +442,7 @@ labeled_statement
 	;
 
 compound_statement
-	: '{' '}'
+	: '{' '}'									{new Tree(compoundStatement);}
 	| '{' statement_list '}'
 	| '{' declaration_list '}'
 	| '{' declaration_list statement_list '}'
@@ -430,7 +490,7 @@ translation_unit
 	;
 
 external_declaration
-	: function_definition
+	: function_definition	
 	| declaration
 	;
 
@@ -438,7 +498,7 @@ function_definition
 	: declaration_specifiers declarator declaration_list compound_statement
 	| declaration_specifiers declarator compound_statement
 	| declarator declaration_list compound_statement
-	| declarator compound_statement
+	| declarator compound_statement												{new Tree(functionDefinition, nullptr, $1, nullptr, $2);}
 	;
 
 %%

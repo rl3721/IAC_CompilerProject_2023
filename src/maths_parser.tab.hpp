@@ -70,8 +70,8 @@ extern int yydebug;
     YYEOF = 0,                     /* "end of file"  */
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
-    IDENTIFIER = 258,              /* IDENTIFIER  */
-    CONSTANT = 259,                /* CONSTANT  */
+    CONSTANT = 258,                /* CONSTANT  */
+    IDENTIFIER = 259,              /* IDENTIFIER  */
     STRING_LITERAL = 260,          /* STRING_LITERAL  */
     SIZEOF = 261,                  /* SIZEOF  */
     PTR_OP = 262,                  /* PTR_OP  */

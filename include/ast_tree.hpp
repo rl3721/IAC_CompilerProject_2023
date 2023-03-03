@@ -13,6 +13,11 @@ typedef const Tree *TreePtr;
 enum TreeType{
     goodbye_world, //0
     Identifier, //1: value = NAME
+    typeSpecifier, //2: value = INT, FLOAT, DOUBLE, SIGNED ....
+    specifierQualifierList, //3, [specifier/qualifier, specifierQualifierList?] 
+    functionDefinition, //4, [declarationSpecifiers/NULL, declarator, declarationList/NULL, compoundStatement]!
+    compoundStatement, //5 tbc
+    directDeclarator,
     Int_constant, //2
     Float_constant, //3: _value = CONSTANT
     Unary_operator, //4_value = Operator
