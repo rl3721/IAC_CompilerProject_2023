@@ -91,14 +91,17 @@
 %type <tree> selection_statement
 %type <tree> iteration_statement
 %type <tree> jump_statement
-
+%type <tree> function_definition
+%type <tree> external_declaration
 
 %start ROOT
 %%
 
 ROOT
-  :HELLO_WORLD  {g_root = new Tree(goodbye_world);}
-  |translation_unit {$$ = $1;}
+	:translation_unit {$$ = $1;}
+	|IDENTIFIER  {g_root = new Tree(goodbye_world, *$1);}
+	|declarator {g_root = $1;}
+	;
 
 primary_expression
 	: IDENTIFIER
@@ -273,7 +276,7 @@ type_specifier
 	: VOID
 	| CHAR
 	| SHORT
-	| INT									{new Tree(typeSpecifier, "INT");}
+	| INT									{$$ = new Tree(typeSpecifier, "INT");}
 	| LONG
 	| FLOAT
 	| DOUBLE
@@ -305,8 +308,8 @@ struct_declaration
 	;
 
 specifier_qualifier_list
-	: type_specifier specifier_qualifier_list	{new Tree(specifierQualifierList, $1, $2);}
-	| type_specifier							{new Tree(specifierQualifierList, $1);}
+	: type_specifier specifier_qualifier_list	{$$ = new Tree(specifierQualifierList, $1, $2);}
+	| type_specifier							{$$ = new Tree(specifierQualifierList, $1);}
 	| type_qualifier specifier_qualifier_list
 	| type_qualifier
 	;
@@ -349,7 +352,7 @@ declarator
 	;
 
 direct_declarator
-	: IDENTIFIER										{new Tree(directDeclarator, $1);}
+	: IDENTIFIER										{$$ = new Tree(directDeclarator, *$1);}
 	| '(' declarator ')'
 	| direct_declarator '[' constant_expression ']'
 	| direct_declarator '[' ']'
@@ -442,7 +445,7 @@ labeled_statement
 	;
 
 compound_statement
-	: '{' '}'									{new Tree(compoundStatement);}
+	: '{' '}'									{$$ = new Tree(compoundStatement);}
 	| '{' statement_list '}'
 	| '{' declaration_list '}'
 	| '{' declaration_list statement_list '}'
@@ -498,7 +501,7 @@ function_definition
 	: declaration_specifiers declarator declaration_list compound_statement
 	| declaration_specifiers declarator compound_statement
 	| declarator declaration_list compound_statement
-	| declarator compound_statement												{new Tree(functionDefinition, nullptr, $1, nullptr, $2);}
+	| declarator compound_statement												{$$ = new Tree(functionDefinition, NULL, $1, NULL, $2);}
 	;
 
 %%

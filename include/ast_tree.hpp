@@ -29,31 +29,51 @@ enum TreeType{
 struct Tree
 {
     /* different types of constructors used*/
-    Tree(TreeType _type, std::string _value, const std::vector<TreePtr> &_branches)
-        : type(_type)
-        , value(_value)
-        , branches(_branches)
-    {}
+    // Tree(TreeType _type, std::string _value, const std::vector<TreePtr> &_branches)
+    //     : type(_type)
+    //     , value(_value)
+    //     , branches(_branches)
+    // {}
     
-    Tree(TreeType _type, std::string _value)
-        : type(_type)
-        , value(_value)
-    {}
-
-    Tree(TreeType _type, double _value) //long doubles are not supported by this ast
-        : type(_type)
-        , value(std::to_string(_value))
-    {}
     
-    template<class ...TArgs>
-    Tree(int _type, TArgs ...args)
-        : type(_type)
-        , branches{args...}
-    {}
-
     Tree(TreeType _type)
         : type(_type)
     {}
+    Tree(TreeType _type, std::string _value)
+        : type(_type)
+        , sval(_value)
+    {}
+    Tree(TreeType _type, double _value) //long doubles are not supported by this ast
+        : type(_type)
+        , dval(_value)
+    {}
+    Tree(TreeType _type, TreePtr _content)
+        : type(_type)
+        , branches{_content}
+    {}
+    Tree(TreeType _type, TreePtr _left, TreePtr _right) 
+        : type(_type)
+        , branches{_left, _right}
+    {}
+
+    //naming convention based on if
+    Tree(TreeType _type, TreePtr _condition, TreePtr _left, TreePtr _right) 
+        : type(_type)
+       , branches{_condition,_left, _right}
+    {}
+
+    //naming convention based on function_definition
+    Tree(TreeType _type, TreePtr _specifier, TreePtr _declarator, TreePtr _list, TreePtr _statement) 
+        : type(_type)
+       , branches{_specifier, _declarator, _list, _statement}
+    {}
+    
+    // template<class ...TArgs>
+    // Tree(TreeType _type, TArgs ...args)
+    //     : type(_type)
+    //     , branches{args...}
+    // {}
+
 
     /*the destructor*/
     ~Tree(){
@@ -63,14 +83,15 @@ struct Tree
     }
     /*for printing the ast with print_conanical*/
     void print(std::ostream &dst) const {
-        dst << type << ":" << value << "[";
+        dst <<"Node "<< type << " " << sval <<" " << dval << "[";
         for (std::vector<const Tree*>::size_type i = 0; i < branches.size(); i++) {
             branches[i]->print(dst);
         }
         dst << "]\n";
 }
     TreeType type;
-    std::string value;
+    double dval;
+    std::string sval;
     std::vector<TreePtr> branches;
 };
 

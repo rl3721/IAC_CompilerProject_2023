@@ -49,18 +49,18 @@ void count();
 "volatile"		{ count(); return(VOLATILE); }
 "while"			{ count(); return(WHILE); }
 
-{L}({L}|{D})*		{ count(); return(IDENTIFIER); }
+{L}({L}|{D})*		{yylval.string = new std::string(yytext); count(); return(IDENTIFIER);}
 
-0[xX]{H}+{IS}?		{ count(); return(CONSTANT); }
-0{D}+{IS}?		{ count(); return(CONSTANT); }
-{D}+{IS}?		{ count(); return(CONSTANT); }
-L?'(\\.|[^\\'])+'	{ count(); return(CONSTANT); }
+0[xX]{H}+{IS}?		{yylval.number = std::stod(yytext); count(); return(CONSTANT); }
+0{D}+{IS}?		{ yylval.number = std::stod(yytext);count(); return(CONSTANT); }
+{D}+{IS}?		{yylval.number = std::stod(yytext); count(); return(CONSTANT); }
+L?'(\\.|[^\\'])+'	{ yylval.number = std::stod(yytext);count(); return(CONSTANT); }
 
-{D}+{E}{FS}?		{ count(); return(CONSTANT); }
-{D}*"."{D}+({E})?{FS}?	{ count(); return(CONSTANT); }
-{D}+"."{D}*({E})?{FS}?	{ count(); return(CONSTANT); }
+{D}+{E}{FS}?		{ yylval.number = std::stod(yytext);count(); return(CONSTANT); }
+{D}*"."{D}+({E})?{FS}?	{ yylval.number = std::stod(yytext);count(); return(CONSTANT); }
+{D}+"."{D}*({E})?{FS}?	{ yylval.number = std::stod(yytext);count(); return(CONSTANT); }
 
-L?\"(\\.|[^\\"])*\"	{ count(); return(STRING_LITERAL); }
+L?\"(\\.|[^\\"])*\"	{yylval.string = new std::string(yytext); count(); return(STRING_LITERAL); }
 
 "..."			{ count(); return(ELLIPSIS); }
 ">>="			{ count(); return(RIGHT_ASSIGN); }
