@@ -10,10 +10,11 @@ IS			(u|U|l|L)*
 #include "maths_parser.tab.hpp"
 
 void count();
+
 %}
 
+%x CMNT
 %%
-"/*"			{ ;}//comment(); }
 "hello_world"			{ count(); return(HELLO_WORLD); }
 
 "auto"			{ count(); return(AUTO); }
@@ -111,7 +112,10 @@ L?\"(\\.|[^\\"])*\"	{yylval.string = new std::string(yytext); count(); return(ST
 
 [ \t\v\n\f]		{ count(); }
 .			{ /* ignore bad characters */ }
-
+"//".*		{;}
+"/*"		{BEGIN CMNT;}
+<CMNT>\n                          {;}
+<CMNT>"*/"                        {BEGIN INITIAL;}
 %%
 
 int yywrap()

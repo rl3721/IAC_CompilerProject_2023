@@ -2067,38 +2067,44 @@ yyreduce:
 #line 2068 "src/maths_parser.tab.cpp"
     break;
 
+  case 206: /* translation_unit: translation_unit external_declaration  */
+#line 497 "src/maths_parser.y"
+                                                {(yyval.tree) = new translationUnit((yyvsp[-1].tree), (yyvsp[0].tree));}
+#line 2074 "src/maths_parser.tab.cpp"
+    break;
+
   case 207: /* external_declaration: function_definition  */
 #line 501 "src/maths_parser.y"
                                 {(yyval.tree) = (yyvsp[0].tree);}
-#line 2074 "src/maths_parser.tab.cpp"
+#line 2080 "src/maths_parser.tab.cpp"
     break;
 
   case 209: /* function_definition: declaration_specifiers declarator declaration_list compound_statement  */
 #line 506 "src/maths_parser.y"
                                                                                         {(yyval.tree) = new fullFunctionDefinition((yyvsp[-3].tree), (yyvsp[-2].tree), (yyvsp[-1].tree), (yyvsp[0].tree)) ;}
-#line 2080 "src/maths_parser.tab.cpp"
+#line 2086 "src/maths_parser.tab.cpp"
     break;
 
   case 210: /* function_definition: declaration_specifiers declarator compound_statement  */
 #line 507 "src/maths_parser.y"
                                                                                                         {(yyval.tree) = new noSpecifierFunctionDefinition((yyvsp[-2].tree), (yyvsp[-1].tree), (yyvsp[0].tree)) ;}
-#line 2086 "src/maths_parser.tab.cpp"
+#line 2092 "src/maths_parser.tab.cpp"
     break;
 
   case 211: /* function_definition: declarator declaration_list compound_statement  */
 #line 508 "src/maths_parser.y"
                                                                                                                 {(yyval.tree) = new noListFunctionDefinition((yyvsp[-2].tree), (yyvsp[-1].tree), (yyvsp[0].tree)) ;}
-#line 2092 "src/maths_parser.tab.cpp"
+#line 2098 "src/maths_parser.tab.cpp"
     break;
 
   case 212: /* function_definition: declarator compound_statement  */
 #line 509 "src/maths_parser.y"
                                                                                                                                 {(yyval.tree) = new simpleFunctionDefinition((yyvsp[-1].tree), (yyvsp[0].tree)) ;}
-#line 2098 "src/maths_parser.tab.cpp"
+#line 2104 "src/maths_parser.tab.cpp"
     break;
 
 
-#line 2102 "src/maths_parser.tab.cpp"
+#line 2108 "src/maths_parser.tab.cpp"
 
       default: break;
     }

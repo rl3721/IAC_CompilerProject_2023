@@ -494,7 +494,7 @@ jump_statement
 
 translation_unit
 	: external_declaration					{$$ = $1;}
-	| translation_unit external_declaration
+	| translation_unit external_declaration	{$$ = new translationUnit($1, $2);}
 	;
 
 external_declaration
