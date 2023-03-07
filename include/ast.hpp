@@ -12,6 +12,10 @@
 #include "ast/ast_jumpstatement.hpp"
 #include "ast/ast_expression.hpp"
 #include "ast/ast_primaryexpression.hpp"
+#include "ast/ast_translationunit.hpp"
+#include "ast/ast_parameterlist.hpp"
+#include "ast/ast_parameterdeclaration.hpp"
+#include "ast/ast_bilateraloperations.hpp"
 
 
 

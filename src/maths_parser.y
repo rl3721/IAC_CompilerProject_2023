@@ -75,6 +75,7 @@
 %type <tree> enumerator
 %type <tree> type_qualifier
 %type <tree> parameter_type_list
+%type <tree> parameter_list
 %type <tree> parameter_declaration
 %type <tree> identifier_list
 %type <tree> initializer
@@ -99,10 +100,10 @@
 %%
 
 ROOT
-	:translation_unit //{$$ = $1;}
+	:translation_unit {g_root = $1;}
 	//|IDENTIFIER  {g_root = new helloWorld();}
 	//|expression  {g_root = $1;}
-	|function_definition  {g_root = $1;}
+	//|function_definition  {g_root = $1;}
 	//|HELLO_WORLD {g_root = new helloWorld();}
 	
 	;
@@ -162,7 +163,7 @@ multiplicative_expression
 
 additive_expression
 	: multiplicative_expression							{$$ = $1;}
-	| additive_expression '+' multiplicative_expression
+	| additive_expression '+' multiplicative_expression	{$$ = new addOperator($1, $3);}
 	| additive_expression '-' multiplicative_expression
 	;
 
@@ -378,20 +379,20 @@ type_qualifier_list
 	;
 
 
-parameter_type_list
-	: parameter_list
-	| parameter_list ',' ELLIPSIS
+parameter_type_list //in parameterlist.hpp
+	: parameter_list				{$$ = $1;}
+	| parameter_list ',' ELLIPSIS	{$$ = new elipsedParameterList($1);}
 	;
 
 parameter_list
-	: parameter_declaration
-	| parameter_list ',' parameter_declaration
+	: parameter_declaration						{$$ = $1;}
+	| parameter_list ',' parameter_declaration	{$$ = new parameterList($1, $3);}
 	;
 
 parameter_declaration
-	: declaration_specifiers declarator
-	| declaration_specifiers abstract_declarator
-	| declaration_specifiers
+	: declaration_specifiers declarator				{$$ = new nonAbstractParameterDeclaration($1, $2); }
+	| declaration_specifiers abstract_declarator	{$$ = new abstractParameterDeclaration($1, $2); }
+	| declaration_specifiers						{$$ = $1;}
 	;
 
 identifier_list
@@ -492,12 +493,12 @@ jump_statement
 	;
 
 translation_unit
-	: external_declaration
+	: external_declaration					{$$ = $1;}
 	| translation_unit external_declaration
 	;
 
 external_declaration
-	: function_definition	
+	: function_definition	{$$ = $1;}
 	| declaration
 	;
 
