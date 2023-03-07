@@ -32,7 +32,7 @@ public:
     delete declaration_list;
     delete compound_statement;}
 
-    virtual const char *getOpcode() const =0;
+    virtual const std::string getOpcode() const =0;
 
     virtual void print(std::ostream &dst) const override
     {
@@ -57,7 +57,7 @@ class fullFunctionDefinition
 {
 private:
 protected:
-    virtual const char *getOpcode() const override
+    virtual const std::string getOpcode() const override
         { return "ds_d_dl_cs"; }
 public:
     fullFunctionDefinition( TreePtr _declaration_specifiers,
@@ -72,7 +72,7 @@ class noSpecifierFunctionDefinition
 {
 private:
 protected:
-    virtual const char *getOpcode() const override
+    virtual const std::string getOpcode() const override
         { return "d_dl_cs"; }
 public:
     noSpecifierFunctionDefinition(
@@ -86,7 +86,7 @@ class noListFunctionDefinition
 {
 private:
 protected:
-    virtual const char *getOpcode() const override
+    virtual const std::string getOpcode() const override
         { return "ds_d_cs"; }
 public:
     noListFunctionDefinition( TreePtr _declaration_specifiers,
@@ -100,7 +100,7 @@ class simpleFunctionDefinition
 {
 private:
 protected:
-    virtual const char *getOpcode() const override
+    virtual const std::string getOpcode() const override
         { return "d_cs"; }
 public:
     simpleFunctionDefinition(

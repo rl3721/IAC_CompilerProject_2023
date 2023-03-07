@@ -10,7 +10,8 @@
 #include "ast/ast_compoundstatement.hpp"
 #include "ast/ast_statementlist.hpp"
 #include "ast/ast_jumpstatement.hpp"
-
+#include "ast/ast_expression.hpp"
+#include "ast/ast_primaryexpression.hpp"
 
 
 

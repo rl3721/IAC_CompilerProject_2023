@@ -442,7 +442,7 @@ Nonterminals, with rules where they appear
     assignment_operator (106)
         on left: 63 64 65 66 67 68 69 70 71 72 73
         on right: 62
-    expression (107)
+    expression <tree> (107)
         on left: 74 75
         on right: 6 8 60 75 192 193 194 195 196 197 199 204
     constant_expression <tree> (108)

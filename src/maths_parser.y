@@ -55,6 +55,7 @@
 %type <tree> logical_or_expression
 %type <tree> conditional_expression
 %type <tree> assignment_expression
+%type <tree> expression
 %type <tree> constant_expression
 %type <tree> declaration
 %type <tree> declaration_specifiers
@@ -100,20 +101,21 @@
 ROOT
 	:translation_unit //{$$ = $1;}
 	//|IDENTIFIER  {g_root = new helloWorld();}
+	//|expression  {g_root = $1;}
 	|function_definition  {g_root = $1;}
 	//|HELLO_WORLD {g_root = new helloWorld();}
 	
 	;
 
 primary_expression
-	: IDENTIFIER
-	| CONSTANT
-	| STRING_LITERAL
-	| '(' expression ')'
+	: IDENTIFIER			{$$ = new identifierPrimaryExpression(*$1);}
+	| CONSTANT				{$$ = new constantPrimaryExpression($1);}
+	| STRING_LITERAL		{$$ = new stringPrimaryExpression(*$1);}
+	| '(' expression ')'	{$$ = $2;} //tbc
 	;
 
 postfix_expression
-	: primary_expression
+	: primary_expression									{$$ = $1;}
 	| postfix_expression '[' expression ']'
 	| postfix_expression '(' ')'
 	| postfix_expression '(' argument_expression_list ')'
@@ -129,7 +131,7 @@ argument_expression_list
 	;
 
 unary_expression
-	: postfix_expression              //{$$ = $1;}
+	: postfix_expression              {$$ = $1;}
 	| INC_OP unary_expression
 	| DEC_OP unary_expression
 	| unary_operator cast_expression
@@ -147,31 +149,31 @@ unary_operator
 	;
 
 cast_expression
-	: unary_expression
+	: unary_expression						{$$ = $1;}
 	| '(' type_name ')' cast_expression
 	;
 
 multiplicative_expression
-	: cast_expression
+	: cast_expression								{$$ = $1;}
 	| multiplicative_expression '*' cast_expression 
 	| multiplicative_expression '/' cast_expression
 	| multiplicative_expression '%' cast_expression
 	;
 
 additive_expression
-	: multiplicative_expression
+	: multiplicative_expression							{$$ = $1;}
 	| additive_expression '+' multiplicative_expression
 	| additive_expression '-' multiplicative_expression
 	;
 
 shift_expression
-	: additive_expression
+	: additive_expression							{$$ = $1;}
 	| shift_expression LEFT_OP additive_expression
 	| shift_expression RIGHT_OP additive_expression
 	;
 
 relational_expression
-	: shift_expression
+	: shift_expression									{$$ = $1;}
 	| relational_expression '<' shift_expression
 	| relational_expression '>' shift_expression
 	| relational_expression LE_OP shift_expression
@@ -179,43 +181,43 @@ relational_expression
 	;
 
 equality_expression
-	: relational_expression
+	: relational_expression								{$$ = $1;}
 	| equality_expression EQ_OP relational_expression
 	| equality_expression NE_OP relational_expression
 	;
 
 and_expression
-	: equality_expression
+	: equality_expression						{$$ = $1;}
 	| and_expression '&' equality_expression
 	;
 
 exclusive_or_expression
-	: and_expression
+	: and_expression								{$$ = $1;}
 	| exclusive_or_expression '^' and_expression
 	;
 
 inclusive_or_expression
-	: exclusive_or_expression
+	: exclusive_or_expression								{$$ = $1;}
 	| inclusive_or_expression '|' exclusive_or_expression
 	;
 
 logical_and_expression
-	: inclusive_or_expression
+	: inclusive_or_expression								{$$ = $1;}
 	| logical_and_expression AND_OP inclusive_or_expression
 	;
 
 logical_or_expression
-	: logical_and_expression
+	: logical_and_expression								{$$ = $1;}
 	| logical_or_expression OR_OP logical_and_expression
 	;
 
 conditional_expression
-	: logical_or_expression
+	: logical_or_expression												{$$ = $1;}
 	| logical_or_expression '?' expression ':' conditional_expression
 	;
 
 assignment_expression
-	: conditional_expression
+	: conditional_expression											{$$ = $1;}
 	| unary_expression assignment_operator assignment_expression
 	;
 
@@ -234,8 +236,8 @@ assignment_operator
 	;
 
 expression
-	: assignment_expression
-	| expression ',' assignment_expression
+	: assignment_expression					{$$ = $1;}
+	| expression ',' assignment_expression	{$$ = new expression($1, $3);}
 	;
 
 constant_expression
@@ -486,7 +488,7 @@ jump_statement
 	| CONTINUE ';'			{$$ = new continueJumpStatement();}
 	| BREAK ';'				{$$ = new breakJumpStatement();}
 	| RETURN ';'			{$$ = new returnJumpStatement(NULL);}
-	| RETURN expression ';'	//{$$ = new returnJumpStatement($2);}
+	| RETURN expression ';'	{$$ = new returnJumpStatement($2);}
 	;
 
 translation_unit

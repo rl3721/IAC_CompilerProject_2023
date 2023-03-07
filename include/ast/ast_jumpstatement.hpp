@@ -27,7 +27,7 @@ public:
     delete expression;
     }
 
-    virtual const char *getOpcode() const =0;
+    virtual const std::string getOpcode() const =0;
 
     virtual void print(std::ostream &dst) const override
     {
@@ -47,7 +47,7 @@ class gotoJumpStatement
 {
 private:
 protected:
-    virtual const char *getOpcode() const override
+    virtual const std::string getOpcode() const override
         { return "GOTO"; }
 public:
     gotoJumpStatement(std::string _identifier)
@@ -61,7 +61,7 @@ class continueJumpStatement
 {
 private:
 protected:
-    virtual const char *getOpcode() const override
+    virtual const std::string getOpcode() const override
         { return "CONTINUE"; }
 public:
     continueJumpStatement()
@@ -74,7 +74,7 @@ class breakJumpStatement
 {
 private:
 protected:
-    virtual const char *getOpcode() const override
+    virtual const std::string getOpcode() const override
         { return "BREAK"; }
 public:
     breakJumpStatement()
@@ -86,7 +86,7 @@ class returnJumpStatement
 {
 private:
 protected:
-    virtual const char *getOpcode() const override
+    virtual const std::string getOpcode() const override
         { return "RETURN"; }
 public:
     returnJumpStatement(TreePtr _expression)
