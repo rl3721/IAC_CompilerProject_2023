@@ -65,6 +65,7 @@ struct Tree
     //naming convention based on function_definition
     Tree(TreeType _type, TreePtr _specifier, TreePtr _declarator, TreePtr _list, TreePtr _statement) 
         : type(_type)
+        
        , branches{_specifier, _declarator, _list, _statement}
     {}
     

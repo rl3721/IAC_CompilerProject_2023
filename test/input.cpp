@@ -1,1 +1,1 @@
-main(){}
+long long int

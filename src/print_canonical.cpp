@@ -1,4 +1,4 @@
-#include "ast_tree.hpp"
+#include "ast.hpp"
 
 int main()
 {

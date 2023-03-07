@@ -47,7 +47,7 @@ extern int yydebug;
 /* "%code requires" blocks.  */
 #line 1 "src/maths_parser.y"
 
-  #include "ast_tree.hpp"
+  #include "ast.hpp"
 
   #include <cassert>
 

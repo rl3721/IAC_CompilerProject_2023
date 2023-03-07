@@ -1,5 +1,5 @@
 %code requires{
-  #include "ast_tree.hpp"
+  #include "ast.hpp"
 
   #include <cassert>
 
@@ -98,9 +98,11 @@
 %%
 
 ROOT
-	:translation_unit {$$ = $1;}
-	|IDENTIFIER  {g_root = new Tree(goodbye_world, *$1);}
-	|declarator {g_root = $1;}
+	:translation_unit //{$$ = $1;}
+	|IDENTIFIER  //{g_root = new Tree(goodbye_world, *$1);}
+	|declarator //{g_root = $1;}
+	|HELLO_WORLD {g_root = new helloWorld();}
+	|specifier_qualifier_list {g_root = $1;}
 	;
 
 primary_expression
@@ -248,7 +250,7 @@ declaration
 declaration_specifiers
 	: storage_class_specifier
 	| storage_class_specifier declaration_specifiers
-	| type_specifier									{$$ = $1;}
+	| type_specifier									//{$$ = $1;}
 	| type_specifier declaration_specifiers
 	| type_qualifier
 	| type_qualifier declaration_specifiers
@@ -273,17 +275,17 @@ storage_class_specifier
 	;
 
 type_specifier
-	: VOID
-	| CHAR
-	| SHORT
-	| INT									{$$ = new Tree(typeSpecifier, "INT");}
-	| LONG
-	| FLOAT
-	| DOUBLE
-	| SIGNED
-	| UNSIGNED
-	| struct_or_union_specifier
-	| enum_specifier
+	: VOID							{$$ = new typeSpecifier("VOID");}
+	| CHAR							{$$ = new typeSpecifier("CHAR");}
+	| SHORT							{$$ = new typeSpecifier("SHORT");}
+	| INT							{$$ = new typeSpecifier("INT");}
+	| LONG							{$$ = new typeSpecifier("LONG");}
+	| FLOAT							{$$ = new typeSpecifier("FLOAT");}
+	| DOUBLE						{$$ = new typeSpecifier("DOUBLE");}
+	| SIGNED						{$$ = new typeSpecifier("SIGNED");}
+	| UNSIGNED						{$$ = new typeSpecifier("UNSIGNED");}
+	| struct_or_union_specifier		{$$ = $1;}
+	| enum_specifier				{$$ = $1;}
 	//| TYPE_NAME //removed from lexer
 	;
 
@@ -308,10 +310,10 @@ struct_declaration
 	;
 
 specifier_qualifier_list
-	: type_specifier specifier_qualifier_list	{$$ = new Tree(specifierQualifierList, $1, $2);}
-	| type_specifier							{$$ = new Tree(specifierQualifierList, $1);}
-	| type_qualifier specifier_qualifier_list
-	| type_qualifier
+	: type_specifier specifier_qualifier_list	{$$ = new specifierList($1, $2);}
+	| type_specifier							{$$ = $1;}
+	| type_qualifier specifier_qualifier_list	{$$ = new qualifierList($1, $2);}
+	| type_qualifier							{$$ = $1;}
 	;
 
 struct_declarator_list
@@ -348,17 +350,17 @@ type_qualifier
 
 declarator
 	: pointer direct_declarator
-	| direct_declarator				{$$ = $1;}
+	| direct_declarator				//{$$ = $1;}
 	;
 
 direct_declarator
-	: IDENTIFIER										{$$ = new Tree(directDeclarator, *$1);}
+	: IDENTIFIER										//{$$ = new Tree(directDeclarator, *$1);}
 	| '(' declarator ')'
 	| direct_declarator '[' constant_expression ']'
 	| direct_declarator '[' ']'
 	| direct_declarator '(' parameter_type_list ')'
 	| direct_declarator '(' identifier_list ')'
-	| direct_declarator '(' ')'							{$$ = $1;}
+	| direct_declarator '(' ')'							//{$$ = $1;}
 	;
 
 pointer
@@ -396,7 +398,7 @@ identifier_list
 	;
 
 type_name
-	: specifier_qualifier_list
+	: specifier_qualifier_list						{$$ = $1;}
 	| specifier_qualifier_list abstract_declarator
 	;
 
@@ -445,7 +447,7 @@ labeled_statement
 	;
 
 compound_statement
-	: '{' '}'									{$$ = new Tree(compoundStatement);}
+	: '{' '}'									//{$$ = new Tree(compoundStatement);}
 	| '{' statement_list '}'
 	| '{' declaration_list '}'
 	| '{' declaration_list statement_list '}'
@@ -501,7 +503,7 @@ function_definition
 	: declaration_specifiers declarator declaration_list compound_statement
 	| declaration_specifiers declarator compound_statement
 	| declarator declaration_list compound_statement
-	| declarator compound_statement												{$$ = new Tree(functionDefinition, NULL, $1, NULL, $2);}
+	| declarator compound_statement												//{$$ = new Tree(functionDefinition, NULL, $1, NULL, $2);}
 	;
 
 %%
