@@ -11,9 +11,10 @@ class typeSpecifier
     : public Tree
 {
 private:
-     std::string type;
 protected:
 public:
+    std::string type;
+
     typeSpecifier(std::string _type)
         :type(_type)
     {}

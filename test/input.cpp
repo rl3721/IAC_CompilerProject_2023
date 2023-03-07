@@ -1,1 +1,4 @@
-long long int
+int main()
+{
+    return;
+}

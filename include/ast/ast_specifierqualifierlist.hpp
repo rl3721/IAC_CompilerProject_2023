@@ -11,14 +11,16 @@ class specifierQualifierList
     : public Tree
 {
 private:
-    TreePtr SpecifierQualifier;
-    TreePtr List;
+    
 protected:
     specifierQualifierList(TreePtr _SpecifierQualifier, TreePtr _List)
         :SpecifierQualifier(_SpecifierQualifier),
         List(_List)
     {}
 public:
+    TreePtr SpecifierQualifier;
+    TreePtr List;
+    
     virtual ~specifierQualifierList()
     {delete SpecifierQualifier;
     delete List;}

@@ -99,10 +99,10 @@
 
 ROOT
 	:translation_unit //{$$ = $1;}
-	|IDENTIFIER  //{g_root = new Tree(goodbye_world, *$1);}
-	|declarator //{g_root = $1;}
-	|HELLO_WORLD {g_root = new helloWorld();}
-	|specifier_qualifier_list {g_root = $1;}
+	//|IDENTIFIER  {g_root = new helloWorld();}
+	|function_definition  {g_root = $1;}
+	//|HELLO_WORLD {g_root = new helloWorld();}
+	
 	;
 
 primary_expression
@@ -250,7 +250,7 @@ declaration
 declaration_specifiers
 	: storage_class_specifier
 	| storage_class_specifier declaration_specifiers
-	| type_specifier									//{$$ = $1;}
+	| type_specifier									{$$ = $1;}
 	| type_specifier declaration_specifiers
 	| type_qualifier
 	| type_qualifier declaration_specifiers
@@ -350,17 +350,17 @@ type_qualifier
 
 declarator
 	: pointer direct_declarator
-	| direct_declarator				//{$$ = $1;}
+	| direct_declarator				{$$ = $1;}
 	;
 
-direct_declarator
-	: IDENTIFIER										//{$$ = new Tree(directDeclarator, *$1);}
-	| '(' declarator ')'
-	| direct_declarator '[' constant_expression ']'
-	| direct_declarator '[' ']'
-	| direct_declarator '(' parameter_type_list ')'
-	| direct_declarator '(' identifier_list ')'
-	| direct_declarator '(' ')'							//{$$ = $1;}
+direct_declarator //to be finished in ast
+	: IDENTIFIER 										{$$ = new identifierDirectDeclarator(*$1);}
+	| '(' declarator ')'								{$$ = $2;}
+	| direct_declarator '[' constant_expression ']'		{$$ = new squareDirectDeclarator($1, $3);}
+	| direct_declarator '[' ']'							{$$ = new squareDirectDeclarator($1, NULL);}
+	| direct_declarator '(' parameter_type_list ')'		{$$ = new roundDirectDeclarator($1, $3);}
+	| direct_declarator '(' identifier_list ')'			{$$ = new roundDirectDeclarator($1, $3);}
+	| direct_declarator '(' ')'							{$$ = new roundDirectDeclarator($1, NULL);}
 	;
 
 pointer
@@ -432,12 +432,12 @@ initializer_list
 	;
 
 statement
-	: labeled_statement
-	| compound_statement
-	| expression_statement
-	| selection_statement
-	| iteration_statement
-	| jump_statement
+	: labeled_statement		{$$ = $1;}
+	| compound_statement	{$$ = $1;}
+	| expression_statement	{$$ = $1;}
+	| selection_statement	{$$ = $1;}
+	| iteration_statement	{$$ = $1;}
+	| jump_statement		{$$ = $1;}
 	;
 
 labeled_statement
@@ -447,10 +447,10 @@ labeled_statement
 	;
 
 compound_statement
-	: '{' '}'									//{$$ = new Tree(compoundStatement);}
-	| '{' statement_list '}'
-	| '{' declaration_list '}'
-	| '{' declaration_list statement_list '}'
+	: '{' '}'									{$$ = new compoundStatement(NULL, NULL);}
+	| '{' statement_list '}'					{$$ = new compoundStatement(NULL, $2);}
+	| '{' declaration_list '}'					{$$ = new compoundStatement($2, NULL);}
+	| '{' declaration_list statement_list '}'	{$$ = new compoundStatement($2, $3);}
 	;
 
 declaration_list
@@ -459,8 +459,8 @@ declaration_list
 	;
 
 statement_list
-	: statement
-	| statement_list statement
+	: statement					{$$ = $1;}
+	| statement statement_list 	{$$ = new statementList($1, $2);}
 	;
 
 expression_statement
@@ -482,11 +482,11 @@ iteration_statement
 	;
 
 jump_statement
-	: GOTO IDENTIFIER ';'
-	| CONTINUE ';'
-	| BREAK ';'
-	| RETURN ';'
-	| RETURN expression ';'
+	: GOTO IDENTIFIER ';'	{$$ = new gotoJumpStatement(*$2);}
+	| CONTINUE ';'			{$$ = new continueJumpStatement();}
+	| BREAK ';'				{$$ = new breakJumpStatement();}
+	| RETURN ';'			{$$ = new returnJumpStatement(NULL);}
+	| RETURN expression ';'	//{$$ = new returnJumpStatement($2);}
 	;
 
 translation_unit
@@ -500,10 +500,10 @@ external_declaration
 	;
 
 function_definition
-	: declaration_specifiers declarator declaration_list compound_statement
-	| declaration_specifiers declarator compound_statement
-	| declarator declaration_list compound_statement
-	| declarator compound_statement												//{$$ = new Tree(functionDefinition, NULL, $1, NULL, $2);}
+	: declaration_specifiers declarator declaration_list compound_statement		{$$ = new fullFunctionDefinition($1, $2, $3, $4) ;}
+	| declaration_specifiers declarator compound_statement						{$$ = new noSpecifierFunctionDefinition($1, $2, $3) ;}
+	| declarator declaration_list compound_statement							{$$ = new noListFunctionDefinition($1, $2, $3) ;}
+	| declarator compound_statement												{$$ = new simpleFunctionDefinition($1, $2) ;}
 	;
 
 %%
