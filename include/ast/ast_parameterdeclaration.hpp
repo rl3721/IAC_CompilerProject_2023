@@ -13,14 +13,15 @@ class parameterDeclaration
 private:
     
 protected:
+    TreePtr specifiers;
+    TreePtr declarator;
     parameterDeclaration( TreePtr _specifiers,
         TreePtr _declarator)
         :specifiers(_specifiers),
         declarator(_declarator)   
     {}
 public:
-    TreePtr specifiers;
-    TreePtr declarator;
+
 
     virtual ~parameterDeclaration()
     {delete specifiers;

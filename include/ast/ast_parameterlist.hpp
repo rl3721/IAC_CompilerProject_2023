@@ -13,10 +13,9 @@ class parameterList
 private:
     
 protected:
-public:
-    TreePtr declaration;
     TreePtr List;
-    
+    TreePtr declaration;
+public: 
     parameterList(TreePtr _List, TreePtr _declaration)
         :List(_List),
         declaration(_declaration)
@@ -42,9 +41,8 @@ class elipsedParameterList
 {
 private:
 protected:
-public:
     TreePtr List;
-    
+public:
     elipsedParameterList(TreePtr _List)
         :List(_List)
     {}

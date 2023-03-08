@@ -13,10 +13,9 @@ class translationUnit
 private:
     
 protected:
-public:
-    TreePtr external_declaration;
     TreePtr List;
-    
+    TreePtr external_declaration;
+public:
     translationUnit(TreePtr _List, TreePtr _external_declaration)
         :List(_List),
         external_declaration(_external_declaration)

@@ -12,10 +12,9 @@ class compoundStatement
 {
 private:
 protected:
-public:
     TreePtr statement_list;
     TreePtr declaration_list;
-
+public:
     compoundStatement(
         TreePtr _declaration_list,TreePtr _statement_list)
         :statement_list(_statement_list),
@@ -40,10 +39,6 @@ public:
         dst<<" }\n";
     }
 };
-
-
-
-
 
 #endif
 

@@ -11,12 +11,10 @@ class expression
     : public Tree
 {
 private:
-    
 protected:
-public:
-    TreePtr assignment_expression;
     TreePtr List;
-    
+    TreePtr assignment_expression;
+public:
     expression(TreePtr _List, TreePtr _assignment_expression)
         :List(_List),
         assignment_expression(_assignment_expression)

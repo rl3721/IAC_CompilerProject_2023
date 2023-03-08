@@ -13,10 +13,9 @@ class statementList
 private:
     
 protected:
-public:
     TreePtr statement;
     TreePtr List;
-    
+public:
     statementList(TreePtr _statement, TreePtr _List)
         :statement(_statement),
         List(_List)

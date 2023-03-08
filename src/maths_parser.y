@@ -242,7 +242,7 @@ expression
 	;
 
 constant_expression
-	: conditional_expression
+	: conditional_expression	
 	;
 
 declaration

@@ -13,6 +13,10 @@ class functionDefinition
 private:
     
 protected:
+    TreePtr declaration_specifiers;
+    TreePtr declarator;
+    TreePtr declaration_list;
+    TreePtr compound_statement;
     functionDefinition( TreePtr _declaration_specifiers,
         TreePtr _declarator,TreePtr _declaration_list,TreePtr _compound_statement)
         :declaration_specifiers(_declaration_specifiers),
@@ -21,11 +25,6 @@ protected:
         compound_statement(_compound_statement)
     {}
 public:
-    TreePtr declaration_specifiers;
-    TreePtr declarator;
-    TreePtr declaration_list;
-    TreePtr compound_statement;
-
     virtual ~functionDefinition()
     {delete declaration_specifiers;
     delete declarator;
@@ -51,7 +50,6 @@ public:
         dst<<")\n";
     }
 };
-
 class fullFunctionDefinition
     : public functionDefinition
 {

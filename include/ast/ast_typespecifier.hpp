@@ -12,9 +12,8 @@ class typeSpecifier
 {
 private:
 protected:
-public:
     std::string type;
-
+public:
     typeSpecifier(std::string _type)
         :type(_type)
     {}

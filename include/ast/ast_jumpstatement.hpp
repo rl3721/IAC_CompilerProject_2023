@@ -13,15 +13,14 @@ class jumpStatement
 private:
     
 protected:
+    std::string identifier;
+    TreePtr expression;
+
     jumpStatement(std::string _identifier, TreePtr _expression)
         :identifier(_identifier),
         expression(_expression)
     {}
 public:
-    std::string identifier;
-    TreePtr expression;
-
-
     virtual ~jumpStatement()
     {
     delete expression;

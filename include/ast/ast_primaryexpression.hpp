@@ -13,14 +13,14 @@ class primaryExpression
 private:
     
 protected:
+    std::string sval;
+    double dval;
+
     primaryExpression(std::string _sval, double _dval)
         :sval(_sval),
         dval(_dval)
     {}
 public:
-    std::string sval;
-    double dval;
-
     virtual ~primaryExpression()
     {}
 

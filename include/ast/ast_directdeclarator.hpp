@@ -13,6 +13,10 @@ class directDeclarator
 private:
     
 protected:
+    std::string identifier;
+    TreePtr direct_declarator;
+    TreePtr content;
+
     directDeclarator(std::string _identifier,
         TreePtr _direct_declarator,TreePtr _content)
         :identifier(_identifier),
@@ -20,11 +24,6 @@ protected:
         content(_content)
     {}
 public:
-
-    std::string identifier;
-    TreePtr direct_declarator;
-    TreePtr content;
-
     virtual ~directDeclarator()
     {delete direct_declarator;
     delete content;

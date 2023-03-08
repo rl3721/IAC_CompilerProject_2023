@@ -15,14 +15,15 @@ class bilateralOperations
 private:
     
 protected:
+    TreePtr left;
+    TreePtr right;
     bilateralOperations( TreePtr _left,
         TreePtr _right)
         :left(_left),
         right(_right)
     {}
 public:
-    TreePtr left;
-    TreePtr right;
+
 
     virtual ~bilateralOperations()
     {delete left;
