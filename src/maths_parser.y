@@ -242,12 +242,12 @@ expression
 	;
 
 constant_expression
-	: conditional_expression	
+	: conditional_expression	{$$ = $1;}
 	;
 
 declaration
-	: declaration_specifiers ';'
-	| declaration_specifiers init_declarator_list ';'
+	: declaration_specifiers ';' 						{$$ = $1;}
+	| declaration_specifiers init_declarator_list ';'	{$$ = new declaration($1, $2);}
 	;
 
 declaration_specifiers
@@ -260,12 +260,12 @@ declaration_specifiers
 	;
 
 init_declarator_list
-	: init_declarator
+	: init_declarator							{$$ = $1;}
 	| init_declarator_list ',' init_declarator
 	;
 
 init_declarator
-	: declarator
+	: declarator					{$$ = $1;}
 	| declarator '=' initializer
 	;
 
@@ -456,9 +456,9 @@ compound_statement
 	| '{' declaration_list statement_list '}'	{$$ = new compoundStatement($2, $3);}
 	;
 
-declaration_list
-	: declaration
-	| declaration_list declaration
+declaration_list //also in statementlist_hpp
+	: declaration					{$$ = $1;}
+	| declaration_list declaration	{$$ = new declarationList($1, $2);}
 	;
 
 statement_list
@@ -467,8 +467,8 @@ statement_list
 	;
 
 expression_statement
-	: ';'
-	| expression ';'
+	: ';'				{$$ = NULL;}
+	| expression ';'	{$$ = $1;}
 	;
 
 selection_statement

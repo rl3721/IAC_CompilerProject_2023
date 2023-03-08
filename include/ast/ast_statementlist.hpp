@@ -35,6 +35,34 @@ public:
     }
 };
 
+class declarationList
+    : public Tree
+{
+private:
+    
+protected:
+    TreePtr declaration;
+    TreePtr List;
+public:
+    declarationList(TreePtr _declaration, TreePtr _List)
+        : declaration(_declaration),
+        List(_List)
+    {}
+    virtual ~declarationList()
+    {delete  declaration;
+    delete List;}
+
+    //virtual const char *getOpcode() const =0;
+
+    virtual void print(std::ostream &dst) const override
+    {
+        List->print(dst);
+        dst <<" ";
+        declaration->print(dst);
+        dst<<"\n";
+    }
+};
+
 
 #endif
 

@@ -16,9 +16,9 @@
 #include "ast/ast_parameterlist.hpp"
 #include "ast/ast_parameterdeclaration.hpp"
 #include "ast/ast_bilateraloperations.hpp"
+#include "ast/ast_declaration.hpp"
 
-
-
+//todo: compress all list type subclass into one
 
 extern const Tree *parseAST();
 #endif
