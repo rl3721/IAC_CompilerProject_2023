@@ -40,6 +40,39 @@ public:
     }
 };
 
+class initDeclarator
+    : public Tree
+{
+private:
+    
+protected:
+    TreePtr declarator;
+    TreePtr initializer;
+
+   
+public:
+    initDeclarator(
+        TreePtr _declarator,TreePtr _initializer)
+        :declarator(_declarator),
+        initializer(_initializer)
+    {}
+    virtual ~initDeclarator()
+    {delete declarator;
+    delete initializer;
+    }
+
+    //virtual const char *getOpcode() const =0;
+
+    virtual void print(std::ostream &dst) const override
+    {   
+        dst<<"initialize: ";
+        declarator->print(dst);
+        dst<<" = ";
+        initializer->print(dst);
+        dst<<"\n";
+    }
+};
+
 
 
 

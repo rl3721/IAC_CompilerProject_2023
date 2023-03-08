@@ -28,9 +28,9 @@ public:
 
     virtual void print(std::ostream &dst) const override
     {
-        List->print(dst);
-        dst <<" ";
         statement->print(dst);
+        dst <<" ";
+        List->print(dst);
         dst<<"\n";
     }
 };
@@ -56,9 +56,9 @@ public:
 
     virtual void print(std::ostream &dst) const override
     {
-        List->print(dst);
-        dst <<" ";
         declaration->print(dst);
+        dst <<" ";
+        List->print(dst);
         dst<<"\n";
     }
 };

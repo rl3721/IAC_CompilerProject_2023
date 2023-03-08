@@ -55,6 +55,7 @@
 %type <tree> logical_or_expression
 %type <tree> conditional_expression
 %type <tree> assignment_expression
+%type <tree> assignment_operator
 %type <tree> expression
 %type <tree> constant_expression
 %type <tree> declaration
@@ -219,21 +220,21 @@ conditional_expression
 
 assignment_expression
 	: conditional_expression											{$$ = $1;}
-	| unary_expression assignment_operator assignment_expression
+	| unary_expression assignment_operator assignment_expression		{$$ = new assignmentExpression($1, $2, $3);}
 	;
 
 assignment_operator
-	: '='
-	| MUL_ASSIGN
-	| DIV_ASSIGN
-	| MOD_ASSIGN
-	| ADD_ASSIGN
-	| SUB_ASSIGN
-	| LEFT_ASSIGN
-	| RIGHT_ASSIGN
-	| AND_ASSIGN
-	| XOR_ASSIGN
-	| OR_ASSIGN
+	: '='			{$$ = new assignmentOperator("=");}
+	| MUL_ASSIGN	{$$ = new assignmentOperator("*=");}
+	| DIV_ASSIGN	{$$ = new assignmentOperator("=");}
+	| MOD_ASSIGN	{$$ = new assignmentOperator("&=");}
+	| ADD_ASSIGN	{$$ = new assignmentOperator("+=");}
+	| SUB_ASSIGN	{$$ = new assignmentOperator("-=");}
+	| LEFT_ASSIGN	{$$ = new assignmentOperator("<<=");}
+	| RIGHT_ASSIGN	{$$ = new assignmentOperator(">>=");}
+	| AND_ASSIGN	{$$ = new assignmentOperator("&=");}
+	| XOR_ASSIGN	{$$ = new assignmentOperator("^=");}
+	| OR_ASSIGN		{$$ = new assignmentOperator("|=");}
 	;
 
 expression
@@ -264,9 +265,9 @@ init_declarator_list
 	| init_declarator_list ',' init_declarator
 	;
 
-init_declarator
+init_declarator //found in declaration.hpp
 	: declarator					{$$ = $1;}
-	| declarator '=' initializer
+	| declarator '=' initializer	{$$ = new initDeclarator($1, $3);}
 	;
 
 storage_class_specifier
@@ -424,7 +425,7 @@ direct_abstract_declarator
 	;
 
 initializer
-	: assignment_expression
+	: assignment_expression			{$$ = $1;}
 	| '{' initializer_list '}'
 	| '{' initializer_list ',' '}'
 	;
@@ -458,7 +459,7 @@ compound_statement
 
 declaration_list //also in statementlist_hpp
 	: declaration					{$$ = $1;}
-	| declaration_list declaration	{$$ = new declarationList($1, $2);}
+	| declaration declaration_list 	{$$ = new declarationList($1, $2);}
 	;
 
 statement_list

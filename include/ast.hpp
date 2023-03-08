@@ -17,6 +17,7 @@
 #include "ast/ast_parameterdeclaration.hpp"
 #include "ast/ast_bilateraloperations.hpp"
 #include "ast/ast_declaration.hpp"
+#include "ast/ast_assignment.hpp"
 
 //todo: compress all list type subclass into one
 

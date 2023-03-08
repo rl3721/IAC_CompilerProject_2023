@@ -252,7 +252,7 @@ Grammar
   185                   | '{' declaration_list statement_list '}'
 
   186 declaration_list: declaration
-  187                 | declaration_list declaration
+  187                 | declaration declaration_list
 
   188 statement_list: statement
   189               | statement statement_list
@@ -437,7 +437,7 @@ Nonterminals, with rules where they appear
     assignment_expression <tree> (105)
         on left: 60 61
         on right: 14 15 61 73 74 168
-    assignment_operator (106)
+    assignment_operator <tree> (106)
         on left: 62 63 64 65 66 67 68 69 70 71 72
         on right: 61
     expression <tree> (107)
@@ -1363,38 +1363,7 @@ State 54
 State 55
 
   186 declaration_list: declaration •
-
-    $default  reduce using rule 186 (declaration_list)
-
-
-State 56
-
-   76 declaration: declaration_specifiers • ';'
-   77            | declaration_specifiers • init_declarator_list ';'
-
-    IDENTIFIER  shift, and go to state 1
-    '('         shift, and go to state 21
-    '*'         shift, and go to state 22
-    ';'         shift, and go to state 45
-
-    init_declarator_list  go to state 46
-    init_declarator       go to state 47
-    declarator            go to state 134
-    direct_declarator     go to state 33
-    pointer               go to state 34
-
-
-State 57
-
-  211 function_definition: declarator compound_statement •
-
-    $default  reduce using rule 211 (function_definition)
-
-
-State 58
-
-  187 declaration_list: declaration_list • declaration
-  210 function_definition: declarator declaration_list • compound_statement
+  187                 | declaration • declaration_list
 
     TYPEDEF   shift, and go to state 2
     EXTERN    shift, and go to state 3
@@ -1415,9 +1384,10 @@ State 58
     STRUCT    shift, and go to state 18
     UNION     shift, and go to state 19
     ENUM      shift, and go to state 20
-    '{'       shift, and go to state 54
 
-    declaration                go to state 135
+    $default  reduce using rule 186 (declaration_list)
+
+    declaration                go to state 55
     declaration_specifiers     go to state 56
     storage_class_specifier    go to state 26
     type_specifier             go to state 27
@@ -1425,7 +1395,40 @@ State 58
     struct_or_union            go to state 29
     enum_specifier             go to state 30
     type_qualifier             go to state 31
-    compound_statement         go to state 136
+    declaration_list           go to state 134
+
+
+State 56
+
+   76 declaration: declaration_specifiers • ';'
+   77            | declaration_specifiers • init_declarator_list ';'
+
+    IDENTIFIER  shift, and go to state 1
+    '('         shift, and go to state 21
+    '*'         shift, and go to state 22
+    ';'         shift, and go to state 45
+
+    init_declarator_list  go to state 46
+    init_declarator       go to state 47
+    declarator            go to state 135
+    direct_declarator     go to state 33
+    pointer               go to state 34
+
+
+State 57
+
+  211 function_definition: declarator compound_statement •
+
+    $default  reduce using rule 211 (function_definition)
+
+
+State 58
+
+  210 function_definition: declarator declaration_list • compound_statement
+
+    '{'  shift, and go to state 54
+
+    compound_statement  go to state 136
 
 
 State 59
@@ -1596,7 +1599,7 @@ State 70
     '*'         shift, and go to state 22
 
     init_declarator    go to state 153
-    declarator         go to state 134
+    declarator         go to state 135
     direct_declarator  go to state 33
     pointer            go to state 34
 
@@ -1656,39 +1659,11 @@ State 73
 
 State 74
 
-  187 declaration_list: declaration_list • declaration
   208 function_definition: declaration_specifiers declarator declaration_list • compound_statement
 
-    TYPEDEF   shift, and go to state 2
-    EXTERN    shift, and go to state 3
-    STATIC    shift, and go to state 4
-    AUTO      shift, and go to state 5
-    REGISTER  shift, and go to state 6
-    CHAR      shift, and go to state 7
-    SHORT     shift, and go to state 8
-    INT       shift, and go to state 9
-    LONG      shift, and go to state 10
-    SIGNED    shift, and go to state 11
-    UNSIGNED  shift, and go to state 12
-    FLOAT     shift, and go to state 13
-    DOUBLE    shift, and go to state 14
-    CONST     shift, and go to state 15
-    VOLATILE  shift, and go to state 16
-    VOID      shift, and go to state 17
-    STRUCT    shift, and go to state 18
-    UNION     shift, and go to state 19
-    ENUM      shift, and go to state 20
-    '{'       shift, and go to state 54
+    '{'  shift, and go to state 54
 
-    declaration                go to state 135
-    declaration_specifiers     go to state 56
-    storage_class_specifier    go to state 26
-    type_specifier             go to state 27
-    struct_or_union_specifier  go to state 28
-    struct_or_union            go to state 29
-    enum_specifier             go to state 30
-    type_qualifier             go to state 31
-    compound_statement         go to state 157
+    compound_statement  go to state 157
 
 
 State 75
@@ -2542,7 +2517,6 @@ State 128
 
   184 compound_statement: '{' declaration_list • '}'
   185                   | '{' declaration_list • statement_list '}'
-  187 declaration_list: declaration_list • declaration
 
     CONSTANT        shift, and go to state 81
     IDENTIFIER      shift, and go to state 82
@@ -2550,25 +2524,6 @@ State 128
     SIZEOF          shift, and go to state 84
     INC_OP          shift, and go to state 85
     DEC_OP          shift, and go to state 86
-    TYPEDEF         shift, and go to state 2
-    EXTERN          shift, and go to state 3
-    STATIC          shift, and go to state 4
-    AUTO            shift, and go to state 5
-    REGISTER        shift, and go to state 6
-    CHAR            shift, and go to state 7
-    SHORT           shift, and go to state 8
-    INT             shift, and go to state 9
-    LONG            shift, and go to state 10
-    SIGNED          shift, and go to state 11
-    UNSIGNED        shift, and go to state 12
-    FLOAT           shift, and go to state 13
-    DOUBLE          shift, and go to state 14
-    CONST           shift, and go to state 15
-    VOLATILE        shift, and go to state 16
-    VOID            shift, and go to state 17
-    STRUCT          shift, and go to state 18
-    UNION           shift, and go to state 19
-    ENUM            shift, and go to state 20
     CASE            shift, and go to state 87
     DEFAULT         shift, and go to state 88
     IF              shift, and go to state 89
@@ -2609,14 +2564,6 @@ State 128
     conditional_expression     go to state 122
     assignment_expression      go to state 123
     expression                 go to state 124
-    declaration                go to state 135
-    declaration_specifiers     go to state 56
-    storage_class_specifier    go to state 26
-    type_specifier             go to state 27
-    struct_or_union_specifier  go to state 28
-    struct_or_union            go to state 29
-    enum_specifier             go to state 30
-    type_qualifier             go to state 31
     statement                  go to state 125
     labeled_statement          go to state 126
     compound_statement         go to state 127
@@ -2664,19 +2611,19 @@ State 133
 
 State 134
 
+  187 declaration_list: declaration declaration_list •
+
+    $default  reduce using rule 187 (declaration_list)
+
+
+State 135
+
    86 init_declarator: declarator •
    87                | declarator • '=' initializer
 
     '='  shift, and go to state 72
 
     $default  reduce using rule 86 (init_declarator)
-
-
-State 135
-
-  187 declaration_list: declaration_list declaration •
-
-    $default  reduce using rule 187 (declaration_list)
 
 
 State 136
