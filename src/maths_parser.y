@@ -168,10 +168,10 @@ declaration
 
 init_declarator
 	: declarator					{$$ = $1;}
-	| declarator '=' initializer	{$$ = new initDeclarator($1, $3);} //in declaration
+	| declarator '=' initializer	{$$ = new initDeclarator($1, $3);} //in declaration, 
 	;
 initializer
-	: assignment_expression			{$$ = $1;}
+	: assignment_expression			{$$ = $1;} //I really think should be conditional_expression, I am going to work as it is
 	| '{' initializer_list '}'		//todo: initList
 	| '{' initializer_list ',' '}'	//todo: initList
 	;	

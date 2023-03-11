@@ -124,8 +124,20 @@ public:
         return declarator->getId();
     }
     void compile(std::ostream &dst, Context &context, Reg destReg) const override{
-        //execute right and get it into a register
-        dst<<"sw";
+        //case for singular initialization
+        std::string id = getId();
+        initializer->compile(dst,context,destReg);
+        if (context.stack.size() == 0){
+            dst<<"sw "<<destReg<<" gp("<<context.global.varBindings[id].offset<<")";
+        }
+        else{
+            dst<<"sw "<<destReg<<" sp("<<context.stack.back().varBindings[id].offset<<")";
+        }
+        
+        //case for array initialization
+        /*process each item on right,
+        store each in a register
+        store the register in the address allocated*/
     }
 };
 
