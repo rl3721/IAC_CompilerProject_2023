@@ -48,7 +48,7 @@ public:
     }
 };
 
-class variableDeclarator
+class identifierDirectDeclarator
     : public directDeclarator
 {
 private:
@@ -56,12 +56,12 @@ protected:
     virtual const char *getOpcode() const override
         { return "round"; }
 public:
-    variableDeclarator(std::string _identifier)
+    identifierDirectDeclarator(std::string _identifier)
         :directDeclarator(_identifier, NULL, NULL)
     {}
 };
 
-class arrayDeclarator
+class squareDirectDeclarator
     : public directDeclarator
 {
 private:
@@ -69,12 +69,12 @@ protected:
     virtual const char *getOpcode() const override
         { return "square"; }
 public:
-    arrayDeclarator(TreePtr _declarator, TreePtr _content)
+    squareDirectDeclarator(TreePtr _declarator, TreePtr _content)
         :directDeclarator("0", _declarator, _content)
     {}
 };
 
-class functionDeclarator
+class roundDirectDeclarator
     : public directDeclarator
 {
 private:
@@ -82,7 +82,7 @@ protected:
     virtual const char *getOpcode() const override
         { return "round"; }
 public:
-    functionDeclarator(TreePtr _declarator, TreePtr _content)
+    roundDirectDeclarator(TreePtr _declarator, TreePtr _content)
         :directDeclarator("0", _declarator, _content)
     {}
 };

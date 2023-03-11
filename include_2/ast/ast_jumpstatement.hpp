@@ -31,11 +31,27 @@ public:
     virtual void print(std::ostream &dst) const override
     {
         dst<<getOpcode()<<" ";
+        if (getOpcode() == "GOTO") {
+            dst<<identifier;
+        }
         if (getOpcode() == "RETURN" && expression != NULL){
             expression->print(dst);
         }
         dst<<" \n";
     }
+};
+
+class gotoJumpStatement
+    : public jumpStatement
+{
+private:
+protected:
+    virtual const std::string getOpcode() const override
+        { return "GOTO"; }
+public:
+    gotoJumpStatement(std::string _identifier)
+        :jumpStatement(_identifier, NULL)
+    {}
 };
 
 

@@ -7,8 +7,6 @@
 
 #include <memory>
 
-#include "context.hpp"
-
 class Tree;
 
 typedef const Tree *TreePtr;
@@ -16,18 +14,17 @@ typedef const Tree *TreePtr;
 class Tree //The most basic tree, the root for everything
 {
 public:
-    //destructor
-    virtual ~Tree() {};
+    virtual ~Tree()
+    {}
 
     //! Tell and expression to print itself to the given stream //used fo debugging
     virtual void print(std::ostream &dst) const =0;
 
-    //godegen
-    //virtual void compile(std::ostream &dst, Context &context, registers destReg) const;
-
-    //used in codeGen
-    virtual int getSize(){};
-
+    //! Evaluate the tree using the given mapping of variables to numbers, not needed for full compiler
+    // virtual double evaluate(
+    //     const std::map<std::string,double> &bindings
+    // ) const
+    // { throw std::runtime_error("Not implemented."); }
 };
 
 #endif

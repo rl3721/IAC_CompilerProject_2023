@@ -370,22 +370,22 @@ static const flex_int16_t yy_accept[261] =
        34,   34,   34,   34,   34,   34,   34,   34,   34,   34,
        66,   87,   67,   78,   95,   93,   95,   64,    0,   42,
         0,   50,   67,   59,   51,    0,    0,   48,   56,   46,
-       57,   47,   58,    0,   40,   92,   91,   49,   41,   36,
+       57,   47,   58,    0,   39,   92,   91,   49,   40,   36,
         0,   37,    0,   37,   74,   66,   73,   55,   61,   63,
        62,   54,   34,    0,    0,   52,   34,   34,   34,   34,
 
        34,   34,    9,   34,   34,   34,   34,   34,   34,   34,
        17,   34,   34,   34,   34,   34,   34,   34,   34,   34,
-       34,   34,   53,   60,   94,   38,   43,    0,   40,   91,
-       40,    0,   41,   36,    0,   39,   35,   45,   44,   34,
+       34,   34,   53,   60,   94,   41,   43,    0,   39,   91,
+       39,    0,   40,   36,    0,   38,   35,   45,   44,   34,
        34,   34,   34,   34,   34,   34,   34,   34,   34,   34,
        15,   34,   34,   18,   34,   34,   34,   34,   34,   34,
        34,   34,   34,   34,   34,   34,   34,   34,   34,    0,
-       40,    0,   40,    0,   41,   39,   35,    2,   34,    4,
+       39,    0,   39,    0,   40,   38,   35,    2,   34,    4,
         5,   34,   34,   34,   34,   11,   12,   34,   34,   16,
        34,   19,   34,   34,   34,   34,   34,   34,   34,   34,
 
-       34,   34,   34,   31,   34,   34,    0,   40,    3,    6,
+       34,   34,   34,   31,   34,   34,    0,   39,    3,    6,
        34,   34,   34,   34,   14,   34,   34,   34,   22,   34,
        34,   34,   34,   34,   34,   29,   34,   34,   33,   34,
        34,   10,   13,   34,   34,   21,   23,   24,   25,   26,
@@ -1085,313 +1085,314 @@ YY_RULE_SETUP
 case 35:
 YY_RULE_SETUP
 #line 55 "src/maths_lexer.flex"
-{yylval.number = std::stod(yytext); count(); return(CONSTANT); }
+{yylval.ival = std::stod(yytext); count(); return(CONSTANT_INT); }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
 #line 56 "src/maths_lexer.flex"
-{ yylval.number = std::stod(yytext);count(); return(CONSTANT); }
+{ yylval.ival = std::stod(yytext);count(); return(CONSTANT_INT); }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
 #line 57 "src/maths_lexer.flex"
-{yylval.number = std::stod(yytext); count(); return(CONSTANT); }
+{yylval.ival = std::stod(yytext); count(); return(CONSTANT_INT); }
 	YY_BREAK
 case 38:
-/* rule 38 can match eol */
 YY_RULE_SETUP
-#line 58 "src/maths_lexer.flex"
-{ yylval.number = std::stod(yytext);count(); return(CONSTANT); }
+#line 60 "src/maths_lexer.flex"
+{ yylval.dval = std::stod(yytext);count(); return(CONSTANT_FLOAT); }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 60 "src/maths_lexer.flex"
-{ yylval.number = std::stod(yytext);count(); return(CONSTANT); }
+#line 61 "src/maths_lexer.flex"
+{ yylval.dval = std::stod(yytext);count(); return(CONSTANT_FLOAT); }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 61 "src/maths_lexer.flex"
-{ yylval.number = std::stod(yytext);count(); return(CONSTANT); }
+#line 62 "src/maths_lexer.flex"
+{ yylval.dval = std::stod(yytext);count(); return(CONSTANT_FLOAT); }
 	YY_BREAK
 case 41:
+/* rule 41 can match eol */
 YY_RULE_SETUP
-#line 62 "src/maths_lexer.flex"
-{ yylval.number = std::stod(yytext);count(); return(CONSTANT); }
+#line 64 "src/maths_lexer.flex"
+/*This shoudl be char literals but we will ignore this for now*/
 	YY_BREAK
+/*{ yylval.number = std::stod(yytext);count(); return(CONSTANT_INT); }*/
 case 42:
 /* rule 42 can match eol */
 YY_RULE_SETUP
-#line 64 "src/maths_lexer.flex"
-{yylval.string = new std::string(yytext); count(); return(STRING_LITERAL); }
+#line 67 "src/maths_lexer.flex"
+//{yylval.string = new std::string(yytext); count(); return(STRING_LITERAL); } // ignore this for now
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 66 "src/maths_lexer.flex"
+#line 69 "src/maths_lexer.flex"
 { count(); return(ELLIPSIS); }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 67 "src/maths_lexer.flex"
+#line 70 "src/maths_lexer.flex"
 { count(); return(RIGHT_ASSIGN); }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 68 "src/maths_lexer.flex"
+#line 71 "src/maths_lexer.flex"
 { count(); return(LEFT_ASSIGN); }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 69 "src/maths_lexer.flex"
+#line 72 "src/maths_lexer.flex"
 { count(); return(ADD_ASSIGN); }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 70 "src/maths_lexer.flex"
+#line 73 "src/maths_lexer.flex"
 { count(); return(SUB_ASSIGN); }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 71 "src/maths_lexer.flex"
+#line 74 "src/maths_lexer.flex"
 { count(); return(MUL_ASSIGN); }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 72 "src/maths_lexer.flex"
+#line 75 "src/maths_lexer.flex"
 { count(); return(DIV_ASSIGN); }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 73 "src/maths_lexer.flex"
+#line 76 "src/maths_lexer.flex"
 { count(); return(MOD_ASSIGN); }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 74 "src/maths_lexer.flex"
+#line 77 "src/maths_lexer.flex"
 { count(); return(AND_ASSIGN); }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 75 "src/maths_lexer.flex"
+#line 78 "src/maths_lexer.flex"
 { count(); return(XOR_ASSIGN); }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 76 "src/maths_lexer.flex"
+#line 79 "src/maths_lexer.flex"
 { count(); return(OR_ASSIGN); }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 77 "src/maths_lexer.flex"
+#line 80 "src/maths_lexer.flex"
 { count(); return(RIGHT_OP); }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 78 "src/maths_lexer.flex"
+#line 81 "src/maths_lexer.flex"
 { count(); return(LEFT_OP); }
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 79 "src/maths_lexer.flex"
+#line 82 "src/maths_lexer.flex"
 { count(); return(INC_OP); }
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 80 "src/maths_lexer.flex"
+#line 83 "src/maths_lexer.flex"
 { count(); return(DEC_OP); }
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 81 "src/maths_lexer.flex"
+#line 84 "src/maths_lexer.flex"
 { count(); return(PTR_OP); }
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 82 "src/maths_lexer.flex"
+#line 85 "src/maths_lexer.flex"
 { count(); return(AND_OP); }
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 83 "src/maths_lexer.flex"
+#line 86 "src/maths_lexer.flex"
 { count(); return(OR_OP); }
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 84 "src/maths_lexer.flex"
+#line 87 "src/maths_lexer.flex"
 { count(); return(LE_OP); }
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 85 "src/maths_lexer.flex"
+#line 88 "src/maths_lexer.flex"
 { count(); return(GE_OP); }
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 86 "src/maths_lexer.flex"
+#line 89 "src/maths_lexer.flex"
 { count(); return(EQ_OP); }
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 87 "src/maths_lexer.flex"
+#line 90 "src/maths_lexer.flex"
 { count(); return(NE_OP); }
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 88 "src/maths_lexer.flex"
+#line 91 "src/maths_lexer.flex"
 { count(); return(';'); }
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 89 "src/maths_lexer.flex"
+#line 92 "src/maths_lexer.flex"
 { count(); return('{'); }
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 90 "src/maths_lexer.flex"
+#line 93 "src/maths_lexer.flex"
 { count(); return('}'); }
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 91 "src/maths_lexer.flex"
+#line 94 "src/maths_lexer.flex"
 { count(); return(','); }
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 92 "src/maths_lexer.flex"
+#line 95 "src/maths_lexer.flex"
 { count(); return(':'); }
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 93 "src/maths_lexer.flex"
+#line 96 "src/maths_lexer.flex"
 { count(); return('='); }
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 94 "src/maths_lexer.flex"
+#line 97 "src/maths_lexer.flex"
 { count(); return('('); }
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 95 "src/maths_lexer.flex"
+#line 98 "src/maths_lexer.flex"
 { count(); return(')'); }
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
-#line 96 "src/maths_lexer.flex"
+#line 99 "src/maths_lexer.flex"
 { count(); return('['); }
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
-#line 97 "src/maths_lexer.flex"
+#line 100 "src/maths_lexer.flex"
 { count(); return(']'); }
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
-#line 98 "src/maths_lexer.flex"
+#line 101 "src/maths_lexer.flex"
 { count(); return('.'); }
 	YY_BREAK
 case 76:
 YY_RULE_SETUP
-#line 99 "src/maths_lexer.flex"
+#line 102 "src/maths_lexer.flex"
 { count(); return('&'); }
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
-#line 100 "src/maths_lexer.flex"
+#line 103 "src/maths_lexer.flex"
 { count(); return('!'); }
 	YY_BREAK
 case 78:
 YY_RULE_SETUP
-#line 101 "src/maths_lexer.flex"
+#line 104 "src/maths_lexer.flex"
 { count(); return('~'); }
 	YY_BREAK
 case 79:
 YY_RULE_SETUP
-#line 102 "src/maths_lexer.flex"
+#line 105 "src/maths_lexer.flex"
 { count(); return('-'); }
 	YY_BREAK
 case 80:
 YY_RULE_SETUP
-#line 103 "src/maths_lexer.flex"
+#line 106 "src/maths_lexer.flex"
 { count(); return('+'); }
 	YY_BREAK
 case 81:
 YY_RULE_SETUP
-#line 104 "src/maths_lexer.flex"
+#line 107 "src/maths_lexer.flex"
 { count(); return('*'); }
 	YY_BREAK
 case 82:
 YY_RULE_SETUP
-#line 105 "src/maths_lexer.flex"
+#line 108 "src/maths_lexer.flex"
 { count(); return('/'); }
 	YY_BREAK
 case 83:
 YY_RULE_SETUP
-#line 106 "src/maths_lexer.flex"
+#line 109 "src/maths_lexer.flex"
 { count(); return('%'); }
 	YY_BREAK
 case 84:
 YY_RULE_SETUP
-#line 107 "src/maths_lexer.flex"
+#line 110 "src/maths_lexer.flex"
 { count(); return('<'); }
 	YY_BREAK
 case 85:
 YY_RULE_SETUP
-#line 108 "src/maths_lexer.flex"
+#line 111 "src/maths_lexer.flex"
 { count(); return('>'); }
 	YY_BREAK
 case 86:
 YY_RULE_SETUP
-#line 109 "src/maths_lexer.flex"
+#line 112 "src/maths_lexer.flex"
 { count(); return('^'); }
 	YY_BREAK
 case 87:
 YY_RULE_SETUP
-#line 110 "src/maths_lexer.flex"
+#line 113 "src/maths_lexer.flex"
 { count(); return('|'); }
 	YY_BREAK
 case 88:
 YY_RULE_SETUP
-#line 111 "src/maths_lexer.flex"
+#line 114 "src/maths_lexer.flex"
 { count(); return('?'); }
 	YY_BREAK
 case 89:
 /* rule 89 can match eol */
 YY_RULE_SETUP
-#line 113 "src/maths_lexer.flex"
+#line 116 "src/maths_lexer.flex"
 { count(); }
 	YY_BREAK
 case 90:
 YY_RULE_SETUP
-#line 114 "src/maths_lexer.flex"
+#line 117 "src/maths_lexer.flex"
 { /* ignore bad characters */ }
 	YY_BREAK
 case 91:
 YY_RULE_SETUP
-#line 115 "src/maths_lexer.flex"
+#line 118 "src/maths_lexer.flex"
 {;}
 	YY_BREAK
 case 92:
 YY_RULE_SETUP
-#line 116 "src/maths_lexer.flex"
+#line 119 "src/maths_lexer.flex"
 {BEGIN CMNT;}
 	YY_BREAK
 case 93:
 /* rule 93 can match eol */
 YY_RULE_SETUP
-#line 117 "src/maths_lexer.flex"
+#line 120 "src/maths_lexer.flex"
 {;}
 	YY_BREAK
 case 94:
 YY_RULE_SETUP
-#line 118 "src/maths_lexer.flex"
+#line 121 "src/maths_lexer.flex"
 {BEGIN INITIAL;}
 	YY_BREAK
 case 95:
 YY_RULE_SETUP
-#line 119 "src/maths_lexer.flex"
+#line 122 "src/maths_lexer.flex"
 ECHO;
 	YY_BREAK
-#line 1395 "src/maths_lexer.yy.cpp"
+#line 1396 "src/maths_lexer.yy.cpp"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(CMNT):
 	yyterminate();
@@ -2397,7 +2398,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 119 "src/maths_lexer.flex"
+#line 122 "src/maths_lexer.flex"
 
 
 int yywrap()

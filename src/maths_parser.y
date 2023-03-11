@@ -15,7 +15,7 @@
 // Represents the value associated with any kind of
 // AST node.
 %union{
-  NodePtr tree;
+  TreePtr tree;
   int ival;
   double dval;
   std::string *string;
@@ -73,10 +73,11 @@
 %type <tree> argument_expression_list init_declarator_list struct_declaration_list 
 %type <tree> specifier_qualifier_list struct_declarator_list enumerator_list
 %type <tree>  parameter_type_list identifier_list parameter_list
-%type <tree> declaration_list statement_list
+%type <tree> initializer_list
+//%type <tree> declaration_list statement_list
 
 //operator
-%type <tree> unary_operator assignment_operator
+%type <tree> unary_operator //assignment_operator
 
 %start ROOT
 %%
@@ -91,7 +92,7 @@ ROOT
 
 translation_unit
 	: external_declaration					{$$ = $1;}
-	| translation_unit external_declaration	{$$ = new translationUnit($1, $2);}
+	| translation_unit external_declaration	{$$ = new List($1, $2);}
 	;
 /*********************Declarations**************************************/
 
@@ -157,7 +158,7 @@ type_name
 	: specifier_qualifier_list						{$$ = $1;}
 	| specifier_qualifier_list abstract_declarator//todo pointers
 	;
-	/***********variable declation************/
+	/***********variable declaration************/
 
 declaration
 	: declaration_specifiers ';' 						{std::cerr<<"variable with no name";exit(1);} //I am not sure if this actually does anything, variable with no name?
@@ -166,7 +167,7 @@ declaration
 
 init_declarator
 	: declarator					{$$ = $1;}
-	| declarator '=' initializer	{$$ = new initDeclarator($1, $3);}
+	| declarator '=' initializer	{$$ = new initDeclarator($1, $3);} //in declaration
 	;
 initializer
 	: assignment_expression			{$$ = $1;}
@@ -178,13 +179,13 @@ initializer
 
 function_definition //type, identifier(parameter?), {statements}
 	: declarator compound_statement												{std::cerr<<"function witout type"<<std::endl;}
-	| declaration_specifiers declarator compound_statement						{$$ = new FunctionDefinition($1, $2, $3) ;}
-	| declarator declaration_list compound_statement							{std::cerr<<"function witout type"<<std::endl;}
-	| declaration_specifiers declarator declaration_list compound_statement		{std::cerr<<"unsupported: for struct Constructor function?" ;}
+	| declaration_specifiers declarator compound_statement						{$$ = new functionDefinition($1, $2, $3) ;}
+	//| declarator declaration_list compound_statement							{std::cerr<<"function witout type"<<std::endl;}
+	//| declaration_specifiers declarator declaration_list compound_statement		{std::cerr<<"unsupported: for struct Constructor function?" ;}
 	;
 
 parameter_declaration
-	: declaration_specifiers declarator				{$$ = new declation($1, $2); } //similar to variable declaration
+	: declaration_specifiers declarator				{$$ = new declaration($1, $2); } //similar to variable declaration
 	| declaration_specifiers abstract_declarator	 //todo:pointers
 	| declaration_specifiers						{std::cerr<<"parameter with no name";exit(1);}//not sure what this does
 	;
@@ -251,30 +252,30 @@ struct_declarator
 
 	/**************Lists************************/
 specifier_qualifier_list
-	: type_specifier specifier_qualifier_list	{$$ = new specifierList($1, $2);}
+	: specifier_qualifier_list type_specifier 	{$$ = new List($1,$2);}
 	| type_specifier							{$$ = $1;}
-	| type_qualifier specifier_qualifier_list	//not assessed
+	| specifier_qualifier_list type_qualifier 	//not assessed
 	| type_qualifier							//not assessed
 	;
 struct_declarator_list
-	: struct_declarator
-	| struct_declarator_list ',' struct_declarator
+	: struct_declarator								{$$ = $1;}
+	| struct_declarator_list ',' struct_declarator	{$$ = new List($1, $3);}
 	;
 init_declarator_list
 	: init_declarator							{$$ = $1;}
-	| init_declarator_list ',' init_declarator
+	| init_declarator_list ',' init_declarator	{$$ = new List($1, $3);}
 	;
 enumerator_list
-	: enumerator
-	| enumerator_list ',' enumerator
+	: enumerator						{$$ = $1;}
+	| enumerator_list ',' enumerator	{$$ = new List($1, $3);}
 	;
 initializer_list //Todo
-	: initializer		
-	| initializer_list ',' initializer
+	: initializer						{$$ = $1;}
+	| initializer_list ',' initializer	{$$ = new List($1, $3);}
 	;
 identifier_list
-	: IDENTIFIER
-	| identifier_list ',' IDENTIFIER
+	: IDENTIFIER						{$$ = new identifier(*$1);}
+	| identifier_list ',' IDENTIFIER	{$$ = new List($1, new identifier(*$3));}
 	;
 type_qualifier_list //not assessed, but saved as place holder
 	: type_qualifier
@@ -286,7 +287,7 @@ parameter_type_list//actually just equivalent to parameter_list
 	;
 parameter_list
 	: parameter_declaration						{$$ = $1;}
-	| parameter_list ',' parameter_declaration	{$$ = new parameterList($1, $3);}
+	| parameter_list ',' parameter_declaration	{$$ = new List($1, $3);}
 	;
 
 
@@ -301,34 +302,34 @@ statement
 	| jump_statement		{$$ = $1;}
 	;
 
-labeled_statement
+labeled_statement //case and switch todo
 	: IDENTIFIER ':' statement
 	| CASE constant_expression ':' statement
 	| DEFAULT ':' statement
 	;
 
 expression_statement
-	: ';'				{$$ = NULL;}
+	: ';'				{$$ = NULL;}//do nothing
 	| expression ';'	{$$ = $1;}
 	;
 
 selection_statement
-	: IF '(' expression ')' statement
-	| IF '(' expression ')' statement ELSE statement
-	| SWITCH '(' expression ')' statement
+	: IF '(' expression ')' statement					//{$$ = new ifElse($3,$5);}
+	| IF '(' expression ')' statement ELSE statement	//{$$ = new ifElse($3,$5,$7);}
+	| SWITCH '(' expression ')' statement//todo switch
 	;
 
 iteration_statement
-	: WHILE '(' expression ')' statement
+	: WHILE '(' expression ')' statement				
 	| DO statement WHILE '(' expression ')' ';'
 	| FOR '(' expression_statement expression_statement ')' statement
 	| FOR '(' expression_statement expression_statement expression ')' statement
 	;
 
 jump_statement
-	: GOTO IDENTIFIER ';'	{$$ = new gotoJumpStatement(*$2);}
-	| CONTINUE ';'			{$$ = new continueJumpStatement();}
-	| BREAK ';'				{$$ = new breakJumpStatement();}
+	: GOTO IDENTIFIER ';'	//{std::cerr<<"goto not assessed"; exit(1);}
+	| CONTINUE ';'			//{$$ = new continueJumpStatement();}
+	| BREAK ';'				//{$$ = new breakJumpStatement();}
 	| RETURN ';'			{$$ = new returnJumpStatement(NULL);}
 	| RETURN expression ';'	{$$ = new returnJumpStatement($2);}
 	;
@@ -345,8 +346,8 @@ declaration_or_statement
 	| statement		{$$ = $1;}
 
 declaration_or_statement_list
-	: declaration_or_statement
-	| declaration_or_statement declaration_or_statement_list
+	: declaration_or_statement								{$$ = $1;}
+	| declaration_or_statement_list declaration_or_statement {$$ = new List($1, $2);}
 
 
 /*statement_list
@@ -361,10 +362,10 @@ declaration_list //also in statementlist_hpp
 /*****************************Expressions**********************************/
 
 primary_expression
-	: IDENTIFIER			{$$ = new identifierPrimaryExpression(*$1);}
-	| CONSTANT_INT				{$$ = new constantPrimaryExpression($1);}
-	| CONSTANT_FLOAT				{$$ = new constantPrimaryExpression($1);}
-	| STRING_LITERAL		{$$ = new stringPrimaryExpression(*$1);} //don't bother with this for now
+	: IDENTIFIER			{$$ = new identifier(*$1);}
+	| CONSTANT_INT				{$$ = new intConstant($1);}
+	| CONSTANT_FLOAT				{$$ = new floatConstant($1);}
+	| STRING_LITERAL		//{$$ = new stringPrimaryExpression(*$1);} //don't bother with this for now
 	| '(' expression ')'	{$$ = $2;} 
 	;
 
@@ -468,27 +469,24 @@ conditional_expression
 	;
 
 assignment_expression
-	: conditional_expression											{$$ = $1;}
-	| unary_expression assignment_operator assignment_expression		{$$ = new assignmentExpression($1, $2, $3);}
+	: conditional_expression								{$$ = $1;}
+	| unary_expression '=' assignment_expression			{$$ = new assignmentExpression($1,$3);}
+	| unary_expression MUL_ASSIGN assignment_expression		{$$ = new assignmentExpression($1, new mulOperator($1,$3));}
+	| unary_expression DIV_ASSIGN assignment_expression		{$$ = new assignmentExpression($1, new divOperator($1,$3));}
+	| unary_expression MOD_ASSIGN assignment_expression		{$$ = new assignmentExpression($1, new modOperator($1,$3));}
+	| unary_expression ADD_ASSIGN assignment_expression		{$$ = new assignmentExpression($1, new addOperator($1,$3));}
+	| unary_expression SUB_ASSIGN assignment_expression		{$$ = new assignmentExpression($1, new subOperator($1,$3));}
+	| unary_expression LEFT_ASSIGN assignment_expression	{$$ = new assignmentExpression($1, new leftShiftOperator($1,$3));}
+	| unary_expression RIGHT_ASSIGN assignment_expression	{$$ = new assignmentExpression($1, new rightShiftOperator($1,$3));}
+	| unary_expression AND_ASSIGN assignment_expression		{$$ = new assignmentExpression($1, new andOperator($1,$3));}
+	| unary_expression XOR_ASSIGN assignment_expression		{$$ = new assignmentExpression($1, new exclusiveOrOperator($1,$3));}
+	| unary_expression OR_ASSIGN assignment_expression		{$$ = new assignmentExpression($1, new inclusiveOrOperator($1,$3));}
 	;
 
-assignment_operator
-	: '='			{$$ = new assignmentOperator("=");}
-	| MUL_ASSIGN	{$$ = new assignmentOperator("*=");}
-	| DIV_ASSIGN	{$$ = new assignmentOperator("=");}
-	| MOD_ASSIGN	{$$ = new assignmentOperator("&=");}
-	| ADD_ASSIGN	{$$ = new assignmentOperator("+=");}
-	| SUB_ASSIGN	{$$ = new assignmentOperator("-=");}
-	| LEFT_ASSIGN	{$$ = new assignmentOperator("<<=");}
-	| RIGHT_ASSIGN	{$$ = new assignmentOperator(">>=");}
-	| AND_ASSIGN	{$$ = new assignmentOperator("&=");}
-	| XOR_ASSIGN	{$$ = new assignmentOperator("^=");}
-	| OR_ASSIGN		{$$ = new assignmentOperator("|=");}
-	;
 
 expression
 	: assignment_expression					{$$ = $1;}
-	| expression ',' assignment_expression	{$$ = new expression($1, $3);}
+	| expression ',' assignment_expression	{std::cerr<<"not assessed"; exit(1);}
 	;
 
 constant_expression
@@ -496,8 +494,8 @@ constant_expression
 	;
 
 argument_expression_list
-	: assignment_expression
-	| argument_expression_list ',' assignment_expression
+	: assignment_expression									{$$ = $1;}
+	| argument_expression_list ',' assignment_expression	{$$ = new List($1, $3);}
 	;
 
 

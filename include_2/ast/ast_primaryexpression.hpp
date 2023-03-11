@@ -37,46 +37,46 @@ public:
     }
 };
 
-class identifier
+class identifierPrimaryExpression
     : public primaryExpression
 {
 private:
 protected:
     virtual const std::string getOpcode() const override
-        { return "identifier"; }
+        { return "string"; }
 public:
-    identifier(std::string _sval)
+    identifierPrimaryExpression(std::string _sval)
         :primaryExpression(_sval,0)
     {}
 };
 
 
-class intConstant
+class stringPrimaryExpression
     : public primaryExpression
 {
 private:
 protected:
     virtual const std::string getOpcode() const override
-        { return "int"; }
+        { return "string"; }
 public:
-    intConstant(double _dval)
-        :primaryExpression("int",_dval)
+    stringPrimaryExpression(std::string _sval)
+        :primaryExpression(_sval,0)
     {}
 };
 
-class floatConstant
+
+class constantPrimaryExpression
     : public primaryExpression
 {
 private:
 protected:
     virtual const std::string getOpcode() const override
-        { return "double"; }
+        { return "constant"; }
 public:
-    floatConstant(double _dval)
+    constantPrimaryExpression(double _dval)
         :primaryExpression("double",_dval)
     {}
 };
-
 
 
 #endif
