@@ -12,7 +12,7 @@ int main(){
 
     a = b-c;
     b = 2;
-    c = 1;
+    c = math(a,b);
     /*
     
     this also shouldn't do anything

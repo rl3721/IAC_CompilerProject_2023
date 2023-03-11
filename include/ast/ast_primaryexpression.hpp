@@ -28,7 +28,7 @@ public:
 
     virtual void print(std::ostream &dst) const override
     {
-        if (getOpcode() == "string"){
+        if (getOpcode() == "identifier"){
             dst<<sval<<" ";
         }
         else{
