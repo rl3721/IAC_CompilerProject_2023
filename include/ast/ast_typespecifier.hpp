@@ -12,9 +12,9 @@ class typeSpecifier
 {
 private:
 protected:
-    std::string type;
+    variable_types type;
 public:
-    typeSpecifier(std::string _type)
+    typeSpecifier(variable_types _type)
         :type(_type)
     {}
 
@@ -23,7 +23,29 @@ public:
 
     virtual void print(std::ostream &dst) const override
     {
-        dst<<type;
+        switch(type){
+            case _int:
+                dst<<"int";
+                break;
+            case _void:
+                dst<<"void";
+                break;
+            default:
+                dst<<"unknown type";
+                break;
+        }
+    }
+
+    virtual int getSize(){
+        switch(type){
+            case _int:
+                return 4;
+            case _void:
+                return 4;//This really shouldn't happen
+            default:
+                std::cerr<<"tried to get size of something of unknwon type";
+                return 0;
+        }
     }
 };
 

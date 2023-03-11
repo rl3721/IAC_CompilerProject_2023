@@ -3,6 +3,7 @@
 
 #include "ast/ast_base.hpp"
 #include "ast/List.hpp"
+#include "ast/context.hpp"
 
 #include "ast/ast_compoundstatement.hpp"
 #include "ast/ast_binaryoperations.hpp"

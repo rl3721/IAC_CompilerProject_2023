@@ -23,10 +23,12 @@ public:
     virtual void print(std::ostream &dst) const =0;
 
     //godegen
-    //virtual void compile(std::ostream &dst, Context &context, registers destReg) const=0;
+    virtual void compile(std::ostream &dst, Context &context, Reg destReg) const=0;
 
     //used in codeGen
-    //virtual int getSize()const =0;
+    virtual unsigned int getSize()const =0;
+    virtual bool isFunction()const=0;
+    virtual std::string getId()const =0;
 
 };
 

@@ -24,7 +24,7 @@ enum Reg {
 
 enum variable_types {
     _void,
-    _integer //to be extended
+    _int //to be extended
 };
 
 class registers{
@@ -64,24 +64,25 @@ struct variable{
     unsigned int size;
     int offset;             //used to store offset from stack pointer for local
                             //for global store the "absolute address" (offset relating to program)
-    Reg reg;                //stores which register is variable stored in, zero if not in register (as it is impossible)    
-    variable_types type;
 };
 struct function{
-    unsigned int size; //storing total size of the argument
+    unsigned int size; //storing total memory size required by the function
+    
+
      
 };
 struct Scope{
     std::map<std::string, variable> varBindings; //track the available variables in scope
+    int offset;
     std::string startLabel; //used for continue
     std::string endLabel; //used for break
 };
 
-class Context{
+struct Context{
     std::vector<Scope> stack; //stores local variables and previous scopes
 
     //global declarations
-    std::map<std::string, variable> global; 
+    Scope global; 
     std::map<std::string, function> functions;
 
     void pushStack(std::ostream &dst){ //used when entering function

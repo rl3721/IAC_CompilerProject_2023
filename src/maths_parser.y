@@ -1,5 +1,6 @@
 %code requires{
   #include "ast.hpp"
+  
 
   #include <cassert>
 
@@ -103,15 +104,15 @@ external_declaration //global declarations
 	/**********Used for all declations********/
 
 type_specifier
-	: VOID							{$$ = new typeSpecifier("VOID");}
-	| CHAR							{$$ = new typeSpecifier("CHAR");}
+	: VOID							{$$ = new typeSpecifier(variable_types::_void);}
+	| CHAR							//{$$ = new typeSpecifier("CHAR");}
 	| SHORT							{std::cerr<<"short not assessed";exit(1);}
-	| INT							{$$ = new typeSpecifier("INT");}
+	| INT							{$$ = new typeSpecifier(variable_types::_int);}
 	| LONG							{std::cerr<<"long not spported";exit(1);}
-	| FLOAT							{$$ = new typeSpecifier("FLOAT");}
-	| DOUBLE						{$$ = new typeSpecifier("DOUBLE");}
-	| SIGNED						{$$ = new typeSpecifier("INT");} //this is wrong, but just let it be
-	| UNSIGNED						{$$ = new typeSpecifier("UNSIGNED");}
+	| FLOAT							//{$$ = new typeSpecifier("FLOAT");}
+	| DOUBLE						//{$$ = new typeSpecifier("DOUBLE");}
+	| SIGNED						//{$$ = new typeSpecifier("INT");} //this is wrong, but just let it be
+	| UNSIGNED						//{$$ = new typeSpecifier("UNSIGNED");}
 	| struct_or_union_specifier		{$$ = $1;} //may be do struct
 	| enum_specifier				{$$ = $1;} //todo enum
 	//| TYPE_NAME //removed from lexer

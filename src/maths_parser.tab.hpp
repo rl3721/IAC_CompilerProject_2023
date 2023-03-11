@@ -48,6 +48,7 @@ extern int yydebug;
 #line 1 "src/maths_parser.y"
 
   #include "ast.hpp"
+  
 
   #include <cassert>
 
@@ -59,7 +60,7 @@ extern int yydebug;
   int yylex(void);
   void yyerror(const char *);
 
-#line 63 "src/maths_parser.tab.hpp"
+#line 64 "src/maths_parser.tab.hpp"
 
 /* Token kinds.  */
 #ifndef YYTOKENTYPE
@@ -138,14 +139,14 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 17 "src/maths_parser.y"
+#line 18 "src/maths_parser.y"
 
   TreePtr tree;
   int ival;
   double dval;
   std::string *string;
 
-#line 149 "src/maths_parser.tab.hpp"
+#line 150 "src/maths_parser.tab.hpp"
 
 };
 typedef union YYSTYPE YYSTYPE;

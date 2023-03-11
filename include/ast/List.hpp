@@ -34,6 +34,13 @@ public:
         dst <<" ";
         right->print(dst);
     }
+
+    void compile(std::ostream &dst, Context &context, Reg destReg) const override{
+        left->compile(dst,context,destReg);
+        right->compile(dst,context,destReg);
+    }
+
+    
 };
 
 #endif
