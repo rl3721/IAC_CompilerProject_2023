@@ -43,25 +43,84 @@ public:
     unsigned int getSize() const override{
         return declaration_specifiers->getSize()+ declarator->getSize()+compound_statement->getSize(); 
     }
+    std::string getId() const override{
+        return declarator->getId();
+    }
 
     virtual void compile(std::ostream &dst, Context &context, Reg destReg) const override{
-        unsigned int return_size = declaration_specifiers->getSize();
-        unsigned int parameter_size = declarator->getSize();
-        unsigned int local_size = compound_statement->getSize();
-        unsigned int size = getSize();
 
-        std::string id = declarator->getId();
-
-        context.functions[id] = {};
-        dst<<id<<":"<<std::endl;
-        dst<<"addi sp, sp, "<<size<<std::endl;
-        dst<<"sw ra, sp"<<std::endl;
+        std::string id = getId();
+        std::vector<unsigned int> paramterSize;
+        unsigned int totalSize = 0;
+        std::cerr<<"declaring function "<<id<<std::endl;
+        context.functions[id] = {totalSize,paramterSize}; //adding barebone of function definition to context
         
+        declarator->compile(dst,context,destReg); //this would fill in the context declaration, 
+        //the declarator should be only functionDeclarator
 
-        dst<<"lw ra, sp"<<std::endl;
-        dst<<"addi sp, sp, "<<-size<<std::endl;
+        dst<<id<<":"<<std::endl; //printing start label of function
+
+        compound_statement->compile(dst,context,destReg);   
+
+        dst<<"ret"<<std::endl;
+        context.stack.pop_back();
+        std::cerr<<"scope closed for function "<<id<<std::endl;     
     }
 };
+
+class functionDeclarator
+    : public Tree
+{
+private:
+protected:
+public:
+    TreePtr declarator;
+    ListPtr list;
+
+    functionDeclarator(TreePtr _declarator, ListPtr _list)
+        :declarator(_declarator),
+        list(_list)
+    {}
+    void print(std::ostream &dst)const override{
+        dst<<getId();
+        if (list!=NULL){
+            for (int i = 0; i < list->size(); i++){
+                list->at(i)->print(dst);
+            }
+        }
+    }
+    unsigned int getSize()const override{
+        return 1;
+    }
+    std::string getId()const override{
+        return declarator->getId();
+    }
+    void compile(std::ostream &dst, Context &context, Reg destReg) const override{
+        unsigned int parameterSize=0;
+        unsigned int size=0;
+        Scope newScope;
+        newScope.startLabel = getId();
+        if (list != NULL){
+            std::cerr<<"creating params"<<std::endl;
+            // for(int i=0; i<list->size();i++){
+            //     parameterSize = list->at(i)->getSize();
+            //     context.functions[getId()].paramter_size.push_back(parameterSize);
+            //     size += parameterSize;
+            //     newScope.varBindings[list->at(i)->getId()] = {parameterSize,newScope.offset};
+            //     newScope.offset -= parameterSize;
+            //     std::cerr<<"parameter "<<list->at(i)->getId()<<" of size "<<parameterSize<<" declared for function "<<getId()<<std::endl;
+            // }
+            // context.functions[getId()].size = size;
+            // std::cerr<<"function "<<getId()<<" declared with total parameter size "<<size<<std::endl;
+        }
+        else{
+            std::cerr<<"function "<<getId()<<" declared with no paramters"<<std::endl;
+        }
+        context.stack.push_back(newScope);
+        std::cerr<<"new scope created for function "<<getId()<<std::endl;
+    }
+};
+
 
 
 

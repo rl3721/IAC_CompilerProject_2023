@@ -88,7 +88,7 @@ ROOT
 	:translation_unit {g_root = new translationUnit($1);}
 	//|IDENTIFIER  {g_root = new helloWorld();}
 	//|expression  {g_root = $1;}
-	//|declaration  {g_root = $1;}
+	//|direct_declarator  {g_root = $1;}
 	//|HELLO_WORLD {g_root = new helloWorld();}
 	;
 
@@ -146,9 +146,9 @@ direct_declarator
 	| '(' declarator ')'								{$$ = $2;}
 	| direct_declarator '[' constant_expression ']'		//{$$ = new arrayDeclarator($1, $3);}
 	| direct_declarator '[' ']'							//{$$ = new arrayDeclarator($1, NULL);}
-	| direct_declarator '(' parameter_type_list ')'		//{$$ = new functionDeclarator($1, $3);}
+	| direct_declarator '(' parameter_type_list ')'		{$$ = new functionDeclarator($1, $3);}
 	| direct_declarator '(' identifier_list ')'			//{$$ = new functionDeclarator($1, $3);}
-	| direct_declarator '(' ')'							//{$$ = new functionDeclarator($1, NULL);}
+	| direct_declarator '(' ')'							{$$ = new functionDeclarator($1, NULL);}
 	;
 
 declarator
@@ -156,9 +156,9 @@ declarator
 	| direct_declarator				{$$ = $1;}
 	;
 
-type_name
-	: specifier_qualifier_list						//{$$ = $1;}
-	| specifier_qualifier_list abstract_declarator//todo pointers
+type_name //not assessed
+	: specifier_qualifier_list						
+	| specifier_qualifier_list abstract_declarator
 	;
 	/***********variable declaration************/
 
@@ -182,13 +182,13 @@ initializer
 
 function_definition //type, identifier(parameter?), {statements}
 	: declarator compound_statement												{std::cerr<<"function witout type"<<std::endl;}
-	| declaration_specifiers declarator compound_statement						//{$$ = new functionDefinition($1, $2, $3) ;}
+	| declaration_specifiers declarator compound_statement						{$$ = new functionDefinition($1, $2, $3) ;}
 	//| declarator declaration_list compound_statement							{std::cerr<<"function witout type"<<std::endl;}
 	//| declaration_specifiers declarator declaration_list compound_statement		{std::cerr<<"unsupported: for struct Constructor function?" ;}
 	;
 
 parameter_declaration
-	: declaration_specifiers declarator				//{$$ = new declaration($1, $2); } //similar to variable declaration
+	: declaration_specifiers declarator				{$$ = new declaration($1, initList($2)); } //similar to variable declaration
 	| declaration_specifiers abstract_declarator	 //todo:pointers
 	| declaration_specifiers						{std::cerr<<"parameter with no name";exit(1);}//not sure what this does
 	;
@@ -348,8 +348,8 @@ jump_statement
 	;
 
 compound_statement
-	: '{' '}'									//{$$ = new compoundStatement(NULL);}
-	| '{'declaration_or_statement_list '}'      //{{$$ = new compoundStatement($2);}}//replacing below lines to allow different sequence
+	: '{' '}'									{$$ = new compoundStatement(NULL);}
+	| '{'declaration_or_statement_list '}'      {{$$ = new compoundStatement($2);}}//replacing below lines to allow different sequence
 	//| '{' statement_list '}'					//{$$ = new compoundStatement(NULL, $2);}
 	//| '{' declaration_list '}'					//{$$ = new compoundStatement($2, NULL);}
 	//| '{' declaration_list statement_list '}'	{$$ = new compoundStatement($2, $3);}
@@ -393,7 +393,7 @@ unary_expression
 	| DEC_OP unary_expression
 	| unary_operator cast_expression
 	| SIZEOF unary_expression
-	| SIZEOF '(' type_name ')'
+	| SIZEOF '(' type_name ')' //not assessed
 	;
 
 unary_operator
@@ -407,7 +407,7 @@ unary_operator
 
 cast_expression
 	: unary_expression						{$$ = $1;}
-	| '(' type_name ')' cast_expression
+	| '(' type_name ')' cast_expression //not assessed
 	;
 
 multiplicative_expression

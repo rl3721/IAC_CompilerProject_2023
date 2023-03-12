@@ -65,11 +65,9 @@ struct variable{
     int offset;             //used to store offset from stack pointer for local
                             //for global store the "absolute address" (offset relating to program)
 };
-struct function{
-    unsigned int parameter_size; 
-    unsigned int local_size; 
-    unsigned int return_size; 
-     
+struct function{ //I am just going to assume that the 
+    unsigned int size; 
+    std::vector<unsigned int> paramter_size;
 };
 struct Scope{
     std::map<std::string, variable> varBindings; //track the available variables in scope
@@ -80,13 +78,20 @@ struct Scope{
 
 struct Context{
     std::vector<Scope> stack; //stores local variables and previous scopes
+    //this really should not be called stack as it doesn't actually relate to the sp,
+    //and is only a compile time concept, but I am too lazy to change it across however many files. 
 
     //global declarations
     Scope global; 
     std::map<std::string, function> functions;
 
     void pushStack(std::ostream &dst){ //used when entering function
+        if (stack.size()==0){
 
+        }
+        else{
+
+        }
     }
     void popStack(std::ostream &dst){ //used when exiting function
 

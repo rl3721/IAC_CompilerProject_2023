@@ -1,9 +1,5 @@
 addi sp, zero, ffff0000
+a:
 addi x8, zero, 1
-sw x8, gp(-12)
-addi x8, zero, 2
-sw x8, gp(-8)
-addi x8, zero, 1111
-sw x8, gp(-16)
-lw x8, -8(gp)
-sw x8, gp(-20)
+sw x8, sp(-4)
+ret

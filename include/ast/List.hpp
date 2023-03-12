@@ -47,6 +47,7 @@ public:
 
     void compile(std::ostream &dst, Context &context, Reg destReg) const override{
         for (int i=0;i<list->size();i++){
+            //std::cerr<<"hi";
             list->at(i)->compile(dst,context,destReg);
         }
     }

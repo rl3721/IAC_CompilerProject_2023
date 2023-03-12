@@ -1741,368 +1741,404 @@ yyreduce:
 #line 1742 "src/maths_parser.tab.cpp"
     break;
 
+  case 33: /* direct_declarator: direct_declarator '(' parameter_type_list ')'  */
+#line 149 "src/maths_parser.y"
+                                                                {(yyval.tree) = new functionDeclarator((yyvsp[-3].tree), (yyvsp[-1].list));}
+#line 1748 "src/maths_parser.tab.cpp"
+    break;
+
+  case 35: /* direct_declarator: direct_declarator '(' ')'  */
+#line 151 "src/maths_parser.y"
+                                                                                        {(yyval.tree) = new functionDeclarator((yyvsp[-2].tree), NULL);}
+#line 1754 "src/maths_parser.tab.cpp"
+    break;
+
   case 37: /* declarator: direct_declarator  */
 #line 156 "src/maths_parser.y"
                                                         {(yyval.tree) = (yyvsp[0].tree);}
-#line 1748 "src/maths_parser.tab.cpp"
+#line 1760 "src/maths_parser.tab.cpp"
     break;
 
   case 40: /* declaration: declaration_specifiers ';'  */
 #line 166 "src/maths_parser.y"
                                                                                 {std::cerr<<"variable with no name";exit(1);}
-#line 1754 "src/maths_parser.tab.cpp"
+#line 1766 "src/maths_parser.tab.cpp"
     break;
 
   case 41: /* declaration: declaration_specifiers init_declarator_list ';'  */
 #line 168 "src/maths_parser.y"
                                                                 {(yyval.tree) = new declaration((yyvsp[-2].tree), (yyvsp[-1].list));}
-#line 1760 "src/maths_parser.tab.cpp"
+#line 1772 "src/maths_parser.tab.cpp"
     break;
 
   case 42: /* init_declarator: declarator  */
 #line 172 "src/maths_parser.y"
                                                         {(yyval.tree) = (yyvsp[0].tree);}
-#line 1766 "src/maths_parser.tab.cpp"
+#line 1778 "src/maths_parser.tab.cpp"
     break;
 
   case 43: /* init_declarator: declarator '=' initializer  */
 #line 173 "src/maths_parser.y"
                                         {(yyval.tree) = new initDeclarator((yyvsp[-2].tree), (yyvsp[0].tree));}
-#line 1772 "src/maths_parser.tab.cpp"
+#line 1784 "src/maths_parser.tab.cpp"
     break;
 
   case 44: /* initializer: assignment_expression  */
 #line 176 "src/maths_parser.y"
                                                 {(yyval.tree) = (yyvsp[0].tree);}
-#line 1778 "src/maths_parser.tab.cpp"
+#line 1790 "src/maths_parser.tab.cpp"
     break;
 
   case 47: /* function_definition: declarator compound_statement  */
 #line 184 "src/maths_parser.y"
                                                                                                                                 {std::cerr<<"function witout type"<<std::endl;}
-#line 1784 "src/maths_parser.tab.cpp"
+#line 1796 "src/maths_parser.tab.cpp"
+    break;
+
+  case 48: /* function_definition: declaration_specifiers declarator compound_statement  */
+#line 185 "src/maths_parser.y"
+                                                                                                        {(yyval.tree) = new functionDefinition((yyvsp[-2].tree), (yyvsp[-1].tree), (yyvsp[0].tree)) ;}
+#line 1802 "src/maths_parser.tab.cpp"
+    break;
+
+  case 49: /* parameter_declaration: declaration_specifiers declarator  */
+#line 191 "src/maths_parser.y"
+                                                                        {(yyval.tree) = new declaration((yyvsp[-1].tree), initList((yyvsp[0].tree))); }
+#line 1808 "src/maths_parser.tab.cpp"
     break;
 
   case 51: /* parameter_declaration: declaration_specifiers  */
 #line 193 "src/maths_parser.y"
                                                                                 {std::cerr<<"parameter with no name";exit(1);}
-#line 1790 "src/maths_parser.tab.cpp"
+#line 1814 "src/maths_parser.tab.cpp"
     break;
 
   case 77: /* struct_or_union: UNION  */
 #line 240 "src/maths_parser.y"
                         {std::cerr<<"union not assessed"; exit(1);}
-#line 1796 "src/maths_parser.tab.cpp"
+#line 1820 "src/maths_parser.tab.cpp"
     break;
 
   case 84: /* specifier_qualifier_list: specifier_qualifier_list type_specifier  */
 #line 258 "src/maths_parser.y"
                                                         {(yyval.list) = concatList((yyvsp[-1].list), (yyvsp[0].tree));}
-#line 1802 "src/maths_parser.tab.cpp"
+#line 1826 "src/maths_parser.tab.cpp"
     break;
 
   case 85: /* specifier_qualifier_list: type_specifier  */
 #line 259 "src/maths_parser.y"
                                                                                 {(yyval.list) = initList((yyvsp[0].tree));}
-#line 1808 "src/maths_parser.tab.cpp"
+#line 1832 "src/maths_parser.tab.cpp"
     break;
 
   case 88: /* struct_declarator_list: struct_declarator  */
 #line 264 "src/maths_parser.y"
                                                                                         {(yyval.list) = initList((yyvsp[0].tree));}
-#line 1814 "src/maths_parser.tab.cpp"
+#line 1838 "src/maths_parser.tab.cpp"
     break;
 
   case 89: /* struct_declarator_list: struct_declarator_list ',' struct_declarator  */
 #line 265 "src/maths_parser.y"
                                                         {(yyval.list) = concatList((yyvsp[-2].list), (yyvsp[0].tree));}
-#line 1820 "src/maths_parser.tab.cpp"
+#line 1844 "src/maths_parser.tab.cpp"
     break;
 
   case 90: /* init_declarator_list: init_declarator  */
 #line 268 "src/maths_parser.y"
                                                                                 {(yyval.list) = initList((yyvsp[0].tree));}
-#line 1826 "src/maths_parser.tab.cpp"
+#line 1850 "src/maths_parser.tab.cpp"
     break;
 
   case 91: /* init_declarator_list: init_declarator_list ',' init_declarator  */
 #line 269 "src/maths_parser.y"
                                                         {(yyval.list) = concatList((yyvsp[-2].list), (yyvsp[0].tree));}
-#line 1832 "src/maths_parser.tab.cpp"
+#line 1856 "src/maths_parser.tab.cpp"
     break;
 
   case 92: /* enumerator_list: enumerator  */
 #line 272 "src/maths_parser.y"
                                                                 {(yyval.list) = initList((yyvsp[0].tree));}
-#line 1838 "src/maths_parser.tab.cpp"
+#line 1862 "src/maths_parser.tab.cpp"
     break;
 
   case 93: /* enumerator_list: enumerator_list ',' enumerator  */
 #line 273 "src/maths_parser.y"
                                                 {(yyval.list) = concatList((yyvsp[-2].list), (yyvsp[0].tree));}
-#line 1844 "src/maths_parser.tab.cpp"
+#line 1868 "src/maths_parser.tab.cpp"
     break;
 
   case 94: /* initializer_list: initializer  */
 #line 276 "src/maths_parser.y"
                                                                 {(yyval.list) = initList((yyvsp[0].tree));}
-#line 1850 "src/maths_parser.tab.cpp"
+#line 1874 "src/maths_parser.tab.cpp"
     break;
 
   case 95: /* initializer_list: initializer_list ',' initializer  */
 #line 277 "src/maths_parser.y"
                                                 {(yyval.list) = concatList((yyvsp[-2].list), (yyvsp[0].tree));}
-#line 1856 "src/maths_parser.tab.cpp"
+#line 1880 "src/maths_parser.tab.cpp"
     break;
 
   case 96: /* identifier_list: IDENTIFIER  */
 #line 280 "src/maths_parser.y"
                                                                 {(yyval.list) = initList(new identifier(*(yyvsp[0].string)));}
-#line 1862 "src/maths_parser.tab.cpp"
+#line 1886 "src/maths_parser.tab.cpp"
     break;
 
   case 97: /* identifier_list: identifier_list ',' IDENTIFIER  */
 #line 281 "src/maths_parser.y"
                                                 {(yyval.list) = concatList((yyvsp[-2].list), new identifier(*(yyvsp[0].string)));}
-#line 1868 "src/maths_parser.tab.cpp"
+#line 1892 "src/maths_parser.tab.cpp"
     break;
 
   case 100: /* parameter_type_list: parameter_list  */
 #line 288 "src/maths_parser.y"
                                                         {(yyval.list) = (yyvsp[0].list);}
-#line 1874 "src/maths_parser.tab.cpp"
+#line 1898 "src/maths_parser.tab.cpp"
     break;
 
   case 101: /* parameter_type_list: parameter_list ',' ELLIPSIS  */
 #line 289 "src/maths_parser.y"
                                         {std::cerr<<"ellipsed parameters not assessed"<<std::endl; exit(1);}
-#line 1880 "src/maths_parser.tab.cpp"
+#line 1904 "src/maths_parser.tab.cpp"
     break;
 
   case 102: /* parameter_list: parameter_declaration  */
 #line 292 "src/maths_parser.y"
                                                                         {initList((yyvsp[0].tree));}
-#line 1886 "src/maths_parser.tab.cpp"
+#line 1910 "src/maths_parser.tab.cpp"
     break;
 
   case 103: /* parameter_list: parameter_list ',' parameter_declaration  */
 #line 293 "src/maths_parser.y"
                                                         {(yyval.list) = concatList((yyvsp[-2].list), (yyvsp[0].tree));}
-#line 1892 "src/maths_parser.tab.cpp"
+#line 1916 "src/maths_parser.tab.cpp"
     break;
 
   case 104: /* argument_expression_list: assignment_expression  */
 #line 296 "src/maths_parser.y"
                                                                                                 {initList((yyvsp[0].tree));}
-#line 1898 "src/maths_parser.tab.cpp"
+#line 1922 "src/maths_parser.tab.cpp"
     break;
 
   case 105: /* argument_expression_list: argument_expression_list ',' assignment_expression  */
 #line 297 "src/maths_parser.y"
                                                                 {(yyval.list) = concatList((yyvsp[-2].list), (yyvsp[0].tree));}
-#line 1904 "src/maths_parser.tab.cpp"
+#line 1928 "src/maths_parser.tab.cpp"
     break;
 
   case 106: /* declaration_or_statement: declaration  */
 #line 301 "src/maths_parser.y"
                         {(yyval.tree) = (yyvsp[0].tree);}
-#line 1910 "src/maths_parser.tab.cpp"
+#line 1934 "src/maths_parser.tab.cpp"
     break;
 
   case 107: /* declaration_or_statement: statement  */
 #line 302 "src/maths_parser.y"
                                 {(yyval.tree) = (yyvsp[0].tree);}
-#line 1916 "src/maths_parser.tab.cpp"
+#line 1940 "src/maths_parser.tab.cpp"
     break;
 
   case 108: /* declaration_or_statement_list: declaration_or_statement  */
 #line 305 "src/maths_parser.y"
                                                                                                 {(yyval.list) = initList((yyvsp[0].tree));}
-#line 1922 "src/maths_parser.tab.cpp"
+#line 1946 "src/maths_parser.tab.cpp"
     break;
 
   case 109: /* declaration_or_statement_list: declaration_or_statement_list declaration_or_statement  */
 #line 306 "src/maths_parser.y"
                                                                  {(yyval.list) = concatList((yyvsp[-1].list), (yyvsp[0].tree));}
-#line 1928 "src/maths_parser.tab.cpp"
+#line 1952 "src/maths_parser.tab.cpp"
     break;
 
   case 110: /* statement: labeled_statement  */
 #line 310 "src/maths_parser.y"
                                         {(yyval.tree) = (yyvsp[0].tree);}
-#line 1934 "src/maths_parser.tab.cpp"
+#line 1958 "src/maths_parser.tab.cpp"
     break;
 
   case 111: /* statement: compound_statement  */
 #line 311 "src/maths_parser.y"
                                 {(yyval.tree) = (yyvsp[0].tree);}
-#line 1940 "src/maths_parser.tab.cpp"
+#line 1964 "src/maths_parser.tab.cpp"
     break;
 
   case 112: /* statement: expression_statement  */
 #line 312 "src/maths_parser.y"
                                 {(yyval.tree) = (yyvsp[0].tree);}
-#line 1946 "src/maths_parser.tab.cpp"
+#line 1970 "src/maths_parser.tab.cpp"
     break;
 
   case 113: /* statement: selection_statement  */
 #line 313 "src/maths_parser.y"
                                 {(yyval.tree) = (yyvsp[0].tree);}
-#line 1952 "src/maths_parser.tab.cpp"
+#line 1976 "src/maths_parser.tab.cpp"
     break;
 
   case 114: /* statement: iteration_statement  */
 #line 314 "src/maths_parser.y"
                                 {(yyval.tree) = (yyvsp[0].tree);}
-#line 1958 "src/maths_parser.tab.cpp"
+#line 1982 "src/maths_parser.tab.cpp"
     break;
 
   case 115: /* statement: jump_statement  */
 #line 315 "src/maths_parser.y"
                                         {(yyval.tree) = (yyvsp[0].tree);}
-#line 1964 "src/maths_parser.tab.cpp"
+#line 1988 "src/maths_parser.tab.cpp"
     break;
 
   case 119: /* expression_statement: ';'  */
 #line 325 "src/maths_parser.y"
                                         {(yyval.tree) = NULL;}
-#line 1970 "src/maths_parser.tab.cpp"
+#line 1994 "src/maths_parser.tab.cpp"
     break;
 
   case 120: /* expression_statement: expression ';'  */
 #line 326 "src/maths_parser.y"
                                 {(yyval.tree) = (yyvsp[-1].tree);}
-#line 1976 "src/maths_parser.tab.cpp"
+#line 2000 "src/maths_parser.tab.cpp"
+    break;
+
+  case 133: /* compound_statement: '{' '}'  */
+#line 351 "src/maths_parser.y"
+                                                                                        {(yyval.tree) = new compoundStatement(NULL);}
+#line 2006 "src/maths_parser.tab.cpp"
+    break;
+
+  case 134: /* compound_statement: '{' declaration_or_statement_list '}'  */
+#line 352 "src/maths_parser.y"
+                                                    {{(yyval.tree) = new compoundStatement((yyvsp[-1].list));}}
+#line 2012 "src/maths_parser.tab.cpp"
     break;
 
   case 135: /* primary_expression: IDENTIFIER  */
 #line 370 "src/maths_parser.y"
                                         {(yyval.tree) = new identifier(*(yyvsp[0].string));}
-#line 1982 "src/maths_parser.tab.cpp"
+#line 2018 "src/maths_parser.tab.cpp"
     break;
 
   case 136: /* primary_expression: CONSTANT_INT  */
 #line 371 "src/maths_parser.y"
                                         {(yyval.tree) = new intConstant((yyvsp[0].ival));}
-#line 1988 "src/maths_parser.tab.cpp"
+#line 2024 "src/maths_parser.tab.cpp"
     break;
 
   case 139: /* primary_expression: '(' expression ')'  */
 #line 374 "src/maths_parser.y"
                                 {(yyval.tree) = (yyvsp[-1].tree);}
-#line 1994 "src/maths_parser.tab.cpp"
+#line 2030 "src/maths_parser.tab.cpp"
     break;
 
   case 140: /* postfix_expression: primary_expression  */
 #line 378 "src/maths_parser.y"
                                                                                                 {(yyval.tree) = (yyvsp[0].tree);}
-#line 2000 "src/maths_parser.tab.cpp"
+#line 2036 "src/maths_parser.tab.cpp"
     break;
 
   case 148: /* unary_expression: postfix_expression  */
 #line 391 "src/maths_parser.y"
                                           {(yyval.tree) = (yyvsp[0].tree);}
-#line 2006 "src/maths_parser.tab.cpp"
+#line 2042 "src/maths_parser.tab.cpp"
     break;
 
   case 160: /* cast_expression: unary_expression  */
 #line 409 "src/maths_parser.y"
                                                                         {(yyval.tree) = (yyvsp[0].tree);}
-#line 2012 "src/maths_parser.tab.cpp"
+#line 2048 "src/maths_parser.tab.cpp"
     break;
 
   case 162: /* multiplicative_expression: cast_expression  */
 #line 414 "src/maths_parser.y"
                                                                                         {(yyval.tree) = (yyvsp[0].tree);}
-#line 2018 "src/maths_parser.tab.cpp"
+#line 2054 "src/maths_parser.tab.cpp"
     break;
 
   case 166: /* additive_expression: multiplicative_expression  */
 #line 421 "src/maths_parser.y"
                                                                                         {(yyval.tree) = (yyvsp[0].tree);}
-#line 2024 "src/maths_parser.tab.cpp"
+#line 2060 "src/maths_parser.tab.cpp"
     break;
 
   case 169: /* shift_expression: additive_expression  */
 #line 427 "src/maths_parser.y"
                                                                                 {(yyval.tree) = (yyvsp[0].tree);}
-#line 2030 "src/maths_parser.tab.cpp"
+#line 2066 "src/maths_parser.tab.cpp"
     break;
 
   case 172: /* relational_expression: shift_expression  */
 #line 433 "src/maths_parser.y"
                                                                                                 {(yyval.tree) = (yyvsp[0].tree);}
-#line 2036 "src/maths_parser.tab.cpp"
+#line 2072 "src/maths_parser.tab.cpp"
     break;
 
   case 177: /* equality_expression: relational_expression  */
 #line 441 "src/maths_parser.y"
                                                                                         {(yyval.tree) = (yyvsp[0].tree);}
-#line 2042 "src/maths_parser.tab.cpp"
+#line 2078 "src/maths_parser.tab.cpp"
     break;
 
   case 180: /* and_expression: equality_expression  */
 #line 447 "src/maths_parser.y"
                                                                         {(yyval.tree) = (yyvsp[0].tree);}
-#line 2048 "src/maths_parser.tab.cpp"
+#line 2084 "src/maths_parser.tab.cpp"
     break;
 
   case 182: /* exclusive_or_expression: and_expression  */
 #line 452 "src/maths_parser.y"
                                                                                         {(yyval.tree) = (yyvsp[0].tree);}
-#line 2054 "src/maths_parser.tab.cpp"
+#line 2090 "src/maths_parser.tab.cpp"
     break;
 
   case 184: /* inclusive_or_expression: exclusive_or_expression  */
 #line 457 "src/maths_parser.y"
                                                                                                 {(yyval.tree) = (yyvsp[0].tree);}
-#line 2060 "src/maths_parser.tab.cpp"
+#line 2096 "src/maths_parser.tab.cpp"
     break;
 
   case 186: /* logical_and_expression: inclusive_or_expression  */
 #line 462 "src/maths_parser.y"
                                                                                                 {(yyval.tree) = (yyvsp[0].tree);}
-#line 2066 "src/maths_parser.tab.cpp"
+#line 2102 "src/maths_parser.tab.cpp"
     break;
 
   case 188: /* logical_or_expression: logical_and_expression  */
 #line 467 "src/maths_parser.y"
                                                                                                 {(yyval.tree) = (yyvsp[0].tree);}
-#line 2072 "src/maths_parser.tab.cpp"
+#line 2108 "src/maths_parser.tab.cpp"
     break;
 
   case 190: /* conditional_expression: logical_or_expression  */
 #line 472 "src/maths_parser.y"
                                                                                                                         {(yyval.tree) = (yyvsp[0].tree);}
-#line 2078 "src/maths_parser.tab.cpp"
+#line 2114 "src/maths_parser.tab.cpp"
     break;
 
   case 192: /* assignment_expression: conditional_expression  */
 #line 477 "src/maths_parser.y"
                                                                                                 {(yyval.tree) = (yyvsp[0].tree);}
-#line 2084 "src/maths_parser.tab.cpp"
+#line 2120 "src/maths_parser.tab.cpp"
     break;
 
   case 204: /* expression: assignment_expression  */
 #line 493 "src/maths_parser.y"
                                                                 {(yyval.tree) = (yyvsp[0].tree);}
-#line 2090 "src/maths_parser.tab.cpp"
+#line 2126 "src/maths_parser.tab.cpp"
     break;
 
   case 205: /* expression: expression ',' assignment_expression  */
 #line 494 "src/maths_parser.y"
                                                 {std::cerr<<"not assessed"; exit(1);}
-#line 2096 "src/maths_parser.tab.cpp"
+#line 2132 "src/maths_parser.tab.cpp"
     break;
 
   case 206: /* constant_expression: conditional_expression  */
 #line 498 "src/maths_parser.y"
                                         {(yyval.tree) = (yyvsp[0].tree);}
-#line 2102 "src/maths_parser.tab.cpp"
+#line 2138 "src/maths_parser.tab.cpp"
     break;
 
 
-#line 2106 "src/maths_parser.tab.cpp"
+#line 2142 "src/maths_parser.tab.cpp"
 
       default: break;
     }

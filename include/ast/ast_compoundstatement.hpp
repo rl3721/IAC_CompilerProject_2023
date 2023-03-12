@@ -12,21 +12,39 @@ class compoundStatement
 {
 private:
 protected:
-    TreePtr statement_list;
+    ListPtr list;
 public:
     compoundStatement(
-        TreePtr _statement_list)
-        :statement_list(_statement_list)
+        ListPtr _statement_list)
+        :list(_statement_list)
     {}
     virtual ~compoundStatement()
-    {delete statement_list;
+    {delete list;
+    }
+    unsigned int getSize()const override{
+        std::cerr<<"Error: getting size of statement";
+        //exit(1);
+    }
+    std::string  getId()const override{
+        std::cerr<<"Error: getting id of statement";
+        //exit(1);
     }
 
     virtual void print(std::ostream &dst) const override
     {
-        if (statement_list != NULL){
-            statement_list->print(dst);
+        if (list != NULL){
+            for(int i=0; i<list->size();i++){
+                list->at(i)->print(dst);
+            }
         }
+    }
+    virtual void compile(std::ostream &dst, Context &context, Reg destReg) const override{
+        if (list != NULL){
+            for(int i=0; i<list->size();i++){
+                list->at(i)->compile(dst,context,destReg);
+            }
+        }
+
     }
 };
 

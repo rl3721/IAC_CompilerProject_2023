@@ -85,18 +85,6 @@ public:
     {}
 };
 
-class functionDeclarator
-    : public directDeclarator
-{
-private:
-protected:
-    virtual const char *getOpcode() const override
-        { return "round"; }
-public:
-    functionDeclarator(TreePtr _declarator, TreePtr _content)
-        :directDeclarator("0", _declarator, _content)
-    {}
-};
 
 
 

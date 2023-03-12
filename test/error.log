@@ -1,7 +1,6 @@
-global variable c of size 4 declared
-global variable d of size 4 declared
-global variable ac of size 4 declared and initialized
-warning: multiple declaration of the variable d in global scope declared and initialized
-global variable e of size 4 declared and initialized
-global variable f of size 4 declared and initialized
-global variable g of size 4 declared Error: variable a not declared in global
+declaring function a
+function a declared with no paramters
+new scope created for function a
+local variable b of size 4
+ declared and initialized
+scope closed for function a
