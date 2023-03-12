@@ -39,6 +39,28 @@ public:
         compound_statement->print(dst);
         dst<<"}";
     }
+
+    unsigned int getSize() const override{
+        return declaration_specifiers->getSize()+ declarator->getSize()+compound_statement->getSize(); 
+    }
+
+    virtual void compile(std::ostream &dst, Context &context, Reg destReg) const override{
+        unsigned int return_size = declaration_specifiers->getSize();
+        unsigned int parameter_size = declarator->getSize();
+        unsigned int local_size = compound_statement->getSize();
+        unsigned int size = getSize();
+
+        std::string id = declarator->getId();
+
+        context.functions[id] = {};
+        
+        dst<<"addi sp, sp, "<<size<<std::endl;
+        dst<<"sw ra, sp"<<std::endl;
+        
+
+        dst<<"lw ra, sp"<<std::endl;
+        dst<<"addi sp, sp, "<<-size<<std::endl;
+    }
 };
 
 

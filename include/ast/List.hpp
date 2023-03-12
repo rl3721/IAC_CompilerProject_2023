@@ -6,8 +6,18 @@
 #include <cmath>
 #include <string>
 
+ListPtr initList(TreePtr _TreePtr){
+    ListPtr _ListPtr =  new List();
+    _ListPtr->push_back(_TreePtr);
+    return _ListPtr;
+}
 
-class List
+ListPtr concatList(ListPtr _ListPtr, TreePtr _TreePtr){
+    _ListPtr->push_back(_TreePtr);
+    return _ListPtr;
+}
+
+/*class List
     : public Tree
 {
 private:
@@ -16,6 +26,7 @@ protected:
     TreePtr left;
     TreePtr right;
 public:
+
     List(TreePtr _left, TreePtr _right)
         :left(_left),
         right(_right)
@@ -25,9 +36,9 @@ public:
     delete right;}
 
     //virtual const char *getOpcode() const =0;
-    /*virtual int getSize(){
+    virtual int getSize(){
         return left->getSize() + right->getSize();
-    }*/
+    }
     virtual void print(std::ostream &dst) const override
     {
         left->print(dst);
@@ -41,7 +52,7 @@ public:
     }
 
     
-};
+};*/
 
 #endif
 

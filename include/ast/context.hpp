@@ -66,14 +66,14 @@ struct variable{
                             //for global store the "absolute address" (offset relating to program)
 };
 struct function{
-    unsigned int size; //storing total memory size required by the function
-    
-
+    unsigned int parameter_size; 
+    unsigned int local_size; 
+    unsigned int return_size; 
      
 };
 struct Scope{
     std::map<std::string, variable> varBindings; //track the available variables in scope
-    int offset;
+    int offset = -4; //tracks the next available word from sp. the sp itself is used store ra.
     std::string startLabel; //used for continue
     std::string endLabel; //used for break
 };

@@ -17,6 +17,7 @@
 // AST node.
 %union{
   TreePtr tree;
+  ListPtr list;
   int ival;
   double dval;
   std::string *string;
@@ -251,32 +252,32 @@ struct_declarator
 	| declarator ':' constant_expression
 	;
 
-	/**************Lists************************/
-specifier_qualifier_list
-	: specifier_qualifier_list type_specifier 	{$$ = new List($1,$2);}
-	| type_specifier							{$$ = $1;}
+/**********************************Lists*****************************************/
+specifier_qualifier_list //for struct and type name
+	: specifier_qualifier_list type_specifier 	{$$ = concatList($1, $2);}
+	| type_specifier							{$$ = initList($1);}
 	| specifier_qualifier_list type_qualifier 	//not assessed
 	| type_qualifier							//not assessed
 	;
 struct_declarator_list
-	: struct_declarator								{$$ = $1;}
-	| struct_declarator_list ',' struct_declarator	{$$ = new List($1, $3);}
+	: struct_declarator								{$$ = initList($1);}
+	| struct_declarator_list ',' struct_declarator	{$$ = concatList($1, $3);}
 	;
 init_declarator_list
-	: init_declarator							{$$ = $1;}
-	| init_declarator_list ',' init_declarator	{$$ = new List($1, $3);}
+	: init_declarator							{$$ = initList($1);}
+	| init_declarator_list ',' init_declarator	{$$ = concatList($1, $3);}
 	;
 enumerator_list
-	: enumerator						{$$ = $1;}
-	| enumerator_list ',' enumerator	{$$ = new List($1, $3);}
+	: enumerator						{$$ = initList($1);}
+	| enumerator_list ',' enumerator	{$$ = concatList($1, $3);}
 	;
 initializer_list //Todo
-	: initializer						{$$ = $1;}
-	| initializer_list ',' initializer	{$$ = new List($1, $3);}
+	: initializer						{$$ = initList($1);}
+	| initializer_list ',' initializer	{$$ = concatList($1, $3);}
 	;
 identifier_list
-	: IDENTIFIER						{$$ = new identifier(*$1);}
-	| identifier_list ',' IDENTIFIER	{$$ = new List($1, new identifier(*$3));}
+	: IDENTIFIER						{$$ = initList(new identifier(*$1));}
+	| identifier_list ',' IDENTIFIER	{$$ = concatList($1, new identifier(*$3));}
 	;
 type_qualifier_list //not assessed, but saved as place holder
 	: type_qualifier
@@ -287,8 +288,12 @@ parameter_type_list//actually just equivalent to parameter_list
 	| parameter_list ',' ELLIPSIS	{std::cerr<<"ellipsed parameters not assessed"<<std::endl; exit(1);}
 	;
 parameter_list
-	: parameter_declaration						{$$ = $1;}
-	| parameter_list ',' parameter_declaration	{$$ = new List($1, $3);}
+	: parameter_declaration						{initList($1);}
+	| parameter_list ',' parameter_declaration	{$$ = concatList($1, $3);}
+	;
+argument_expression_list
+	: assignment_expression									{initList($1);}
+	| argument_expression_list ',' assignment_expression	{$$ = concatList($1, $3);}
 	;
 
 
@@ -494,10 +499,7 @@ constant_expression
 	: conditional_expression	{$$ = $1;}
 	;
 
-argument_expression_list
-	: assignment_expression									{$$ = $1;}
-	| argument_expression_list ',' assignment_expression	{$$ = new List($1, $3);}
-	;
+
 
 
 %%

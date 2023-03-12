@@ -32,4 +32,7 @@ public:
 
 };
 
+typedef std::vector<TreePtr> List;
+typedef List *ListPtr;
+
 #endif

@@ -14,12 +14,11 @@ private:
     
 protected:
     TreePtr declaration_specifiers;
-    TreePtr List;
-
-   
 public:
+    ListPtr List;
+
     declaration(
-        TreePtr _declaration_specifiers,TreePtr _List)
+        TreePtr _declaration_specifiers,ListPtr _List)
         :declaration_specifiers(_declaration_specifiers),
         List(_List)
     {}
@@ -35,49 +34,58 @@ public:
         dst<<"declaration: (";
         declaration_specifiers->print(dst);
         dst<<" ";
-        List->print(dst);
+        for (int i = 0; i < List->size(); i++){
+            List->at(i)->print(dst);
+        }
         dst<<")\n";
     }
 
     bool isFunction() const override{
-        return List->isFunction();
+        return false;//this declaration is always for variable, enum, struct... not functions!
     }
 
     unsigned int getSize() const override{
-        return declaration_specifiers->getSize()*List->getSize();
+        int listSize = 0;
+        for (int i = 0; i< List->size();i++){
+            listSize += List->at(i)->getSize();
+        }
+        return declaration_specifiers->getSize()*listSize;
     }
     std::string getId() const override{
-        return List->getId();
     }
 
     void compile(std::ostream &dst, Context &context, Reg destReg) const override{
-        std::string id = getId();
-        unsigned int size = getSize();
+        std::string id;
+        unsigned int size;
 
-        //adding declared variable to scope, giving it the required memory size in stack
-        if (context.stack.size() == 0){ //no stack meaning declaring variable in global
-            if (context.global.varBindings.find(id) == context.global.varBindings.end()){
-                context.global.varBindings[id] = {size, context.global.offset};
-                context.global.offset += size;
-            }
-            else{
-                std::cerr<<"multiple declaration of the variable in global scope";
-                exit(1);
-            }
-        }
-        else{//declaring variable in local
-            if (context.stack.back().varBindings.find(id) == context.stack.back().varBindings.end()){
-                context.stack.back().varBindings[id] = {size, context.stack.back().offset};
-                context.stack.back().offset += size;
-            }
-            else{
-                std::cerr<<"multiple declaration of the variable in local scope";
-                exit(1);
-            }
-        }
+        for(int i = 0; i < List->size(); i++){//do each of them declaration
+            id = List->at(i)->getId();
+            size = List->at(i)->getSize();
 
-        //process initialization if exist
-        List->compile(dst, context, destReg);
+            //adding declared variable to scope, giving it the required memory size in stack
+            if (context.stack.size() == 0){ //no stack meaning declaring variable in global
+                if (context.global.varBindings.find(id) == context.global.varBindings.end()){
+                    context.global.varBindings[id] = {size, context.global.offset};
+                    context.global.offset += size;
+                }
+                else{
+                    std::cerr<<"multiple declaration of the variable in global scope";
+                    exit(1);
+                }
+            }
+            else{//declaring variable in local
+                if (context.stack.back().varBindings.find(id) == context.stack.back().varBindings.end()){
+                    context.stack.back().varBindings[id] = {size, context.stack.back().offset};
+                    context.stack.back().offset += size;
+                }
+                else{
+                    std::cerr<<"multiple declaration of the variable in local scope";
+                    exit(1);
+                }
+            }
+            List->at(i)->compile(dst, context, destReg);
+        }
+       
 
 
 
