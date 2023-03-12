@@ -1,0 +1,5 @@
+declaration: (int initialize: x = 1
+
+initialize: y = x
+
+)

@@ -36,7 +36,7 @@ public:
         }
     }
 
-    virtual int getSize(){
+    virtual unsigned int getSize() const override{
         switch(type){
             case _int:
                 return 4;
@@ -47,7 +47,11 @@ public:
                 return 0;
         }
     }
+    virtual std::string getId()const override{
+        return "type_specifier";
+    }
+    virtual void compile(std::ostream &dst, Context &context, Reg destReg)const override{
+    }
 };
 
 #endif
-

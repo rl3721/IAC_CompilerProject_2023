@@ -71,11 +71,11 @@
 %type <tree> assignment_expression expression constant_expression
 
 //list
-%type <tree> translation_unit //list of external_declaration
-%type <tree> argument_expression_list init_declarator_list struct_declaration_list 
-%type <tree> specifier_qualifier_list struct_declarator_list enumerator_list
-%type <tree>  parameter_type_list identifier_list parameter_list
-%type <tree> initializer_list
+%type <list> translation_unit //list of external_declaration
+%type <list> argument_expression_list init_declarator_list struct_declaration_list 
+%type <list> specifier_qualifier_list struct_declarator_list enumerator_list
+%type <list>  parameter_type_list identifier_list parameter_list
+%type <list> initializer_list
 //%type <tree> declaration_list statement_list
 
 //operator
@@ -85,16 +85,16 @@
 %%
 
 ROOT
-	:translation_unit {g_root = $1;}
+	://translation_unit {g_root = $1;}
 	//|IDENTIFIER  {g_root = new helloWorld();}
 	//|expression  {g_root = $1;}
-	//|function_definition  {g_root = $1;}
+	|declaration  {g_root = $1;}
 	//|HELLO_WORLD {g_root = new helloWorld();}
 	;
 
 translation_unit
-	: external_declaration					{$$ = $1;}
-	| translation_unit external_declaration	{$$ = new List($1, $2);}
+	: external_declaration					{$$ = initList($1);}
+	| translation_unit external_declaration	{$$ = concatList($1,$2);}
 	;
 /*********************Declarations**************************************/
 
@@ -144,11 +144,11 @@ declaration_specifiers
 direct_declarator 
 	: IDENTIFIER 										{$$ = new variableDeclarator(*$1);}
 	| '(' declarator ')'								{$$ = $2;}
-	| direct_declarator '[' constant_expression ']'		{$$ = new arrayDeclarator($1, $3);}
-	| direct_declarator '[' ']'							{$$ = new arrayDeclarator($1, NULL);}
-	| direct_declarator '(' parameter_type_list ')'		{$$ = new functionDeclarator($1, $3);}
-	| direct_declarator '(' identifier_list ')'			{$$ = new functionDeclarator($1, $3);}
-	| direct_declarator '(' ')'							{$$ = new functionDeclarator($1, NULL);}
+	| direct_declarator '[' constant_expression ']'		//{$$ = new arrayDeclarator($1, $3);}
+	| direct_declarator '[' ']'							//{$$ = new arrayDeclarator($1, NULL);}
+	| direct_declarator '(' parameter_type_list ')'		//{$$ = new functionDeclarator($1, $3);}
+	| direct_declarator '(' identifier_list ')'			//{$$ = new functionDeclarator($1, $3);}
+	| direct_declarator '(' ')'							//{$$ = new functionDeclarator($1, NULL);}
 	;
 
 declarator
@@ -157,13 +157,14 @@ declarator
 	;
 
 type_name
-	: specifier_qualifier_list						{$$ = $1;}
+	: specifier_qualifier_list						//{$$ = $1;}
 	| specifier_qualifier_list abstract_declarator//todo pointers
 	;
 	/***********variable declaration************/
 
 declaration
 	: declaration_specifiers ';' 						{std::cerr<<"variable with no name";exit(1);} //I am not sure if this actually does anything, variable with no name?
+															//okay I think it just increases the scope offset by size of the speicifer, I will do that later
 	| declaration_specifiers init_declarator_list ';'	{$$ = new declaration($1, $2);}
 	;
 
@@ -181,13 +182,13 @@ initializer
 
 function_definition //type, identifier(parameter?), {statements}
 	: declarator compound_statement												{std::cerr<<"function witout type"<<std::endl;}
-	| declaration_specifiers declarator compound_statement						{$$ = new functionDefinition($1, $2, $3) ;}
+	| declaration_specifiers declarator compound_statement						//{$$ = new functionDefinition($1, $2, $3) ;}
 	//| declarator declaration_list compound_statement							{std::cerr<<"function witout type"<<std::endl;}
 	//| declaration_specifiers declarator declaration_list compound_statement		{std::cerr<<"unsupported: for struct Constructor function?" ;}
 	;
 
 parameter_declaration
-	: declaration_specifiers declarator				{$$ = new declaration($1, $2); } //similar to variable declaration
+	: declaration_specifiers declarator				//{$$ = new declaration($1, $2); } //similar to variable declaration
 	| declaration_specifiers abstract_declarator	 //todo:pointers
 	| declaration_specifiers						{std::cerr<<"parameter with no name";exit(1);}//not sure what this does
 	;
@@ -296,7 +297,13 @@ argument_expression_list
 	| argument_expression_list ',' assignment_expression	{$$ = concatList($1, $3);}
 	;
 
+declaration_or_statement
+	: declaration	{$$ = $1;}
+	| statement		{$$ = $1;}
 
+declaration_or_statement_list
+	: declaration_or_statement								{$$ = initList($1);}
+	| declaration_or_statement_list declaration_or_statement {$$ = concatList($1, $2);}
 
 /***********************************Statements**************************************************/
 statement
@@ -336,25 +343,17 @@ jump_statement
 	: GOTO IDENTIFIER ';'	//{std::cerr<<"goto not assessed"; exit(1);}
 	| CONTINUE ';'			//{$$ = new continueJumpStatement();}
 	| BREAK ';'				//{$$ = new breakJumpStatement();}
-	| RETURN ';'			{$$ = new returnJumpStatement(NULL);}
-	| RETURN expression ';'	{$$ = new returnJumpStatement($2);}
+	| RETURN ';'			//{$$ = new returnJumpStatement(NULL);}
+	| RETURN expression ';'	//{$$ = new returnJumpStatement($2);}
 	;
 
 compound_statement
-	: '{' '}'									{$$ = new compoundStatement(NULL);}
-	| '{'declaration_or_statement_list '}'      {{$$ = new compoundStatement($2);}}//replacing below lines to allow different sequence
+	: '{' '}'									//{$$ = new compoundStatement(NULL);}
+	| '{'declaration_or_statement_list '}'      //{{$$ = new compoundStatement($2);}}//replacing below lines to allow different sequence
 	//| '{' statement_list '}'					//{$$ = new compoundStatement(NULL, $2);}
 	//| '{' declaration_list '}'					//{$$ = new compoundStatement($2, NULL);}
 	//| '{' declaration_list statement_list '}'	{$$ = new compoundStatement($2, $3);}
 	;
-declaration_or_statement
-	: declaration	{$$ = $1;}
-	| statement		{$$ = $1;}
-
-declaration_or_statement_list
-	: declaration_or_statement								{$$ = $1;}
-	| declaration_or_statement_list declaration_or_statement {$$ = new List($1, $2);}
-
 
 /*statement_list
 	: statement					{$$ = $1;}
@@ -369,17 +368,17 @@ declaration_list //also in statementlist_hpp
 
 primary_expression
 	: IDENTIFIER			{$$ = new identifier(*$1);}
-	| CONSTANT_INT				{$$ = new intConstant($1);}
-	| CONSTANT_FLOAT				{$$ = new floatConstant($1);}
+	| CONSTANT_INT			{$$ = new intConstant($1);}
+	| CONSTANT_FLOAT				//{$$ = new floatConstant($1);}
 	| STRING_LITERAL		//{$$ = new stringPrimaryExpression(*$1);} //don't bother with this for now
 	| '(' expression ')'	{$$ = $2;} 
 	;
 
-postfix_expression
+postfix_expression 
 	: primary_expression									{$$ = $1;}
 	| postfix_expression '[' expression ']'//todo array indexing
-	| postfix_expression '(' ')'							{$$ = new functionCall($1, NULL);}
-	| postfix_expression '(' argument_expression_list ')'	{$$ = new functionCall($1, $3);}
+	| postfix_expression '(' ')'							//{$$ = new functionCall($1, NULL);}
+	| postfix_expression '(' argument_expression_list ')'	//{$$ = new functionCall($1, $3);}
 	| postfix_expression '.' IDENTIFIER
 	| postfix_expression PTR_OP IDENTIFIER
 	| postfix_expression INC_OP
@@ -413,60 +412,60 @@ cast_expression
 
 multiplicative_expression
 	: cast_expression								{$$ = $1;}
-	| multiplicative_expression '*' cast_expression {$$ = new mulOperator($1, $3);}
-	| multiplicative_expression '/' cast_expression	{$$ = new divOperator($1, $3);}
-	| multiplicative_expression '%' cast_expression	{$$ = new modOperator($1, $3);}
+	| multiplicative_expression '*' cast_expression //{$$ = new mulOperator($1, $3);}
+	| multiplicative_expression '/' cast_expression	//{$$ = new divOperator($1, $3);}
+	| multiplicative_expression '%' cast_expression	//{$$ = new modOperator($1, $3);}
 	;
 
 additive_expression
 	: multiplicative_expression							{$$ = $1;}
-	| additive_expression '+' multiplicative_expression	{$$ = new addOperator($1, $3);}
-	| additive_expression '-' multiplicative_expression	{$$ = new subOperator($1, $3);}
+	| additive_expression '+' multiplicative_expression	//{$$ = new addOperator($1, $3);}
+	| additive_expression '-' multiplicative_expression	//{$$ = new subOperator($1, $3);}
 	;
 
 shift_expression
 	: additive_expression							{$$ = $1;}
-	| shift_expression LEFT_OP additive_expression	{$$ = new leftShiftOperator($1, $3);}
-	| shift_expression RIGHT_OP additive_expression	{$$ = new rightShiftOperator($1, $3);}
+	| shift_expression LEFT_OP additive_expression	//{$$ = new leftShiftOperator($1, $3);}
+	| shift_expression RIGHT_OP additive_expression	//{$$ = new rightShiftOperator($1, $3);}
 	;
 
 relational_expression
 	: shift_expression									{$$ = $1;}
-	| relational_expression '<' shift_expression		{$$ = new ltOperator($1, $3);}
-	| relational_expression '>' shift_expression		{$$ = new gtOperator($1, $3);}
-	| relational_expression LE_OP shift_expression		{$$ = new leOperator($1, $3);}
-	| relational_expression GE_OP shift_expression		{$$ = new geOperator($1, $3);}
+	| relational_expression '<' shift_expression		//{$$ = new ltOperator($1, $3);}
+	| relational_expression '>' shift_expression		//{$$ = new gtOperator($1, $3);}
+	| relational_expression LE_OP shift_expression		//{$$ = new leOperator($1, $3);}
+	| relational_expression GE_OP shift_expression		//{$$ = new geOperator($1, $3);}
 	;
 
 equality_expression
 	: relational_expression								{$$ = $1;}
-	| equality_expression EQ_OP relational_expression	{$$ = new equalityOperator($1, $3);}
-	| equality_expression NE_OP relational_expression	{$$ = new inequalityOperator($1, $3);}
+	| equality_expression EQ_OP relational_expression	//{$$ = new equalityOperator($1, $3);}
+	| equality_expression NE_OP relational_expression	//{$$ = new inequalityOperator($1, $3);}
 	;
 
 and_expression
 	: equality_expression						{$$ = $1;}
-	| and_expression '&' equality_expression	{$$ = new andOperator($1, $3);}
+	| and_expression '&' equality_expression	//{$$ = new andOperator($1, $3);}
 	;
 
 exclusive_or_expression
 	: and_expression								{$$ = $1;}
-	| exclusive_or_expression '^' and_expression	{$$ = new exclusiveOrOperator($1, $3);}
+	| exclusive_or_expression '^' and_expression	//{$$ = new exclusiveOrOperator($1, $3);}
 	;
 
 inclusive_or_expression
 	: exclusive_or_expression								{$$ = $1;}
-	| inclusive_or_expression '|' exclusive_or_expression	{$$ = new inclusiveOrOperator($1, $3);}
+	| inclusive_or_expression '|' exclusive_or_expression	//{$$ = new inclusiveOrOperator($1, $3);}
 	;
 
 logical_and_expression
 	: inclusive_or_expression								{$$ = $1;}
-	| logical_and_expression AND_OP inclusive_or_expression	{$$ = new logicalAndOperator($1, $3);}
+	| logical_and_expression AND_OP inclusive_or_expression	//{$$ = new logicalAndOperator($1, $3);}
 	;
 
 logical_or_expression
 	: logical_and_expression								{$$ = $1;}
-	| logical_or_expression OR_OP logical_and_expression	{$$ = new logicalOrOperator($1, $3);}
+	| logical_or_expression OR_OP logical_and_expression	//{$$ = new logicalOrOperator($1, $3);}
 	;
 
 conditional_expression
@@ -476,17 +475,17 @@ conditional_expression
 
 assignment_expression
 	: conditional_expression								{$$ = $1;}
-	| unary_expression '=' assignment_expression			{$$ = new assignmentExpression($1,$3);}
-	| unary_expression MUL_ASSIGN assignment_expression		{$$ = new assignmentExpression($1, new mulOperator($1,$3));}
-	| unary_expression DIV_ASSIGN assignment_expression		{$$ = new assignmentExpression($1, new divOperator($1,$3));}
-	| unary_expression MOD_ASSIGN assignment_expression		{$$ = new assignmentExpression($1, new modOperator($1,$3));}
-	| unary_expression ADD_ASSIGN assignment_expression		{$$ = new assignmentExpression($1, new addOperator($1,$3));}
-	| unary_expression SUB_ASSIGN assignment_expression		{$$ = new assignmentExpression($1, new subOperator($1,$3));}
-	| unary_expression LEFT_ASSIGN assignment_expression	{$$ = new assignmentExpression($1, new leftShiftOperator($1,$3));}
-	| unary_expression RIGHT_ASSIGN assignment_expression	{$$ = new assignmentExpression($1, new rightShiftOperator($1,$3));}
-	| unary_expression AND_ASSIGN assignment_expression		{$$ = new assignmentExpression($1, new andOperator($1,$3));}
-	| unary_expression XOR_ASSIGN assignment_expression		{$$ = new assignmentExpression($1, new exclusiveOrOperator($1,$3));}
-	| unary_expression OR_ASSIGN assignment_expression		{$$ = new assignmentExpression($1, new inclusiveOrOperator($1,$3));}
+	| unary_expression '=' assignment_expression			//{$$ = new assignmentExpression($1,$3);}
+	| unary_expression MUL_ASSIGN assignment_expression		//{$$ = new assignmentExpression($1, new mulOperator($1,$3));}
+	| unary_expression DIV_ASSIGN assignment_expression		//{$$ = new assignmentExpression($1, new divOperator($1,$3));}
+	| unary_expression MOD_ASSIGN assignment_expression		//{$$ = new assignmentExpression($1, new modOperator($1,$3));}
+	| unary_expression ADD_ASSIGN assignment_expression		//{$$ = new assignmentExpression($1, new addOperator($1,$3));}
+	| unary_expression SUB_ASSIGN assignment_expression		//{$$ = new assignmentExpression($1, new subOperator($1,$3));}
+	| unary_expression LEFT_ASSIGN assignment_expression	//{$$ = new assignmentExpression($1, new leftShiftOperator($1,$3));}
+	| unary_expression RIGHT_ASSIGN assignment_expression	//{$$ = new assignmentExpression($1, new rightShiftOperator($1,$3));}
+	| unary_expression AND_ASSIGN assignment_expression		//{$$ = new assignmentExpression($1, new andOperator($1,$3));}
+	| unary_expression XOR_ASSIGN assignment_expression		//{$$ = new assignmentExpression($1, new exclusiveOrOperator($1,$3));}
+	| unary_expression OR_ASSIGN assignment_expression		//{$$ = new assignmentExpression($1, new inclusiveOrOperator($1,$3));}
 	;
 
 

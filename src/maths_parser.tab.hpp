@@ -142,11 +142,12 @@ union YYSTYPE
 #line 18 "src/maths_parser.y"
 
   TreePtr tree;
+  ListPtr list;
   int ival;
   double dval;
   std::string *string;
 
-#line 150 "src/maths_parser.tab.hpp"
+#line 151 "src/maths_parser.tab.hpp"
 
 };
 typedef union YYSTYPE YYSTYPE;

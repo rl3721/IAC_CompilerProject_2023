@@ -38,43 +38,53 @@ public:
 };
 
 class identifier
-    : public primaryExpression
+    : public Tree
 {
 private:
 protected:
-    virtual const std::string getOpcode() const override
-        { return "identifier"; }
 public:
+    std::string id;
     identifier(std::string _sval)
-        :primaryExpression(_sval,0)
+        :id(_sval)
     {}
+
+    std::string getId()const override{
+        return id;
+    }
+    unsigned int getSize()const override{
+        return 1;
+    }
+    void compile(std::ostream &dst, Context &context, Reg destReg)const override{
+        
+    }
+    void print(std::ostream &dst)const override{
+        dst<<id<<std::endl;
+    }
 };
 
 
 class intConstant
-    : public primaryExpression
+    : public Tree
 {
 private:
 protected:
-    virtual const std::string getOpcode() const override
-        { return "int"; }
 public:
-    intConstant(double _dval)
-        :primaryExpression("int",_dval)
+    int val;
+    intConstant(int _val)
+        :val(_val)
     {}
-};
-
-class floatConstant
-    : public primaryExpression
-{
-private:
-protected:
-    virtual const std::string getOpcode() const override
-        { return "double"; }
-public:
-    floatConstant(double _dval)
-        :primaryExpression("double",_dval)
-    {}
+    std::string getId()const override{
+        return "";
+    }
+    unsigned int getSize()const override{
+        return 4;
+    }
+    void compile(std::ostream &dst, Context &context, Reg destReg)const override{
+        dst<<"addi "<<destReg<<", zero, "<<val<<std::endl;
+    }
+    void print(std::ostream &dst)const override{
+        dst<<val<<std::endl;
+    }
 };
 
 

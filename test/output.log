@@ -1,0 +1,4 @@
+addi sp, zero, ffff0000
+addi 8, zero, 1
+sw 8, gp(-4)
+sw 8, gp(-8)

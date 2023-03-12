@@ -11,7 +11,7 @@
 
 class Tree;
 
-typedef const Tree *TreePtr;
+typedef Tree *TreePtr;
 
 class Tree //The most basic tree, the root for everything
 {
@@ -27,12 +27,10 @@ public:
 
     //used in codeGen
     virtual unsigned int getSize()const =0;
-    virtual bool isFunction()const=0;
     virtual std::string getId()const =0;
 
 };
 
-typedef std::vector<TreePtr> List;
-typedef List *ListPtr;
+
 
 #endif

@@ -6,13 +6,16 @@
 #include <cmath>
 #include <string>
 
-ListPtr initList(TreePtr _TreePtr){
+typedef std::vector<TreePtr> List;
+typedef List *ListPtr;
+
+inline ListPtr initList(TreePtr _TreePtr){
     ListPtr _ListPtr =  new List();
     _ListPtr->push_back(_TreePtr);
     return _ListPtr;
 }
 
-ListPtr concatList(ListPtr _ListPtr, TreePtr _TreePtr){
+inline ListPtr concatList(ListPtr _ListPtr, TreePtr _TreePtr){
     _ListPtr->push_back(_TreePtr);
     return _ListPtr;
 }

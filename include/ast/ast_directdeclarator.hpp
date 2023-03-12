@@ -46,19 +46,32 @@ public:
         }
         dst<<"\n";
     }
+
+    
 };
 
 class variableDeclarator
-    : public directDeclarator
+    : public Tree
 {
 private:
 protected:
-    virtual const char *getOpcode() const override
-        { return "round"; }
 public:
-    variableDeclarator(std::string _identifier)
-        :directDeclarator(_identifier, NULL, NULL)
+    std::string id;
+    variableDeclarator(std::string _id)
+        :id(_id)
     {}
+    void print(std::ostream &dst)const override{
+        dst<<id;
+    }
+    unsigned int getSize()const override{
+        return 1;
+    }
+    std::string getId()const override{
+        return id;
+    }
+    void compile(std::ostream &dst, Context &context, Reg destReg) const override{
+        std::cerr<<" declared";
+    }
 };
 
 class arrayDeclarator
@@ -66,8 +79,6 @@ class arrayDeclarator
 {
 private:
 protected:
-    virtual const char *getOpcode() const override
-        { return "square"; }
 public:
     arrayDeclarator(TreePtr _declarator, TreePtr _content)
         :directDeclarator("0", _declarator, _content)

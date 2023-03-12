@@ -53,7 +53,7 @@ public:
         std::string id = declarator->getId();
 
         context.functions[id] = {};
-        
+        dst<<id<<":"<<std::endl;
         dst<<"addi sp, sp, "<<size<<std::endl;
         dst<<"sw ra, sp"<<std::endl;
         

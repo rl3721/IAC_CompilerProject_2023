@@ -37,6 +37,9 @@ CHECKED=0
 if [[ -f test/valid_expressions.got.txt ]]; then
     rm test/valid_expressions.got.txt
 fi
+rm test/error.log
+rm test/output.log
+rm test/ast.log
 
 INPUT_FILE="test/input.cpp"
 INPUT=$(cat "$INPUT_FILE")
