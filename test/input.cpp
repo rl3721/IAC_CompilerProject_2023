@@ -1,7 +1,7 @@
-int a;
-int b;
-int c = 1;
-int d = 2, e = 3;
+int c;
+int d;
+int ac = 1;
+int d = 2, e = 1111;
 int f = d;
 int g = a;
 int a = 3;

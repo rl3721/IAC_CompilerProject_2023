@@ -1,11 +1,11 @@
-declaration: (int a)
-declaration: (int b)
-declaration: (int initialize: c = 1
+declaration: (int c)
+declaration: (int d)
+declaration: (int initialize: ac = 1
 
 )
 declaration: (int initialize: d = 2
 
-initialize: e = 3
+initialize: e = 1111
 
 )
 declaration: (int initialize: f = d
