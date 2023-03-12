@@ -88,7 +88,7 @@ ROOT
 	:translation_unit {g_root = new translationUnit($1);}
 	//|IDENTIFIER  {g_root = new helloWorld();}
 	//|expression  {g_root = $1;}
-	//|direct_declarator  {g_root = $1;}
+	//parameter_list {g_root = new translationUnit($1);}
 	//|HELLO_WORLD {g_root = new helloWorld();}
 	;
 
@@ -289,7 +289,7 @@ parameter_type_list//actually just equivalent to parameter_list
 	| parameter_list ',' ELLIPSIS	{std::cerr<<"ellipsed parameters not assessed"<<std::endl; exit(1);}
 	;
 parameter_list
-	: parameter_declaration						{initList($1);}
+	: parameter_declaration						{$$ = initList($1);}
 	| parameter_list ',' parameter_declaration	{$$ = concatList($1, $3);}
 	;
 argument_expression_list

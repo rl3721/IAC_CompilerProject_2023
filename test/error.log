@@ -1,6 +1,18 @@
+global variable x of size 4 declared and initialized
 declaring function a
-function a declared with no paramters
+creating params
+parameter param_a of size 4 declared for function a
+parameter param_b of size 4 declared for function a
+function a declared with total parameter size 8
 new scope created for function a
+local variable local_a of size 4
+ declared
+local variable local_b of size 4
+ declared and initialized
+local variable a of size 4
+ declared and initialized
+local variable x of size 4
+ declared and initialized
 local variable b of size 4
  declared and initialized
 scope closed for function a

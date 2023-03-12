@@ -50,6 +50,7 @@ public:
         return declaration_specifiers->getSize()*listSize;
     }
     std::string getId() const override{
+        return List->at(0)->getId(); //only returning the id of the first one. used for parameter. Can be buggy for later. Consider seperating
     }
 
     void compile(std::ostream &dst, Context &context, Reg destReg) const override{

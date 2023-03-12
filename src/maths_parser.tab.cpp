@@ -1905,7 +1905,7 @@ yyreduce:
 
   case 102: /* parameter_list: parameter_declaration  */
 #line 292 "src/maths_parser.y"
-                                                                        {initList((yyvsp[0].tree));}
+                                                                        {(yyval.list) = initList((yyvsp[0].tree));}
 #line 1910 "src/maths_parser.tab.cpp"
     break;
 

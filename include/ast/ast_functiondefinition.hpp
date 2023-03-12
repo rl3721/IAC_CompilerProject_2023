@@ -100,18 +100,23 @@ public:
         unsigned int size=0;
         Scope newScope;
         newScope.startLabel = getId();
+        std::string functionId = getId();
         if (list != NULL){
             std::cerr<<"creating params"<<std::endl;
-            // for(int i=0; i<list->size();i++){
-            //     parameterSize = list->at(i)->getSize();
-            //     context.functions[getId()].paramter_size.push_back(parameterSize);
-            //     size += parameterSize;
-            //     newScope.varBindings[list->at(i)->getId()] = {parameterSize,newScope.offset};
-            //     newScope.offset -= parameterSize;
-            //     std::cerr<<"parameter "<<list->at(i)->getId()<<" of size "<<parameterSize<<" declared for function "<<getId()<<std::endl;
-            // }
-            // context.functions[getId()].size = size;
-            // std::cerr<<"function "<<getId()<<" declared with total parameter size "<<size<<std::endl;
+            std::string parameterId;
+            for(int i=0; i<list->size();i++){
+
+                 parameterSize = list->at(i)->getSize();
+                 parameterId = list->at(i)->getId(); //temporary solution for getting Id for paramter as using declaration in parser. Consider seperating it later on. 
+
+                  context.functions[functionId].paramter_size.push_back(parameterSize);
+                  size += parameterSize;
+                  newScope.varBindings[parameterId] = {parameterSize,newScope.offset};
+                  newScope.offset -= parameterSize;
+                  std::cerr<<"parameter "<<parameterId<<" of size "<<parameterSize<<" declared for function "<<functionId<<std::endl;
+             }
+             context.functions[functionId].size = size;
+             std::cerr<<"function "<<getId()<<" declared with total parameter size "<<size<<std::endl;
         }
         else{
             std::cerr<<"function "<<getId()<<" declared with no paramters"<<std::endl;
