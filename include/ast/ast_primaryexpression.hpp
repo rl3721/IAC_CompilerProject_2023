@@ -54,11 +54,35 @@ public:
     unsigned int getSize()const override{
         return 1;
     }
-    void compile(std::ostream &dst, Context &context, Reg destReg)const override{
-        
-    }
+    
     void print(std::ostream &dst)const override{
         dst<<id<<std::endl;
+    }
+    void compile(std::ostream &dst, Context &context, Reg destReg)const override{
+        if(context.stack.size() == 0){//if in global scope
+            if(context.global.varBindings.find(id) == context.global.varBindings.end()){
+                    std::cerr<<" Error: variable "<<id<<" not declared in global";
+                    exit(1);
+                }
+                else{
+                    dst<<"lw x"<<destReg<<", "<<context.global.varBindings[id].offset<<"(gp)"<<std::endl;
+                }
+        }
+        else{
+            //if in local scope
+            if(context.stack.back().varBindings.find(id) == context.stack.back().varBindings.end()){
+                if(context.global.varBindings.find(id) == context.global.varBindings.end()){
+                    std::cerr<<" Error: variable "<<id<<" not declared in scope";
+                    exit(1);
+                }
+                else{
+                    dst<<"lw x"<<destReg<<", "<<context.global.varBindings[id].offset<<"(gp)"<<std::endl;
+                }
+            }
+            else{
+                dst<<"lw x"<<destReg<<", "<<context.stack.back().varBindings[id].offset<<"(sp)"<<std::endl;
+            }
+        }
     }
 };
 
@@ -80,7 +104,7 @@ public:
         return 4;
     }
     void compile(std::ostream &dst, Context &context, Reg destReg)const override{
-        dst<<"addi "<<destReg<<", zero, "<<val<<std::endl;
+        dst<<"addi x"<<destReg<<", zero, "<<val<<std::endl;
     }
     void print(std::ostream &dst)const override{
         dst<<val<<std::endl;

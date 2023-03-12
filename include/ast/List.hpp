@@ -20,42 +20,37 @@ inline ListPtr concatList(ListPtr _ListPtr, TreePtr _TreePtr){
     return _ListPtr;
 }
 
-/*class List
+class translationUnit
     : public Tree
 {
 private:
     
 protected:
-    TreePtr left;
-    TreePtr right;
+    ListPtr list;
 public:
 
-    List(TreePtr _left, TreePtr _right)
-        :left(_left),
-        right(_right)
+    translationUnit(ListPtr _list)
+        :list(_list)
     {}
-    virtual ~List()
-    {delete left;
-    delete right;}
+    virtual ~translationUnit()
+    {}
 
     //virtual const char *getOpcode() const =0;
-    virtual int getSize(){
-        return left->getSize() + right->getSize();
-    }
+    virtual unsigned int getSize()const override{}
+    virtual std::string getId()const override{}
     virtual void print(std::ostream &dst) const override
     {
-        left->print(dst);
-        dst <<" ";
-        right->print(dst);
+        for (int i=0;i<list->size();i++){
+            list->at(i)->print(dst);
+        }
     }
 
     void compile(std::ostream &dst, Context &context, Reg destReg) const override{
-        left->compile(dst,context,destReg);
-        right->compile(dst,context,destReg);
+        for (int i=0;i<list->size();i++){
+            list->at(i)->compile(dst,context,destReg);
+        }
     }
-
-    
-};*/
+};
 
 #endif
 

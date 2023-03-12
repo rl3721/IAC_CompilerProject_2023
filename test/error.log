@@ -1,2 +1,10 @@
-global variable x of size 4 declared and initialized
-global variable y of size 4 declared and initialized
+global variable a of size 4 declared
+global variable b of size 4 declared
+global variable c of size 4 declared and initialized
+global variable d of size 4 declared and initialized
+global variable e of size 4 declared and initialized
+global variable f of size 4 declared and initialized
+global variable g of size 4 declared and initialized
+warning: multiple declaration of the variable a in global scope declared and initialized
+global variable h of size 4 declared and initialized
+global variable k of size 4 declared Error: variable t not declared in global

@@ -1,5 +1,25 @@
-declaration: (int initialize: x = 1
+declaration: (int a)
+declaration: (int b)
+declaration: (int initialize: c = 1
 
-initialize: y = x
+)
+declaration: (int initialize: d = 2
+
+initialize: e = 3
+
+)
+declaration: (int initialize: f = d
+
+)
+declaration: (int initialize: g = a
+
+)
+declaration: (int initialize: a = 3
+
+)
+declaration: (int initialize: h = a
+
+)
+declaration: (int initialize: k = t
 
 )

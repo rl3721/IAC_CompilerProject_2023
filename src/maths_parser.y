@@ -60,7 +60,7 @@
 %type <tree> statement
 %type <tree> labeled_statement compound_statement jump_statement
 %type <tree> expression_statement selection_statement iteration_statement 
-%type <tree> declaration_or_statement declaration_or_statement_list
+%type <tree> declaration_or_statement 
 
 //expressions
 %type <tree> primary_expression postfix_expression unary_expression 
@@ -68,14 +68,14 @@
 %type <tree> shift_expression relational_expression equality_expression
 %type <tree> and_expression exclusive_or_expression inclusive_or_expression 
 %type <tree> logical_and_expression logical_or_expression conditional_expression
-%type <tree> assignment_expression expression constant_expression
+%type <tree> assignment_expression expression constant_expression 
 
 //list
 %type <list> translation_unit //list of external_declaration
 %type <list> argument_expression_list init_declarator_list struct_declaration_list 
 %type <list> specifier_qualifier_list struct_declarator_list enumerator_list
-%type <list>  parameter_type_list identifier_list parameter_list
-%type <list> initializer_list
+%type <list>  parameter_type_list identifier_list parameter_list 
+%type <list> initializer_list declaration_or_statement_list
 //%type <tree> declaration_list statement_list
 
 //operator
@@ -85,10 +85,10 @@
 %%
 
 ROOT
-	://translation_unit {g_root = $1;}
+	:translation_unit {g_root = new translationUnit($1);}
 	//|IDENTIFIER  {g_root = new helloWorld();}
 	//|expression  {g_root = $1;}
-	|declaration  {g_root = $1;}
+	//|declaration  {g_root = $1;}
 	//|HELLO_WORLD {g_root = new helloWorld();}
 	;
 
