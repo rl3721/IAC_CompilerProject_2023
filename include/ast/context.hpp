@@ -74,8 +74,12 @@ struct function{ //I am just going to assume that the
 struct Scope{
     std::map<std::string, variable> varBindings; //track the available variables in scope
     int offset = -4; //tracks the next available word from sp. the sp itself is used store ra.
-    std::string startLabel; //used for continue
-    std::string endLabel; //used for break
+
+    //labels initialised to undefined, as they are only used in loops
+    //define them when entering loop
+    //if called when undefined, then error
+    std::string startLabel = "undefined"; //used for continue
+    std::string endLabel = "undefined"; //used for break
 };
 
 struct Context{
