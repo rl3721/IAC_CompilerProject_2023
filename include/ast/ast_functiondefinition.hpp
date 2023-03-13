@@ -106,25 +106,22 @@ public:
         std::string functionId = getId();
 
         if (list != NULL){
-            std::cerr<<"creating params"<<std::endl;
+            
             std::string parameterId;
             unsigned int parameterSize;
             for(int i=0; i<list->size();i++){
-
+                
                 parameterId = list->at(i)->getId(); //temporary solution for getting Id for paramter as using declaration in parser. Consider seperating it later on. 
-
                 context.functions[functionId].paramter_offset.push_back(parameterOffset);
 
                 parameterSize = list->at(i)->getSize(context);
-                newScope.varBindings[parameterId] = {parameterSize,newScope.offset};
-                
-                parameterOffset -= parameterSize;
-                newScope.offset = parameterOffset;
+                newScope.varBindings[parameterId] = {parameterSize,parameterOffset};
                   
                 size += parameterSize;
                 
-                  
-                 std::cerr<<"parameter "<<parameterId<<" of size "<<parameterSize<<" declared for function "<<functionId<<std::endl;
+                std::cerr<<"parameter "<<parameterId<<" of size "<<parameterSize<<" declared for function "<<functionId<<" with offset "<<parameterOffset<<std::endl;
+                parameterOffset -= parameterSize;
+                newScope.offset = parameterOffset;
              }
              context.functions[functionId].size = size;
              std::cerr<<"function "<<getId()<<" declared with total parameter size "<<size<<std::endl;

@@ -51,6 +51,31 @@ public:
         }
         else{
             std::cerr<<"calling function "<<id<<std::endl;
+
+            if(arguments == NULL){
+                std::cerr<<"no arguments loaded"<<std::endl;
+            }
+            else{//loading in arguments to memory
+                std::cerr<<"loading total of "<<arguments->size()<<" arguments"<<std::endl;
+                for (int i = 0; i<arguments->size();i++){
+                    std::cerr<<"loading arguments"<<std::endl;
+                    if (i<7){
+                        destReg = i + 10; //a0-a7 = x10-x17
+                        arguments->at(i)->compile(dst,context,destReg);
+                    }
+                    else{
+                        destReg = 17;
+                        arguments->at(i)->compile(dst,context,destReg); //process all the rest of arguments through a7
+                    }
+                    if (context.stack.size() == 0){
+                        dst<<"sw x"<<destReg<<", "<<context.functions[id].paramter_offset[i]<<"(sp)"<<std::endl;
+                    }
+                    else{
+                        dst<<"sw x"<<destReg<<", "<<context.functions[id].paramter_offset[i]+context.stack.back().offset<<"(sp)"<<std::endl;
+                    }
+                }
+            }
+
             context.pushStack(dst); //this changes the p and stores ra.
 
             //really this should happen in function definition and not function call. 
@@ -64,25 +89,7 @@ public:
             //However I am lazy to implement finding the size of the body of a function
             //and I do not think we will have to worry about overflowing memory
             //so this is what i will do.
-            if(arguments ==NULL){
-                std::cerr<<"no arguments loaded"<<std::endl;
-            }
-            else{//loading in arguments to memory
-                std::cerr<<"loading arguments"<<std::endl;
-                for (int i = 0; i<arguments->size();i++){
-                    if (i<7){
-                        destReg = i + 10; //a0-a7 = x10-x17
-                        
-                        //arguments->at(i)->compile(dst,context,destReg);
-                        
-                        dst<<"sw x"<<destReg<<", "<<context.functions[id].paramter_offset[i]<<"(sp)"<<std::endl;
-                    }
-                    else{
-                        arguments->at(i)->compile(dst,context,17); //process all the rest of arguments through a7
-                        dst<<"sw x"<<17<<", "<<context.functions[id].paramter_offset[i]<<"(sp)"<<std::endl;
-                    }
-                }
-            }
+            
             dst<<"call "<<id<<std::endl;
             dst<<"nop"<<std::endl;
             context.popStack(dst);

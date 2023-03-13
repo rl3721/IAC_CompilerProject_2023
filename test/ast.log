@@ -1,4 +1,6 @@
-function definition:int number{declaration: (int initialize: x = 1
+function definition:int numberdeclaration: (int a)
+declaration: (int b)
+{declaration: (int initialize: x = 2
 
 )
 }function definition:int main{declaration: (int initialize: a = 1
@@ -6,4 +8,11 @@ function definition:int number{declaration: (int initialize: x = 1
 )
 functionCall: number
  ()
+declaration: (int initialize: b = 1
+
+)
+declaration: (int initialize: c = functionCall: number
+ ()
+
+)
 }

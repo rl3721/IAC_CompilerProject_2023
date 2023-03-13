@@ -1917,7 +1917,7 @@ yyreduce:
 
   case 104: /* argument_expression_list: assignment_expression  */
 #line 296 "src/maths_parser.y"
-                                                                                                {initList((yyvsp[0].tree));}
+                                                                                                {(yyval.list) = initList((yyvsp[0].tree));}
 #line 1922 "src/maths_parser.tab.cpp"
     break;
 

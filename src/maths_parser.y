@@ -293,7 +293,7 @@ parameter_list
 	| parameter_list ',' parameter_declaration	{$$ = concatList($1, $3);}
 	;
 argument_expression_list
-	: assignment_expression									{initList($1);}
+	: assignment_expression									{$$ = initList($1);}
 	| argument_expression_list ',' assignment_expression	{$$ = concatList($1, $3);}
 	;
 
