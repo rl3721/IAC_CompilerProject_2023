@@ -17,7 +17,7 @@ class Tree //The most basic tree, the root for everything
 {
 public:
     //destructor
-    virtual ~Tree() {};
+    virtual ~Tree(){};
 
     //! Tell and expression to print itself to the given stream //used fo debugging
     virtual void print(std::ostream &dst) const =0;

@@ -51,10 +51,10 @@ public:
     virtual void compile(std::ostream &dst, Context &context, int destReg) const override{
 
         std::string id = getId();
-        std::vector<int> paramterSize;
+        std::vector<int> paramterOffset;
         unsigned int totalSize = 0;
         std::cerr<<"declaring function "<<id<<std::endl;
-        context.functions[id] = {totalSize,paramterSize}; //adding barebone of function definition to context
+        context.functions[id] = {totalSize,paramterOffset}; //adding barebone of function definition to context
         
         declarator->compile(dst,context,destReg); //this would fill in the context declaration, 
         //the declarator should be only functionDeclarator
@@ -83,6 +83,10 @@ public:
         :declarator(_declarator),
         list(_list)
     {}
+    ~functionDeclarator(){
+        delete declarator;
+        delete list;
+    }
     void print(std::ostream &dst)const override{
         dst<<getId();
         if (list!=NULL){

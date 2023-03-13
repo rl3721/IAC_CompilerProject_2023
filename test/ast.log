@@ -1,14 +1,13 @@
 function definition:int numberdeclaration: (int a)
 declaration: (int b)
-{declaration: (int initialize: x = 2
-
-)
+{RETURN (a
+ + b
+) 
 }function definition:int main{declaration: (int initialize: a = 1
 
 )
-functionCall: number
+declaration: (int initialize: b = functionCall: number
  ()
-declaration: (int initialize: b = 1
 
 )
 declaration: (int initialize: c = functionCall: number

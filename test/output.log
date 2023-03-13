@@ -1,23 +1,25 @@
 addi sp, zero, ffff0000
 number:
-addi x5, zero, 2
-sw x5, sp(-12)
+lw x10, -4(sp)
+lw x6, -8(sp)
+add x10, x10, x6
+ret
 ret
 nop
 main:
 addi x5, zero, 1
 sw x5, sp(-4)
 lw x10, -4(sp)
-sw x10, -12(sp)
+sw x10, -16(sp)
 lw x11, -4(sp)
-sw x11, -16(sp)
-addi sp, sp, -8
+sw x11, -20(sp)
+addi sp, sp, -12
 sw ra (sp)
 call number
 nop
 lw ra (sp)
-addi sp, sp, 8
-addi x5, zero, 1
+addi sp, sp, 12
+add x5, a0, zero
 sw x5, sp(-8)
 lw x10, -8(sp)
 sw x10, -20(sp)
@@ -29,6 +31,7 @@ call number
 nop
 lw ra (sp)
 addi sp, sp, 16
+add x5, a0, zero
 sw x5, sp(-12)
 ret
 nop

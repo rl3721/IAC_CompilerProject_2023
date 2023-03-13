@@ -1,10 +1,10 @@
 int number(int a, int b){
-    int x = 2;
+    return a + b;
 }
 
 int main(){
     int a = 1;
-    number(a,a);
-    int b = 1;
+    int b = number(a,a);
+    //int b = 1;
     int c = number(b,b);
 }

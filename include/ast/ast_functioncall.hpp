@@ -57,21 +57,22 @@ public:
             }
             else{//loading in arguments to memory
                 std::cerr<<"loading total of "<<arguments->size()<<" arguments"<<std::endl;
+                int argReg = 0;
                 for (int i = 0; i<arguments->size();i++){
                     std::cerr<<"loading arguments"<<std::endl;
                     if (i<7){
-                        destReg = i + 10; //a0-a7 = x10-x17
-                        arguments->at(i)->compile(dst,context,destReg);
+                        argReg = i + 10; //a0-a7 = x10-x17
+                        arguments->at(i)->compile(dst,context,argReg);
                     }
                     else{
-                        destReg = 17;
-                        arguments->at(i)->compile(dst,context,destReg); //process all the rest of arguments through a7
+                        argReg = 17;
+                        arguments->at(i)->compile(dst,context,argReg); //process all the rest of arguments through a7
                     }
                     if (context.stack.size() == 0){
-                        dst<<"sw x"<<destReg<<", "<<context.functions[id].paramter_offset[i]<<"(sp)"<<std::endl;
+                        dst<<"sw x"<<argReg<<", "<<context.functions[id].paramter_offset[i]<<"(sp)"<<std::endl;
                     }
                     else{
-                        dst<<"sw x"<<destReg<<", "<<context.functions[id].paramter_offset[i]+context.stack.back().offset<<"(sp)"<<std::endl;
+                        dst<<"sw x"<<argReg<<", "<<context.functions[id].paramter_offset[i]+context.stack.back().offset<<"(sp)"<<std::endl;
                     }
                 }
             }
@@ -93,6 +94,7 @@ public:
             dst<<"call "<<id<<std::endl;
             dst<<"nop"<<std::endl;
             context.popStack(dst);
+            dst<<"add x"<<destReg<<", a0, zero"<<std::endl; //move the result from a0 the return register to the destination register
         }
        
     }

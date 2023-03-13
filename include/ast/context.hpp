@@ -87,6 +87,7 @@ struct Context{
     Scope global; 
     std::map<std::string, function> functions;
     registers RegisterFile;
+    std::map<std::string, int> ExistedLabel;
 
     void pushStack(std::ostream &dst){ //used when entering function
         if (stack.size()==0){//calling function in global
@@ -107,11 +108,25 @@ struct Context{
         }
 
     }
-    void enterScope(){//used when entering loops or ifs
-        stack.push_back(stack.back());
+    void enterScope(){//used when entering loops
+        stack.push_back(stack.back()); //this does not change the labels, so for ifs, the continue and break labels will be the same
+        //when entering iterations, make sure to change labels seperately
     }
-    void exitScope(){//used when exiting loops or ifs
+    void exitScope(){//used when exiting loops
         stack.pop_back();
+    }
+    std::string makeupLabel(std::string id){
+        // std::vector<Label> ExistedLabel;
+        if (ExistedLabel.find(id) != ExistedLabel.end()){        //if the id label already exist
+            int index = ExistedLabel[id];   
+            std::cerr<<"make up "<<id<< " label_"<<index<<std::endl;                     //get the index of that id
+            return "_"+id+"_"+"Label"+"_"+std::to_string(index+1); //returen label
+        }
+        else{                                            //if the id label does not exist
+            ExistedLabel[id] = 0;  
+            std::cerr<<"make up new "<<id<< " label_0"<<std::endl;                      //insert that label into ExistedLabel
+            return "_"+id+"_"+"Label"+"_0";              //return label
+        }
     }
 
 };

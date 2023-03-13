@@ -4,8 +4,7 @@ parameter b of size 4 declared for function number with offset -8
 function number declared with total parameter size 8
 new scope created for function number
 entering subscope
-local variable x of size 4
- declared and initialized
+returning
 exiting subscope
 scope closed for function number
 declaring function main
@@ -14,12 +13,12 @@ new scope created for function main
 entering subscope
 local variable a of size 4
  declared and initialized
-calling function number
+local variable b of size 4
+ declaredcalling function number
 loading total of 2 arguments
 loading arguments
 loading arguments
-local variable b of size 4
- declared and initialized
+ and initialized
 local variable c of size 4
  declaredcalling function number
 loading total of 2 arguments
