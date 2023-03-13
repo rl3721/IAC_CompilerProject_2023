@@ -1,7 +1,5 @@
 declaring function number
-creating params
-parameter a of size 4 declared for function number
-function number declared with total parameter size 4
+function number declared with no paramters
 new scope created for function number
 entering subscope
 local variable x of size 4
@@ -15,4 +13,6 @@ entering subscope
 local variable a of size 4
  declared and initialized
 calling function number
-loading arguments
+no arguments loaded
+exiting subscope
+scope closed for function main

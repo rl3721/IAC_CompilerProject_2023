@@ -1,7 +1,7 @@
 addi sp, zero, ffff0000
 number:
 addi x5, zero, 1
-sw x5, sp(-8)
+sw x5, sp(-4)
 ret
 nop
 main:
@@ -9,11 +9,9 @@ addi x5, zero, 1
 sw x5, sp(-4)
 addi sp, sp, -8
 sw ra (sp)
-sw x10, -4(sp)
-sw x11, 32652(sp)
-sw x12, 1238605024(sp)
-sw x13, 32652(sp)
-sw x14, 0(sp)
-sw x15, 0(sp)
-sw x16, 81(sp)
-sw x17, 0(sp)
+call number
+nop
+lw ra (sp)
+addi sp, sp, 8
+ret
+nop

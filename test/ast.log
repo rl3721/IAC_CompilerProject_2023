@@ -1,5 +1,4 @@
-function definition:int numberdeclaration: (int a)
-{declaration: (int initialize: x = 1
+function definition:int number{declaration: (int initialize: x = 1
 
 )
 }function definition:int main{declaration: (int initialize: a = 1

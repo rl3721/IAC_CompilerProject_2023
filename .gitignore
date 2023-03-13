@@ -1,4 +1,5 @@
 /bin
 /src/*.yy.cpp
 /src/*.tab.hpp
+/src/*.o
 /test
