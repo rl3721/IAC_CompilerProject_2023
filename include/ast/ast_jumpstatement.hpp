@@ -6,6 +6,32 @@
 #include <cmath>
 #include <string>
 
+class returnStatement //a0 aka x10 will be used as the result register, will worry about 
+//more registers later. we don't need to care about long and I think double will probably use
+//float registers, so let's only worry about a0 for now. 
+    : public Tree
+{
+private:
+protected:
+public:
+    TreePtr expression;
+    returnStatement(TreePtr _expression)
+        :expression( _expression)
+    {}
+    ~returnStatement(){
+        delete expression;
+    }
+    
+    unsigned int getSize(Context &context)const override{
+        std::cerr<<"Error: getting size of return statement";
+        exit(1);
+    }
+    std::string getId()const override{
+        std::cerr<<"Error: getting id of return statement";
+        exit(1);
+    }
+    void 
+};
 
 class jumpStatement
     : public Tree
@@ -64,18 +90,7 @@ public:
         :jumpStatement("BREAK", NULL)
     {}
 };
-class returnJumpStatement
-    : public jumpStatement
-{
-private:
-protected:
-    virtual const std::string getOpcode() const override
-        { return "RETURN"; }
-public:
-    returnJumpStatement(TreePtr _expression)
-        :jumpStatement("RETURN", _expression)
-    {}
-};
+
 
 
 

@@ -343,8 +343,8 @@ jump_statement
 	: GOTO IDENTIFIER ';'	//{std::cerr<<"goto not assessed"; exit(1);}
 	| CONTINUE ';'			//{$$ = new continueJumpStatement();}
 	| BREAK ';'				//{$$ = new breakJumpStatement();}
-	| RETURN ';'			//{$$ = new returnJumpStatement(NULL);}
-	| RETURN expression ';'	//{$$ = new returnJumpStatement($2);}
+	| RETURN ';'			//{$$ = new returnStatement(NULL);}
+	| RETURN expression ';'	//{$$ = new returnStatement($2);}
 	;
 
 compound_statement
