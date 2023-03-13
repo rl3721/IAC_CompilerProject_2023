@@ -21,7 +21,7 @@ public:
     virtual ~compoundStatement()
     {delete list;
     }
-    unsigned int getSize()const override{
+    unsigned int getSize(Context &context)const override{
         std::cerr<<"Error: getting size of statement";
         //exit(1);
     }
@@ -39,12 +39,15 @@ public:
         }
     }
     virtual void compile(std::ostream &dst, Context &context, Reg destReg) const override{
+        std::cerr<<"entering subscope"<<std::endl;
+        context.enterScope();
         if (list != NULL){
             for(int i=0; i<list->size();i++){
                 list->at(i)->compile(dst,context,destReg);
             }
         }
-
+        context.exitScope();
+        std::cerr<<"exiting subscope"<<std::endl;
     }
 };
 

@@ -2,12 +2,16 @@ addi sp, zero, ffff0000
 addi x8, zero, 1
 sw x8, gp(-4)
 a:
-lw x8, -4(sp)
-sw x8, sp(-16)
-lw x8, -4(gp)
-sw x8, sp(-20)
-addi x8, zero, 2
-sw x8, sp(-24)
-lw x8, -24(sp)
-sw x8, sp(-28)
+addi x8, zero, 1
+sw x8, sp(-4)
 ret
+nop
+main:
+addi sp, sp, -12
+sw ra (sp)
+call a
+nop
+lw ra (sp)
+addi sp, sp, 12
+ret
+nop

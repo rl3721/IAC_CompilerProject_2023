@@ -7,36 +7,6 @@
 #include <string>
 
 
-class primaryExpression
-    : public Tree
-{
-private:
-    
-protected:
-    std::string sval;
-    double dval;
-
-    primaryExpression(std::string _sval, double _dval)
-        :sval(_sval),
-        dval(_dval)
-    {}
-public:
-    virtual ~primaryExpression()
-    {}
-
-    virtual const std::string getOpcode() const =0;
-
-    virtual void print(std::ostream &dst) const override
-    {
-        if (getOpcode() == "identifier"){
-            dst<<sval<<" ";
-        }
-        else{
-            dst<<dval<<" ";
-        }
-    }
-};
-
 class identifier
     : public Tree
 {
@@ -51,8 +21,31 @@ public:
     std::string getId()const override{
         return id;
     }
-    unsigned int getSize()const override{
-        return 1;
+    unsigned int getSize(Context &context)const override{
+        if(context.stack.size() == 0){//if in global scope
+            if(context.global.varBindings.find(id) == context.global.varBindings.end()){
+                    std::cerr<<" Error: getting size of variable "<<id<<" not declared in global";
+                    exit(1);
+                }
+                else{
+                    return context.global.varBindings[id].size;
+                }
+        }
+        else{
+            //if in local scope
+            if(context.stack.back().varBindings.find(id) == context.stack.back().varBindings.end()){
+                if(context.global.varBindings.find(id) == context.global.varBindings.end()){
+                    std::cerr<<" Error: getting size of variable "<<id<<" not declared in local scope";
+                    exit(1);
+                }
+                else{
+                    return context.global.varBindings[id].size;
+                }
+            }
+            else{
+                return context.stack.back().varBindings[id].size;
+            }
+        }
     }
     
     void print(std::ostream &dst)const override{
@@ -98,9 +91,10 @@ public:
         :val(_val)
     {}
     std::string getId()const override{
-        return "";
+        std::cerr<<"Error: Getting Id, of int immediate";
+        exit(1);
     }
-    unsigned int getSize()const override{
+    unsigned int getSize(Context &context)const override{
         return 4;
     }
     void compile(std::ostream &dst, Context &context, Reg destReg)const override{

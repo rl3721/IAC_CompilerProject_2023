@@ -377,7 +377,7 @@ primary_expression
 postfix_expression 
 	: primary_expression									{$$ = $1;}
 	| postfix_expression '[' expression ']'//todo array indexing
-	| postfix_expression '(' ')'							//{$$ = new functionCall($1, NULL);}
+	| postfix_expression '(' ')'							{$$ = new functionCall($1, NULL);}
 	| postfix_expression '(' argument_expression_list ')'	//{$$ = new functionCall($1, $3);}
 	| postfix_expression '.' IDENTIFIER
 	| postfix_expression PTR_OP IDENTIFIER

@@ -36,7 +36,7 @@ public:
         }
     }
 
-    virtual unsigned int getSize() const override{
+    virtual unsigned int getSize(Context &context) const override{
         switch(type){
             case _int:
                 return 4;

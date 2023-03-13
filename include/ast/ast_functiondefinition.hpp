@@ -40,8 +40,9 @@ public:
         dst<<"}";
     }
 
-    unsigned int getSize() const override{
-        return declaration_specifiers->getSize()+ declarator->getSize()+compound_statement->getSize(); 
+    unsigned int getSize(Context &context) const override{
+        std::cerr<<"Error: trying to get Size of function while declaring";
+        exit(1);
     }
     std::string getId() const override{
         return declarator->getId();
@@ -63,6 +64,7 @@ public:
         compound_statement->compile(dst,context,destReg);   
 
         dst<<"ret"<<std::endl;
+        dst<<"nop"<<std::endl;
         context.stack.pop_back();
         std::cerr<<"scope closed for function "<<id<<std::endl;     
     }
@@ -89,14 +91,15 @@ public:
             }
         }
     }
-    unsigned int getSize()const override{
-        return 1;
+    unsigned int getSize(Context &context)const override{
+        std::cerr<<"Warning: trying to get size of function declarator, unexpected behavior may occur"<<std::endl;
+        return 1;//default for declarator
     }
     std::string getId()const override{
         return declarator->getId();
     }
     void compile(std::ostream &dst, Context &context, Reg destReg) const override{
-        unsigned int parameterSize=0;
+        int parameterOffset=-4; //initialize offset to be away from sp
         unsigned int size=0;
         Scope newScope;
         newScope.startLabel = getId();
@@ -106,10 +109,10 @@ public:
             std::string parameterId;
             for(int i=0; i<list->size();i++){
 
-                 parameterSize = list->at(i)->getSize();
+                 parameterSize -= list->at(i)->getSize(context);
                  parameterId = list->at(i)->getId(); //temporary solution for getting Id for paramter as using declaration in parser. Consider seperating it later on. 
 
-                  context.functions[functionId].paramter_size.push_back(parameterSize);
+                  context.functions[functionId].paramter_offset.push_back(parameterSize);
                   size += parameterSize;
                   newScope.varBindings[parameterId] = {parameterSize,newScope.offset};
                   newScope.offset -= parameterSize;

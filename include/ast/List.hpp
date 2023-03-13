@@ -36,8 +36,14 @@ public:
     {}
 
     //virtual const char *getOpcode() const =0;
-    virtual unsigned int getSize()const override{}
-    virtual std::string getId()const override{}
+    virtual unsigned int getSize(Context &context)const override{
+        std::cerr<<"Error: getting size of translation unit";
+        exit(1);
+    }
+    virtual std::string getId()const override{
+        std::cerr<<"Error: getting id of translation unit";
+        exit(1);
+    }
     virtual void print(std::ostream &dst) const override
     {
         for (int i=0;i<list->size();i++){

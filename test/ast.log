@@ -1,19 +1,11 @@
 declaration: (int initialize: x = 1
 
 )
-function definition:int adeclaration: (int param_a)
-declaration: (int param_b)
-{declaration: (int local_a)
-declaration: (int initialize: local_b = param_a
+function definition:int a{declaration: (int initialize: local_a = 1
 
 )
-declaration: (int initialize: a = x
-
-)
-declaration: (int initialize: x = 2
-
-)
-declaration: (int initialize: b = x
-
-)
+}function definition:int main{declaration: (int b)
+declaration: (int c)
+functionCall: a
+ ()
 }

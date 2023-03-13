@@ -42,12 +42,12 @@ public:
     //     return false;//this declaration is always for variable, enum, struct... not functions!
     // }
 
-    unsigned int getSize() const override{
+    unsigned int getSize(Context &context) const override{
         int listSize = 0;
         for (int i = 0; i< List->size();i++){
-            listSize += List->at(i)->getSize();
+            listSize += List->at(i)->getSize(context);
         }
-        return declaration_specifiers->getSize()*listSize;
+        return declaration_specifiers->getSize(context)*listSize;
     }
     std::string getId() const override{
         return List->at(0)->getId(); //only returning the id of the first one. used for parameter. Can be buggy for later. Consider seperating
@@ -59,7 +59,7 @@ public:
 
         for(int i = 0; i < List->size(); i++){//do each of them declaration
             id = List->at(i)->getId();
-            size = List->at(i)->getSize()*declaration_specifiers->getSize();
+            size = List->at(i)->getSize(context)*declaration_specifiers->getSize(context);
             
             //adding declared variable to scope, giving it the required memory size in stack
             if (context.stack.size() == 0){ //no stack meaning declaring variable in global
@@ -124,8 +124,8 @@ public:
         dst<<"\n";
     }
 
-    unsigned int getSize()const override{
-        return declarator->getSize();
+    unsigned int getSize(Context &context)const override{
+        return declarator->getSize(context);
     }
     std::string getId() const override{
         return declarator->getId();

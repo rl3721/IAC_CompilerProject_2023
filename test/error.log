@@ -1,18 +1,21 @@
 global variable x of size 4 declared and initialized
 declaring function a
-creating params
-parameter param_a of size 4 declared for function a
-parameter param_b of size 4 declared for function a
-function a declared with total parameter size 8
+function a declared with no paramters
 new scope created for function a
+entering subscope
 local variable local_a of size 4
- declared
-local variable local_b of size 4
  declared and initialized
-local variable a of size 4
- declared and initialized
-local variable x of size 4
- declared and initialized
-local variable b of size 4
- declared and initialized
+exiting subscope
 scope closed for function a
+
+declaring function main
+function main declared with no paramters
+new scope created for function main
+entering subscope
+local variable b of size 4
+ declared
+local variable c of size 4
+ declared
+calling function a
+exiting subscope
+scope closed for function main

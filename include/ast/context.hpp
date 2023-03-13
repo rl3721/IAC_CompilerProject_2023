@@ -67,7 +67,7 @@ struct variable{
 };
 struct function{ //I am just going to assume that the 
     unsigned int size; 
-    std::vector<unsigned int> paramter_size;
+    std::vector<int> paramter_offset;
 };
 struct Scope{
     std::map<std::string, variable> varBindings; //track the available variables in scope
@@ -86,21 +86,29 @@ struct Context{
     std::map<std::string, function> functions;
 
     void pushStack(std::ostream &dst){ //used when entering function
-        if (stack.size()==0){
-
+        if (stack.size()==0){//calling function in global
+            dst<<"addi sp, sp, "<<0; 
         }
         else{
-
+            dst<<"addi sp, sp, "<<stack.back().offset<<std::endl; 
         }
+        dst<<"sw ra (sp)"<<std::endl;
     }
     void popStack(std::ostream &dst){ //used when exiting function
+        dst<<"lw ra (sp)"<<std::endl;
+        if (stack.size()==0){//calling function in global
+            dst<<"addi sp, sp, "<<0; 
+        }
+        else{
+            dst<<"addi sp, sp, "<<-(stack.back().offset)<<std::endl; 
+        }
 
     }
     void enterScope(){//used when entering loops or ifs
-
+        stack.push_back(stack.back());
     }
     void exitScope(){//used when exiting loops or ifs
-
+        stack.pop_back();
     }
 
 };
