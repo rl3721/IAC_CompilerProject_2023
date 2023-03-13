@@ -43,7 +43,7 @@ public:
     }
    
 
-    void compile(std::ostream &dst, Context &context, Reg destReg) const override{
+    void compile(std::ostream &dst, Context &context, int destReg) const override{
         std::string id = getId();
         if(context.functions.find(id) == context.functions.end()){
             std::cerr<<"Error: calling of function "<<id<<" but undeclared";
@@ -65,19 +65,23 @@ public:
             //and I do not think we will have to worry about overflowing memory
             //so this is what i will do.
             if(arguments ==NULL){
-                //do nothing
+                std::cerr<<"no arguments loaded"<<std::endl;
             }
             else{//loading in arguments to memory
-                for (int i = 1; i<arguments->size();i++){
-                    if (i<8){
-                        //destReg = destReg + 10; //a0-a7 = x10-x17 //correct this by changing destReg to int and not Reg!
-                        arguments->at(i)->compile(dst,context,destReg);
+                std::cerr<<"loading arguments"<<std::endl;
+                for (int i = 0; i<arguments->size();i++){
+                    if (i<7){
+                        destReg = i + 10; //a0-a7 = x10-x17
+                        
+                        //arguments->at(i)->compile(dst,context,destReg);
+                        
                         dst<<"sw x"<<destReg<<", "<<context.functions[id].paramter_offset[i]<<"(sp)"<<std::endl;
                     }
-                    
-
+                    else{
+                        arguments->at(i)->compile(dst,context,17); //process all the rest of arguments through a7
+                        dst<<"sw x"<<17<<", "<<context.functions[id].paramter_offset[i]<<"(sp)"<<std::endl;
+                    }
                 }
-                arguments->at(0)->compile(dst,context,destReg);
             }
             dst<<"call "<<id<<std::endl;
             dst<<"nop"<<std::endl;

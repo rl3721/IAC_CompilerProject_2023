@@ -48,10 +48,10 @@ public:
         return declarator->getId();
     }
 
-    virtual void compile(std::ostream &dst, Context &context, Reg destReg) const override{
+    virtual void compile(std::ostream &dst, Context &context, int destReg) const override{
 
         std::string id = getId();
-        std::vector<unsigned int> paramterSize;
+        std::vector<int> paramterSize;
         unsigned int totalSize = 0;
         std::cerr<<"declaring function "<<id<<std::endl;
         context.functions[id] = {totalSize,paramterSize}; //adding barebone of function definition to context
@@ -98,25 +98,33 @@ public:
     std::string getId()const override{
         return declarator->getId();
     }
-    void compile(std::ostream &dst, Context &context, Reg destReg) const override{
+    void compile(std::ostream &dst, Context &context, int destReg) const override{
         int parameterOffset=-4; //initialize offset to be away from sp
         unsigned int size=0;
         Scope newScope;
         newScope.startLabel = getId();
         std::string functionId = getId();
+
         if (list != NULL){
             std::cerr<<"creating params"<<std::endl;
             std::string parameterId;
+            unsigned int parameterSize;
             for(int i=0; i<list->size();i++){
 
-                 parameterSize -= list->at(i)->getSize(context);
-                 parameterId = list->at(i)->getId(); //temporary solution for getting Id for paramter as using declaration in parser. Consider seperating it later on. 
+                parameterId = list->at(i)->getId(); //temporary solution for getting Id for paramter as using declaration in parser. Consider seperating it later on. 
 
-                  context.functions[functionId].paramter_offset.push_back(parameterSize);
-                  size += parameterSize;
-                  newScope.varBindings[parameterId] = {parameterSize,newScope.offset};
-                  newScope.offset -= parameterSize;
-                  std::cerr<<"parameter "<<parameterId<<" of size "<<parameterSize<<" declared for function "<<functionId<<std::endl;
+                context.functions[functionId].paramter_offset.push_back(parameterOffset);
+
+                parameterSize = list->at(i)->getSize(context);
+                newScope.varBindings[parameterId] = {parameterSize,newScope.offset};
+                
+                parameterOffset -= parameterSize;
+                newScope.offset = parameterOffset;
+                  
+                size += parameterSize;
+                
+                  
+                 std::cerr<<"parameter "<<parameterId<<" of size "<<parameterSize<<" declared for function "<<functionId<<std::endl;
              }
              context.functions[functionId].size = size;
              std::cerr<<"function "<<getId()<<" declared with total parameter size "<<size<<std::endl;

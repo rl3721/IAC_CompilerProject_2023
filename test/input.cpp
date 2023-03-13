@@ -1,9 +1,8 @@
-int x = 1;
-int a(){
-    int local_a = 1;
+int number(int a){
+    int x = 1;
 }
+
 int main(){
-    int b;
-    int c;
-    a();
+    int a = 1;
+    number(a);
 }

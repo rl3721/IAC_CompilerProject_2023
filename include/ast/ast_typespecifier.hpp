@@ -50,7 +50,7 @@ public:
     virtual std::string getId()const override{
         return "type_specifier";
     }
-    virtual void compile(std::ostream &dst, Context &context, Reg destReg)const override{
+    virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
     }
 };
 

@@ -51,7 +51,7 @@ public:
     void print(std::ostream &dst)const override{
         dst<<id<<std::endl;
     }
-    void compile(std::ostream &dst, Context &context, Reg destReg)const override{
+    void compile(std::ostream &dst, Context &context, int destReg)const override{
         if(context.stack.size() == 0){//if in global scope
             if(context.global.varBindings.find(id) == context.global.varBindings.end()){
                     std::cerr<<" Error: variable "<<id<<" not declared in global";
@@ -97,7 +97,7 @@ public:
     unsigned int getSize(Context &context)const override{
         return 4;
     }
-    void compile(std::ostream &dst, Context &context, Reg destReg)const override{
+    void compile(std::ostream &dst, Context &context, int destReg)const override{
         dst<<"addi x"<<destReg<<", zero, "<<val<<std::endl;
     }
     void print(std::ostream &dst)const override{

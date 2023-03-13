@@ -23,7 +23,7 @@ public:
     virtual void print(std::ostream &dst) const =0;
 
     //godegen
-    virtual void compile(std::ostream &dst, Context &context, Reg destReg) const=0;
+    virtual void compile(std::ostream &dst, Context &context, int destReg) const=0;
 
     //used in codeGen
     virtual unsigned int getSize(Context &context)const =0;

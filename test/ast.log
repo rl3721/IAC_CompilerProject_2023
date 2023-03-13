@@ -1,11 +1,10 @@
-declaration: (int initialize: x = 1
+function definition:int numberdeclaration: (int a)
+{declaration: (int initialize: x = 1
 
 )
-function definition:int a{declaration: (int initialize: local_a = 1
+}function definition:int main{declaration: (int initialize: a = 1
 
 )
-}function definition:int main{declaration: (int b)
-declaration: (int c)
-functionCall: a
+functionCall: number
  ()
 }

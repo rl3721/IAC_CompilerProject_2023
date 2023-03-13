@@ -42,21 +42,23 @@ class registers{
             0,0,0,0
         };
     public:
-        void useReg(Reg i){
+        void useReg(int i){
             usedReg[i] = 1;
         }
-        void freeReg(Reg i){
+        void freeReg(int i){
             usedReg[i] = 0;
         }
         int allocate(){
             for(int i = 5; i < 32; i++){ //starting from 5 as first 5 non allocatable by program
-                if(!usedReg[i]){
+                if(usedReg[i]==0){
+                    usedReg[i] = 1;
                     return i;
                 }
-                else{
-                    return -1; //no registers allocatable
-                }
             }
+            std::cerr<<"Error:no register available";
+            exit(1);
+                //return -1; //no registers allocatable
+    
         }
 };
 
@@ -84,6 +86,7 @@ struct Context{
     //global declarations
     Scope global; 
     std::map<std::string, function> functions;
+    registers RegisterFile;
 
     void pushStack(std::ostream &dst){ //used when entering function
         if (stack.size()==0){//calling function in global

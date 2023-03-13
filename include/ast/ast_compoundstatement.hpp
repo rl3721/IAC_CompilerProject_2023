@@ -38,7 +38,7 @@ public:
             }
         }
     }
-    virtual void compile(std::ostream &dst, Context &context, Reg destReg) const override{
+    virtual void compile(std::ostream &dst, Context &context, int destReg) const override{
         std::cerr<<"entering subscope"<<std::endl;
         context.enterScope();
         if (list != NULL){

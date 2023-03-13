@@ -26,7 +26,7 @@ public:
     std::string getId()const override{
         return id;
     }
-    void compile(std::ostream &dst, Context &context, Reg destReg) const override{
+    void compile(std::ostream &dst, Context &context, int destReg) const override{
         std::cerr<<" declared";
     }
 };

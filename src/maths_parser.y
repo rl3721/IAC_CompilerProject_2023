@@ -378,7 +378,7 @@ postfix_expression
 	: primary_expression									{$$ = $1;}
 	| postfix_expression '[' expression ']'//todo array indexing
 	| postfix_expression '(' ')'							{$$ = new functionCall($1, NULL);}
-	| postfix_expression '(' argument_expression_list ')'	//{$$ = new functionCall($1, $3);}
+	| postfix_expression '(' argument_expression_list ')'	{$$ = new functionCall($1, $3);}
 	| postfix_expression '.' IDENTIFIER
 	| postfix_expression PTR_OP IDENTIFIER
 	| postfix_expression INC_OP
@@ -412,15 +412,15 @@ cast_expression
 
 multiplicative_expression
 	: cast_expression								{$$ = $1;}
-	| multiplicative_expression '*' cast_expression //{$$ = new mulOperator($1, $3);}
-	| multiplicative_expression '/' cast_expression	//{$$ = new divOperator($1, $3);}
-	| multiplicative_expression '%' cast_expression	//{$$ = new modOperator($1, $3);}
+	| multiplicative_expression '*' cast_expression {$$ = new mulOperator($1, $3);}
+	| multiplicative_expression '/' cast_expression	{$$ = new divOperator($1, $3);}
+	| multiplicative_expression '%' cast_expression	{$$ = new modOperator($1, $3);}
 	;
 
 additive_expression
 	: multiplicative_expression							{$$ = $1;}
-	| additive_expression '+' multiplicative_expression	//{$$ = new addOperator($1, $3);}
-	| additive_expression '-' multiplicative_expression	//{$$ = new subOperator($1, $3);}
+	| additive_expression '+' multiplicative_expression	{$$ = new addOperator($1, $3);}
+	| additive_expression '-' multiplicative_expression	{$$ = new subOperator($1, $3);}
 	;
 
 shift_expression
@@ -431,8 +431,8 @@ shift_expression
 
 relational_expression
 	: shift_expression									{$$ = $1;}
-	| relational_expression '<' shift_expression		//{$$ = new ltOperator($1, $3);}
-	| relational_expression '>' shift_expression		//{$$ = new gtOperator($1, $3);}
+	| relational_expression '<' shift_expression		{$$ = new ltOperator($1, $3);}
+	| relational_expression '>' shift_expression		{$$ = new gtOperator($1, $3);}
 	| relational_expression LE_OP shift_expression		//{$$ = new leOperator($1, $3);}
 	| relational_expression GE_OP shift_expression		//{$$ = new geOperator($1, $3);}
 	;
@@ -445,17 +445,17 @@ equality_expression
 
 and_expression
 	: equality_expression						{$$ = $1;}
-	| and_expression '&' equality_expression	//{$$ = new andOperator($1, $3);}
+	| and_expression '&' equality_expression	{$$ = new andOperator($1, $3);}
 	;
 
 exclusive_or_expression
 	: and_expression								{$$ = $1;}
-	| exclusive_or_expression '^' and_expression	//{$$ = new exclusiveOrOperator($1, $3);}
+	| exclusive_or_expression '^' and_expression	{$$ = new exclusiveOrOperator($1, $3);}
 	;
 
 inclusive_or_expression
 	: exclusive_or_expression								{$$ = $1;}
-	| inclusive_or_expression '|' exclusive_or_expression	//{$$ = new inclusiveOrOperator($1, $3);}
+	| inclusive_or_expression '|' exclusive_or_expression	{$$ = new inclusiveOrOperator($1, $3);}
 	;
 
 logical_and_expression

@@ -53,7 +53,7 @@ public:
         return List->at(0)->getId(); //only returning the id of the first one. used for parameter. Can be buggy for later. Consider seperating
     }
 
-    void compile(std::ostream &dst, Context &context, Reg destReg) const override{
+    void compile(std::ostream &dst, Context &context, int destReg) const override{
         std::string id;
         unsigned int size;
 
@@ -130,7 +130,7 @@ public:
     std::string getId() const override{
         return declarator->getId();
     }
-    void compile(std::ostream &dst, Context &context, Reg destReg) const override{
+    void compile(std::ostream &dst, Context &context, int destReg) const override{
         //case for singular initialization
         std::string id = getId();
         declarator->compile(dst,context,destReg);

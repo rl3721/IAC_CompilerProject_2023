@@ -39,6 +39,21 @@ public:
         right->print(dst);
         dst<<")";
     }
+    virtual void compile(std::ostream &dst, Context &context, int destReg)const override{}
+    virtual unsigned int getSize(Context &context) const override{};
+    virtual std::string getId()const override{};
+
+    int DoLeft(std::ostream &dst, Context &context, int destReg) const{
+        // int LeftReg = context.RegisterFile.allocate();
+        left->compile(dst, context, destReg);
+        return destReg;
+    }
+    
+    int DoRight(std::ostream &dst, Context &context, int destReg) const{
+        int RightReg = context.RegisterFile.allocate();
+        right->compile(dst, context, RightReg);
+        return RightReg;
+    }
 };
 
 class logicalOrOperator
@@ -81,6 +96,13 @@ public:
         TreePtr _right)
         :binaryOperations(_left,_right)
     {}
+    virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
+        int LeftReg  = DoLeft(dst, context, destReg);
+        int RightReg = DoRight(dst, context, destReg);
+        dst<<"or x"<<destReg<<", x"<<LeftReg<<", x"<<RightReg<<std::endl;
+        // context.RegisterFile.freeReg(LeftReg);
+        context.RegisterFile.freeReg(RightReg);
+    }
 };
 
 class exclusiveOrOperator
@@ -95,6 +117,13 @@ public:
         TreePtr _right)
         :binaryOperations(_left,_right)
     {}
+    virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
+        int LeftReg  = DoLeft(dst, context, destReg);
+        int RightReg = DoRight(dst, context, destReg);
+        dst<<"xor x"<<destReg<<", x"<<LeftReg<<", x"<<RightReg<<std::endl;
+        // context.RegisterFile.freeReg(LeftReg);
+        context.RegisterFile.freeReg(RightReg);
+    }
 };
 
 class andOperator
@@ -109,6 +138,13 @@ public:
         TreePtr _right)
         :binaryOperations(_left,_right)
     {}
+    virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
+        int LeftReg  = DoLeft(dst, context, destReg);
+        int RightReg = DoRight(dst, context, destReg);
+        dst<<"and x"<<destReg<<", x"<<LeftReg<<", x"<<RightReg<<std::endl;
+        // context.RegisterFile.freeReg(LeftReg);
+        context.RegisterFile.freeReg(RightReg);
+    }
 };
 
 class equalityOperator
@@ -151,6 +187,13 @@ public:
         TreePtr _right)
         :binaryOperations(_left,_right)
     {}
+    virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
+        int LeftReg  = DoLeft(dst, context, destReg);
+        int RightReg = DoRight(dst, context, destReg);
+        dst<<"slt x"<<destReg<<", x"<<LeftReg<<", x"<<RightReg<<std::endl;
+        // context.RegisterFile.freeReg(LeftReg);
+        context.RegisterFile.freeReg(RightReg);
+    }
 };
 
 class gtOperator
@@ -165,6 +208,13 @@ public:
         TreePtr _right)
         :binaryOperations(_left,_right)
     {}
+    virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
+        int LeftReg  = DoLeft(dst, context, destReg);
+        int RightReg = DoRight(dst, context, destReg);
+        dst<<"slt x"<<destReg<<", x"<<RightReg<<", x"<<LeftReg<<std::endl;
+        // context.RegisterFile.freeReg(LeftReg);
+        context.RegisterFile.freeReg(RightReg);
+    }
 };
 
 class leOperator
@@ -207,6 +257,13 @@ public:
         TreePtr _right)
         :binaryOperations(_left,_right)
     {}
+    virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
+        int LeftReg  = DoLeft(dst, context, destReg);
+        int RightReg = DoRight(dst, context, destReg);
+        dst<<"sll x"<<destReg<<", x"<<LeftReg<<", x"<<RightReg<<std::endl;
+        // context.RegisterFile.freeReg(LeftReg);
+        context.RegisterFile.freeReg(RightReg);
+    }
 };
 
 class rightShiftOperator
@@ -221,6 +278,13 @@ public:
         TreePtr _right)
         :binaryOperations(_left,_right)
     {}
+    virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
+        int LeftReg  = DoLeft(dst, context, destReg);
+        int RightReg = DoRight(dst, context, destReg);
+        dst<<"sra x"<<destReg<<", x"<<LeftReg<<", x"<<RightReg<<std::endl;
+        // context.RegisterFile.freeReg(LeftReg);
+        context.RegisterFile.freeReg(RightReg);
+    }
 };
 
 class addOperator
@@ -235,6 +299,13 @@ public:
         TreePtr _right)
         :binaryOperations(_left,_right)
     {}
+    virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
+        int LeftReg  = DoLeft(dst, context, destReg);
+        int RightReg = DoRight(dst, context, destReg);
+        dst<<"add x"<<destReg<<", x"<<LeftReg<<", x"<<RightReg<<std::endl;
+        // context.RegisterFile.freeReg(LeftReg);
+        context.RegisterFile.freeReg(RightReg);
+    }
 };
 
 class subOperator
@@ -249,6 +320,13 @@ public:
         TreePtr _right)
         :binaryOperations(_left,_right)
     {}
+    virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
+        int LeftReg  = DoLeft(dst, context, destReg);
+        int RightReg = DoRight(dst, context, destReg);
+        dst<<"sub x"<<destReg<<", x"<<LeftReg<<", x"<<RightReg<<std::endl;
+        // context.RegisterFile.freeReg(LeftReg);
+        context.RegisterFile.freeReg(RightReg);
+    }
 };
 
 class mulOperator
@@ -263,6 +341,13 @@ public:
         TreePtr _right)
         :binaryOperations(_left,_right)
     {}
+    virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
+        int LeftReg  = DoLeft(dst, context, destReg);
+        int RightReg = DoRight(dst, context, destReg);
+        dst<<"mul x"<<destReg<<", x"<<LeftReg<<", x"<<RightReg<<std::endl;
+        // context.RegisterFile.freeReg(LeftReg);
+        context.RegisterFile.freeReg(RightReg);
+    }
 };
 
 class divOperator
@@ -277,6 +362,13 @@ public:
         TreePtr _right)
         :binaryOperations(_left,_right)
     {}
+    virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
+        int LeftReg  = DoLeft(dst, context, destReg);
+        int RightReg = DoRight(dst, context, destReg);
+        dst<<"div x"<<destReg<<", x"<<LeftReg<<", x"<<RightReg<<std::endl;
+        // context.RegisterFile.freeReg(LeftReg);
+        context.RegisterFile.freeReg(RightReg);
+    }
 };
 
 class modOperator
@@ -291,6 +383,13 @@ public:
         TreePtr _right)
         :binaryOperations(_left,_right)
     {}
+    virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
+        int LeftReg  = DoLeft(dst, context, destReg);
+        int RightReg = DoRight(dst, context, destReg);
+        dst<<"rem x"<<destReg<<", x"<<LeftReg<<", x"<<RightReg<<std::endl;
+        // context.RegisterFile.freeReg(LeftReg);
+        context.RegisterFile.freeReg(RightReg);
+    }
 };
 
 class assignmentExpression
@@ -311,4 +410,3 @@ public:
 
 
 #endif
-
