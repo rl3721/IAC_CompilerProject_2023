@@ -40,7 +40,7 @@ public:
         dst<<")";
     }
     virtual void compile(std::ostream &dst, Context &context, int destReg)const override{}
-    virtual unsigned int getSize(Context &context) const override{};
+    virtual int getSize(Context &context) const override{};
     virtual std::string getId()const override{};
 
     int DoLeft(std::ostream &dst, Context &context, int destReg) const{

@@ -31,7 +31,7 @@ public:
     std::string getId() const override{
         return identifier->getId();
     }
-    unsigned int getSize(Context &context) const override{
+    int getSize(Context &context) const override{
         std::string id = getId();
         if(context.functions.find(id) == context.functions.end()){
             std::cerr<<"Error: getting size of function "<<id<<" but undeclared";
@@ -77,7 +77,7 @@ public:
                 }
             }
 
-            context.pushStack(dst); //this changes the p and stores ra.
+            //context.pushStack(dst); //this changes the p and stores ra.
 
             //really this should happen in function definition and not function call. 
             //you should find how much memory the function body is expected to use and then 
@@ -93,8 +93,8 @@ public:
             
             dst<<"call "<<id<<std::endl;
             dst<<"nop"<<std::endl;
-            context.popStack(dst);
-            dst<<"add x"<<destReg<<", a0, zero"<<std::endl; //move the result from a0 the return register to the destination register
+            //context.popStack(dst);
+            //dst<<"add x"<<destReg<<", a0, zero"<<std::endl; //move the result from a0 the return register to the destination register
         }
        
     }

@@ -22,9 +22,8 @@ public:
         delete expression;
     }
 
-    unsigned int getSize(Context &context)const override{
-        std::cerr<<"Error: getting size of return statement";
-        exit(1);
+    int getSize(Context &context)const override{
+        return expression->getSize(context);
     }
     std::string getId()const override{
         std::cerr<<"Error: getting id of return statement";
@@ -43,7 +42,7 @@ public:
             expression->compile(dst,context,a0); //store the result in a0 aka the return register 
         }
         std::cerr<<"returning"<<std::endl;
-        dst<<"ret"<<std::endl;
+        dst<<"j "<<context.stack.back().returnLabel<<std::endl;
     }
 };
 

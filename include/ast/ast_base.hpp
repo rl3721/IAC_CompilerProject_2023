@@ -26,7 +26,7 @@ public:
     virtual void compile(std::ostream &dst, Context &context, int destReg) const=0;
 
     //used in codeGen
-    virtual unsigned int getSize(Context &context)const =0;
+    virtual int getSize(Context &context)const =0;
     virtual std::string getId()const =0;
 
 };

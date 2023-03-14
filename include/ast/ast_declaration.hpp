@@ -42,7 +42,7 @@ public:
     //     return false;//this declaration is always for variable, enum, struct... not functions!
     // }
 
-    unsigned int getSize(Context &context) const override{
+    int getSize(Context &context) const override{
         int listSize = 0;
         for (int i = 0; i< List->size();i++){
             listSize += List->at(i)->getSize(context);
@@ -55,7 +55,7 @@ public:
 
     void compile(std::ostream &dst, Context &context, int destReg) const override{
         std::string id;
-        unsigned int size;
+        int size;
 
         for(int i = 0; i < List->size(); i++){//do each of them declaration
             id = List->at(i)->getId();
@@ -124,7 +124,7 @@ public:
         dst<<"\n";
     }
 
-    unsigned int getSize(Context &context)const override{
+    int getSize(Context &context)const override{
         return declarator->getSize(context);
     }
     std::string getId() const override{
@@ -140,7 +140,7 @@ public:
             dst<<"sw x"<<destReg<<", gp("<<context.global.varBindings[id].offset<<")"<<std::endl;;
         }
         else{
-            dst<<"sw x"<<destReg<<", sp("<<context.stack.back().varBindings[id].offset<<")"<<std::endl;
+            dst<<"sw x"<<destReg<<", s0("<<context.stack.back().varBindings[id].offset<<")"<<std::endl;
         }
         std::cerr<<" and initialized";
         

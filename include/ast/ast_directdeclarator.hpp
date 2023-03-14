@@ -20,7 +20,7 @@ public:
     void print(std::ostream &dst)const override{
         dst<<id;
     }
-    unsigned int getSize(Context &context)const override{
+    int getSize(Context &context)const override{
         return 1; //default for declarator, total size calculated with specifier in declaration
     }
     std::string getId()const override{

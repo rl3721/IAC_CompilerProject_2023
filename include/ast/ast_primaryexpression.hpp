@@ -21,7 +21,8 @@ public:
     std::string getId()const override{
         return id;
     }
-    unsigned int getSize(Context &context)const override{
+    int getSize(Context &context)const override{
+        return 0;
         if(context.stack.size() == 0){//if in global scope
             if(context.global.varBindings.find(id) == context.global.varBindings.end()){
                     std::cerr<<" Error: getting size of variable "<<id<<" not declared in global";
@@ -94,8 +95,8 @@ public:
         std::cerr<<"Error: Getting Id, of int immediate";
         exit(1);
     }
-    unsigned int getSize(Context &context)const override{
-        return 4;
+    int getSize(Context &context)const override{
+        return 0;
     }
     void compile(std::ostream &dst, Context &context, int destReg)const override{
         dst<<"addi x"<<destReg<<", zero, "<<val<<std::endl;

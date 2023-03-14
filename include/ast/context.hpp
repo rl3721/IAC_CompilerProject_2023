@@ -63,21 +63,25 @@ class registers{
 };
 
 struct variable{
-    unsigned int size;
+    int size;
     int offset;             //used to store offset from stack pointer for local
                             //for global store the "absolute address" (offset relating to program)
 };
 struct function{ //I am just going to assume that the 
-    unsigned int size; 
-    std::vector<int> paramter_offset;
+    int size; //store the size of the parameter that is not enough to fit inside the argument regs. 
+    //equivalent to the size of memory need to be assigned when calling the function. 
+    std::vector<int> paramter_offset; //stores offset of the more than 8 params(positive offset)
 };
 struct Scope{
     std::map<std::string, variable> varBindings; //track the available variables in scope
-    int offset = -4; //tracks the next available word from sp. the sp itself is used store ra.
+    int offset = -12; //tracks the next available word from fp/s0.
+    //-4 reserved for ra
+    //-8 reserved for s0
 
     //labels initialised to undefined, as they are only used in loops
     //define them when entering loop
     //if called when undefined, then error
+    std::string returnLabel = "undefined"; //used for return
     std::string startLabel = "undefined"; //used for continue
     std::string endLabel = "undefined"; //used for break
 };

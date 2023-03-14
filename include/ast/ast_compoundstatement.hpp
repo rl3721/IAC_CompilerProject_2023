@@ -21,12 +21,21 @@ public:
     virtual ~compoundStatement()
     {delete list;
     }
-    unsigned int getSize(Context &context)const override{
-        std::cerr<<"Error: getting size of statement";
-        //exit(1);
+    int getSize(Context &context)const override{
+        int size = 0;
+        if (list == NULL){
+            return 0;
+        }
+        else{
+            for (int i = 0; i < list->size();i++){
+                size += list->at(i)->getSize(context);
+                //std::cerr<<"size"<<size;
+            }
+            return size;
+        }
     }
     std::string  getId()const override{
-        std::cerr<<"Error: getting id of statement";
+        std::cerr<<"Error: getting id of compound statement";
         //exit(1);
     }
 

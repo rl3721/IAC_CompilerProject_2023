@@ -40,7 +40,7 @@ public:
         dst<<"}";
     }
 
-    unsigned int getSize(Context &context) const override{
+    int getSize(Context &context) const override{
         std::cerr<<"Error: trying to get Size of function while declaring";
         exit(1);
     }
@@ -52,20 +52,39 @@ public:
 
         std::string id = getId();
         std::vector<int> paramterOffset;
-        unsigned int totalSize = 0;
-        std::cerr<<"declaring function "<<id<<std::endl;
-        context.functions[id] = {totalSize,paramterOffset}; //adding barebone of function definition to context
+        int parameterSize = 0;
+        int bodySize = compound_statement->getSize(context) + 12; //initialize to 12 to give memory space to store ra and s0 at -4 and -8
+
+        std::cerr<<"declaring function "<<id<<" require size "<<bodySize<<std::endl;
+        context.functions[id] = {parameterSize,paramterOffset}; //adding barebone of function definition to context
+
+        dst<<id<<":"<<std::endl; //printing start label of function, used for calls
         
+        dst<<"addi sp, sp, "<<-(bodySize)<<std::endl; //shift sp
+        dst<<"sw ra, "<<bodySize-4<<"(sp)"<<std::endl; //store previous return addess 4 below the fp
+        dst<<"sw s0, "<<bodySize-8<<"(sp)"<<std::endl; //store frame pointer addess 8 below the fp
+        dst<<"addi s0, sp, "<<bodySize<<std::endl; //shift s0
+
         declarator->compile(dst,context,destReg); //this would fill in the context declaration, 
+        //Also opens new local scope and store the parameters
         //the declarator should be only functionDeclarator
 
-        dst<<id<<":"<<std::endl; //printing start label of function
+        std::string returnlabel = context.makeupLabel(id);
 
-        compound_statement->compile(dst,context,destReg);   
+        context.stack.back().returnLabel = returnlabel;
+        compound_statement->compile(dst,context,destReg);  
 
+        
+        dst<<returnlabel<<":"<<std::endl; //print end of function, used for return. 
+
+        dst<<"lw s0, "<<bodySize-8<<"(sp)"<<std::endl; //restore  previous return addess 
+        dst<<"lw ra, "<<bodySize-4<<"(sp)"<<std::endl; //restore  previous return addess
+        dst<<"addi sp, sp, "<<bodySize<<std::endl; //restore sp
         dst<<"ret"<<std::endl;
         dst<<"nop"<<std::endl;
-        context.stack.pop_back();
+        dst<<std::endl;
+
+        context.stack.pop_back(); //exit scope opened during compiling declarator
         std::cerr<<"scope closed for function "<<id<<std::endl;     
     }
 };
@@ -95,7 +114,7 @@ public:
             }
         }
     }
-    unsigned int getSize(Context &context)const override{
+    int getSize(Context &context)const override{
         std::cerr<<"Warning: trying to get size of function declarator, unexpected behavior may occur"<<std::endl;
         return 1;//default for declarator
     }
@@ -103,29 +122,36 @@ public:
         return declarator->getId();
     }
     void compile(std::ostream &dst, Context &context, int destReg) const override{
-        int parameterOffset=-4; //initialize offset to be away from sp
-        unsigned int size=0;
+        int parameterOffset=0; 
+        int size=0; //initialize offset to be away from s0, only used for more than 8 params
+
         Scope newScope;
-        newScope.startLabel = getId();
+        context.stack.push_back(newScope);
+        std::cerr<<"new scope created for function "<<getId()<<std::endl;
+
         std::string functionId = getId();
 
         if (list != NULL){
-            
             std::string parameterId;
-            unsigned int parameterSize;
-            for(int i=0; i<list->size();i++){
-                
-                parameterId = list->at(i)->getId(); //temporary solution for getting Id for paramter as using declaration in parser. Consider seperating it later on. 
-                context.functions[functionId].paramter_offset.push_back(parameterOffset);
+            int parameterSize;
+            for(int i=list->size()-1; i>=0 ;i--){
+                //I am not sure why god bolt assign the params in revers order, but I guess I will do it anyway
 
+                //learne about the paramter
                 parameterSize = list->at(i)->getSize(context);
-                newScope.varBindings[parameterId] = {parameterSize,parameterOffset};
-                  
-                size += parameterSize;
+                parameterId = list->at(i)->getId(); //temporary solution for getting Id for paramter as using declaration in parser. Consider seperating it later on. 
+
+                if(i > 7){//positive offset
+                    context.functions[functionId].paramter_offset.insert(context.functions[functionId].paramter_offset.begin(),size);
+                    context.stack.back().varBindings[parameterId] = {parameterSize,size};
+                    size += parameterSize;
+                }
+                else{//negative offset
+                    list->at(i)->compile(dst,context,destReg); //this calls declaration and adds the parameters to context
+                    dst<<"sw a"<<i<<", "<<context.stack.back().varBindings[parameterId].offset<<"(s0)"<<std::endl;
+                }
                 
                 std::cerr<<"parameter "<<parameterId<<" of size "<<parameterSize<<" declared for function "<<functionId<<" with offset "<<parameterOffset<<std::endl;
-                parameterOffset -= parameterSize;
-                newScope.offset = parameterOffset;
              }
              context.functions[functionId].size = size;
              std::cerr<<"function "<<getId()<<" declared with total parameter size "<<size<<std::endl;
@@ -133,15 +159,9 @@ public:
         else{
             std::cerr<<"function "<<getId()<<" declared with no paramters"<<std::endl;
         }
-        context.stack.push_back(newScope);
-        std::cerr<<"new scope created for function "<<getId()<<std::endl;
+        
     }
 };
-
-
-
-
-
 
 #endif
 

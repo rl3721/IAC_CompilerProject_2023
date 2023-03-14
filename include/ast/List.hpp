@@ -36,7 +36,7 @@ public:
     {}
 
     //virtual const char *getOpcode() const =0;
-    virtual unsigned int getSize(Context &context)const override{
+    virtual int getSize(Context &context)const override{
         std::cerr<<"Error: getting size of translation unit";
         exit(1);
     }
