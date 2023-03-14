@@ -327,8 +327,8 @@ expression_statement
 	;
 
 selection_statement
-	: IF '(' expression ')' statement					//{$$ = new ifElse($3,$5);}
-	| IF '(' expression ')' statement ELSE statement	//{$$ = new ifElse($3,$5,$7);}
+	: IF '(' expression ')' statement					{$$ = new ifElseStatement($3,$5,NULL);}
+	| IF '(' expression ')' statement ELSE statement	{$$ = new ifElseStatement($3,$5,$7);}
 	| SWITCH '(' expression ')' statement//todo switch
 	;
 
@@ -425,22 +425,22 @@ additive_expression
 
 shift_expression
 	: additive_expression							{$$ = $1;}
-	| shift_expression LEFT_OP additive_expression	//{$$ = new leftShiftOperator($1, $3);}
-	| shift_expression RIGHT_OP additive_expression	//{$$ = new rightShiftOperator($1, $3);}
+	| shift_expression LEFT_OP additive_expression	{$$ = new leftShiftOperator($1, $3);}
+	| shift_expression RIGHT_OP additive_expression	{$$ = new rightShiftOperator($1, $3);}
 	;
 
 relational_expression
 	: shift_expression									{$$ = $1;}
 	| relational_expression '<' shift_expression		{$$ = new ltOperator($1, $3);}
 	| relational_expression '>' shift_expression		{$$ = new gtOperator($1, $3);}
-	| relational_expression LE_OP shift_expression		//{$$ = new leOperator($1, $3);}
-	| relational_expression GE_OP shift_expression		//{$$ = new geOperator($1, $3);}
+	| relational_expression LE_OP shift_expression		{$$ = new leOperator($1, $3);}
+	| relational_expression GE_OP shift_expression		{$$ = new geOperator($1, $3);}
 	;
 
 equality_expression
 	: relational_expression								{$$ = $1;}
-	| equality_expression EQ_OP relational_expression	//{$$ = new equalityOperator($1, $3);}
-	| equality_expression NE_OP relational_expression	//{$$ = new inequalityOperator($1, $3);}
+	| equality_expression EQ_OP relational_expression	{$$ = new equalityOperator($1, $3);}
+	| equality_expression NE_OP relational_expression	{$$ = new inequalityOperator($1, $3);}
 	;
 
 and_expression

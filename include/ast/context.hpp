@@ -47,11 +47,13 @@ class registers{
         }
         void freeReg(int i){
             usedReg[i] = 0;
+            std::cerr<<"free register index: "<<i<<std::endl;
         }
         int allocate(){
             for(int i = 5; i < 32; i++){ //starting from 5 as first 5 non allocatable by program
                 if(usedReg[i]==0){
                     usedReg[i] = 1;
+                    std::cerr<<"return unused register index: "<<i<<std::endl;
                     return i;
                 }
             }
@@ -128,12 +130,12 @@ struct Context{
         if (ExistedLabel.find(id) != ExistedLabel.end()){        //if the id label already exist
             int index = ExistedLabel[id];   
             std::cerr<<"make up "<<id<< " label_"<<index<<std::endl;                     //get the index of that id
-            return "_"+id+"_"+"Label"+"_"+std::to_string(index+1); //returen label
+            return "`__"+id+"_"+"Label"+"__"+std::to_string(index+1); //returen label
         }
         else{                                            //if the id label does not exist
             ExistedLabel[id] = 0;  
             std::cerr<<"make up new "<<id<< " label_0"<<std::endl;                      //insert that label into ExistedLabel
-            return "_"+id+"_"+"Label"+"_0";              //return label
+            return "__"+id+"_"+"Label"+"__0";              //return label
         }
     }
 

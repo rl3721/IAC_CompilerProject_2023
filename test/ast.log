@@ -1,6 +1,8 @@
-function definition:int numberdeclaration: (int a)
-declaration: (int b)
-{RETURN (a
- + b
-) 
-}
+function definition:int main{declaration: (int initialize: a = 1
+
+)
+declaration: (int initialize: b = 1
+
+)
+doing selection
+ }

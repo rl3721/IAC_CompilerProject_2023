@@ -1,14 +1,26 @@
-declaring function number require size 12
-new scope created for function number
-local variable b of size 4
- declared
-parameter b of size 4 declared for function number with offset 0
-local variable a of size 4
- declared
-parameter a of size 4 declared for function number with offset 0
-function number declared with total parameter size 0
-make up new number label_0
+return unused register index: 5
+declaring function main require size 28
+new scope created for function main
+function main declared with no paramters
+make up new main label_0
 entering subscope
-returning
+local variable a of size 4
+ declared and initialized
+local variable b of size 4
+ declared and initialized
+do if with else
+make up new IF_TRUE label_0
+make up new ELSE label_0
+make up new IF_END label_0
+return unused register index: 6
+free register index: 6
+entering subscope
+local variable c of size 4
+ declared and initialized
 exiting subscope
-scope closed for function number
+entering subscope
+local variable c of size 4
+ declared and initialized
+exiting subscope
+exiting subscope
+scope closed for function main

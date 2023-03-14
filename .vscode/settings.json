@@ -1,6 +1,6 @@
 {
     "files.associations": {
-        "*.y": "c",
+        "*.y": "bison",
         "*.flex": "lex",
         "stdio.h": "c",
         "iosfwd": "cpp",
@@ -53,8 +53,6 @@
         "streambuf": "cpp",
         "cinttypes": "cpp",
         "typeinfo": "cpp",
-        "fstream": "cpp",
-        "bitset": "cpp",
-        "cstring": "cpp"
+        "fstream": "cpp"
     }
 }
