@@ -23,6 +23,7 @@ public:
     }
 
     int getSize(Context &context)const override{
+        //return 0; //comment this once after getSize for expression is fixed
         return expression->getSize(context);
     }
     std::string getId()const override{

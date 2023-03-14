@@ -38,7 +38,7 @@ public:
             exit(1);
         }
         else{
-            return context.functions[id].size;
+            return context.functions[id].size; //return memory space required store additional params. 
         }
     }
    

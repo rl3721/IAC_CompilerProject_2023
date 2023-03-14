@@ -40,8 +40,13 @@ public:
         dst<<")";
     }
     virtual void compile(std::ostream &dst, Context &context, int destReg)const override{}
-    virtual int getSize(Context &context) const override{};
-    virtual std::string getId()const override{};
+    virtual int getSize(Context &context) const override{
+        return left->getSize(context) + right->getSize(context);
+    };
+    virtual std::string getId()const override{
+        std::cerr<<"getting Id of expression";
+        exit(1);
+    };
 
     int DoLeft(std::ostream &dst, Context &context, int destReg) const{
         // int LeftReg = context.RegisterFile.allocate();

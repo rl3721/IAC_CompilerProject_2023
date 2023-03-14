@@ -22,31 +22,31 @@ public:
         return id;
     }
     int getSize(Context &context)const override{
-        return 0;
-        if(context.stack.size() == 0){//if in global scope
-            if(context.global.varBindings.find(id) == context.global.varBindings.end()){
-                    std::cerr<<" Error: getting size of variable "<<id<<" not declared in global";
-                    exit(1);
-                }
-                else{
-                    return context.global.varBindings[id].size;
-                }
-        }
-        else{
-            //if in local scope
-            if(context.stack.back().varBindings.find(id) == context.stack.back().varBindings.end()){
-                if(context.global.varBindings.find(id) == context.global.varBindings.end()){
-                    std::cerr<<" Error: getting size of variable "<<id<<" not declared in local scope";
-                    exit(1);
-                }
-                else{
-                    return context.global.varBindings[id].size;
-                }
-            }
-            else{
-                return context.stack.back().varBindings[id].size;
-            }
-        }
+        return 0; //calling variable does not require memoryto be allocated
+        // if(context.stack.size() == 0){//if in global scope
+        //     if(context.global.varBindings.find(id) == context.global.varBindings.end()){
+        //             std::cerr<<" Error: getting size of variable "<<id<<" not declared in global";
+        //             exit(1);
+        //         }
+        //         else{
+        //             return context.global.varBindings[id].size;
+        //         }
+        // }
+        // else{
+        //     //if in local scope
+        //     if(context.stack.back().varBindings.find(id) == context.stack.back().varBindings.end()){
+        //         if(context.global.varBindings.find(id) == context.global.varBindings.end()){
+        //             std::cerr<<" Error: getting size of variable "<<id<<" not declared in local scope";
+        //             exit(1);
+        //         }
+        //         else{
+        //             return context.global.varBindings[id].size;
+        //         }
+        //     }
+        //     else{
+        //         return context.stack.back().varBindings[id].size;
+        //     }
+        // }
     }
     
     void print(std::ostream &dst)const override{
@@ -74,7 +74,7 @@ public:
                 }
             }
             else{
-                dst<<"lw x"<<destReg<<", "<<context.stack.back().varBindings[id].offset<<"(sp)"<<std::endl;
+                dst<<"lw x"<<destReg<<", "<<context.stack.back().varBindings[id].offset<<"(s0)"<<std::endl;
             }
         }
     }
