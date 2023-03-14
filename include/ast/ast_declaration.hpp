@@ -137,10 +137,10 @@ public:
         initializer->compile(dst,context,destReg);
 
         if (context.stack.size() == 0){
-            dst<<"sw x"<<destReg<<", gp("<<context.global.varBindings[id].offset<<")"<<std::endl;;
+            dst<<"sw x"<<destReg<<", "<<context.global.varBindings[id].offset<<"(gp)"<<std::endl;;
         }
         else{
-            dst<<"sw x"<<destReg<<", s0("<<context.stack.back().varBindings[id].offset<<")"<<std::endl;
+            dst<<"sw x"<<destReg<<", "<<context.stack.back().varBindings[id].offset<<"(s0)"<<std::endl;
         }
         std::cerr<<" and initialized";
         

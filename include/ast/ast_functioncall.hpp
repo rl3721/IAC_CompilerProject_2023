@@ -60,15 +60,16 @@ public:
                 int argReg = 0;
                 for (int i = arguments->size()-1; i>= 0 ; i--){
                     std::cerr<<"loading arguments"<<std::endl;
-                    if (i<7){
-                        argReg = i + 10; //a0-a7 = x10-x17
-                        arguments->at(i)->compile(dst,context,argReg);
-                        std::cerr<<i<<"th argument loaded"<<std::endl;
-                    }
-                    else{//TODO:
+                    if (i>7){
                         argReg = 17;
                         arguments->at(i)->compile(dst,context,argReg); //process all the rest of arguments through a7
+                        dst<<"sw a7, "<<context.functions[id].paramter_offset[i-8]<<"(sp)"<<std::endl;
                     }
+                    else{
+                        argReg = i + 10; //a0-a7 = x10-x17
+                        arguments->at(i)->compile(dst,context,argReg);
+                    }
+                    std::cerr<<i<<"th argument loaded"<<std::endl;
                 //     if (context.stack.size() == 0){
                 //         dst<<"sw x"<<argReg<<", "<<context.functions[id].paramter_offset[i]<<"(sp)"<<std::endl;
                 //     }
