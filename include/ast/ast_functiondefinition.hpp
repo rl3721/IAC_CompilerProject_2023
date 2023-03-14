@@ -144,14 +144,18 @@ public:
                 if(i > 7){//positive offset
                     context.functions[functionId].paramter_offset.insert(context.functions[functionId].paramter_offset.begin(),size);
                     context.stack.back().varBindings[parameterId] = {parameterSize,size};
+                    std::cerr<<"parameter "<<parameterId<<"not in a register declared and stored at offset"<<size<<std::endl;
                     size += parameterSize;
+                    
                 }
                 else{//negative offset
                     list->at(i)->compile(dst,context,destReg); //this calls declaration and adds the parameters to context
+                    //destReg should not do anything
                     dst<<"sw a"<<i<<", "<<context.stack.back().varBindings[parameterId].offset<<"(s0)"<<std::endl;
+                    std::cerr<<"parameter "<<parameterId<<"at register a"<<i<<"declared and stored at offset"<<context.stack.back().varBindings[parameterId].offset<<std::endl;
                 }
                 
-                std::cerr<<"parameter "<<parameterId<<" of size "<<parameterSize<<" declared for function "<<functionId<<" with offset "<<parameterOffset<<std::endl;
+                
              }
              context.functions[functionId].size = size;
              std::cerr<<"function "<<getId()<<" declared with total parameter size "<<size<<std::endl;

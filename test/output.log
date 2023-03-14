@@ -1,37 +1,19 @@
 addi sp, zero, ffff0000
 number:
-lw x10, -4(sp)
-lw x6, -8(sp)
-add x10, x10, x6
-ret
-ret
-nop
-main:
-addi x5, zero, 1
-sw x5, sp(-4)
-lw x10, -4(sp)
-sw x10, -16(sp)
-lw x11, -4(sp)
-sw x11, -20(sp)
 addi sp, sp, -12
-sw ra (sp)
-call number
-nop
-lw ra (sp)
+sw ra, 8(sp)
+sw s0, 4(sp)
+addi s0, sp, 12
+sw a1, -12(s0)
+sw a0, -16(s0)
+lw x10, -16(s0)
+lw x6, -12(s0)
+add x10, x10, x6
+j _number_Label_0
+_number_Label_0:
+lw s0, 4(sp)
+lw ra, 8(sp)
 addi sp, sp, 12
-add x5, a0, zero
-sw x5, sp(-8)
-lw x10, -8(sp)
-sw x10, -20(sp)
-lw x11, -8(sp)
-sw x11, -24(sp)
-addi sp, sp, -16
-sw ra (sp)
-call number
-nop
-lw ra (sp)
-addi sp, sp, 16
-add x5, a0, zero
-sw x5, sp(-12)
 ret
 nop
+

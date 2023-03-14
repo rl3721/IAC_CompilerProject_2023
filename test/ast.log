@@ -3,15 +3,4 @@ declaration: (int b)
 {RETURN (a
  + b
 ) 
-}function definition:int main{declaration: (int initialize: a = 1
-
-)
-declaration: (int initialize: b = functionCall: number
- ()
-
-)
-declaration: (int initialize: c = functionCall: number
- ()
-
-)
 }

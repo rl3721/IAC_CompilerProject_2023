@@ -1,29 +1,14 @@
-declaring function number
-parameter a of size 4 declared for function number with offset -4
-parameter b of size 4 declared for function number with offset -8
-function number declared with total parameter size 8
+declaring function number require size 12
 new scope created for function number
+local variable b of size 4
+ declared
+parameter b of size 4 declared for function number with offset 0
+local variable a of size 4
+ declared
+parameter a of size 4 declared for function number with offset 0
+function number declared with total parameter size 0
+make up new number label_0
 entering subscope
 returning
 exiting subscope
 scope closed for function number
-declaring function main
-function main declared with no paramters
-new scope created for function main
-entering subscope
-local variable a of size 4
- declared and initialized
-local variable b of size 4
- declaredcalling function number
-loading total of 2 arguments
-loading arguments
-loading arguments
- and initialized
-local variable c of size 4
- declaredcalling function number
-loading total of 2 arguments
-loading arguments
-loading arguments
- and initialized
-exiting subscope
-scope closed for function main

@@ -58,43 +58,32 @@ public:
             else{//loading in arguments to memory
                 std::cerr<<"loading total of "<<arguments->size()<<" arguments"<<std::endl;
                 int argReg = 0;
-                for (int i = 0; i<arguments->size();i++){
+                for (int i = arguments->size()-1; i>= 0 ; i--){
                     std::cerr<<"loading arguments"<<std::endl;
                     if (i<7){
                         argReg = i + 10; //a0-a7 = x10-x17
                         arguments->at(i)->compile(dst,context,argReg);
+                        std::cerr<<i<<"th argument loaded"<<std::endl;
                     }
-                    else{
+                    else{//TODO:
                         argReg = 17;
                         arguments->at(i)->compile(dst,context,argReg); //process all the rest of arguments through a7
                     }
-                    if (context.stack.size() == 0){
-                        dst<<"sw x"<<argReg<<", "<<context.functions[id].paramter_offset[i]<<"(sp)"<<std::endl;
-                    }
-                    else{
-                        dst<<"sw x"<<argReg<<", "<<context.functions[id].paramter_offset[i]+context.stack.back().offset<<"(sp)"<<std::endl;
-                    }
-                }
+                //     if (context.stack.size() == 0){
+                //         dst<<"sw x"<<argReg<<", "<<context.functions[id].paramter_offset[i]<<"(sp)"<<std::endl;
+                //     }
+                //     else{
+                //         dst<<"sw x"<<argReg<<", "<<context.functions[id].paramter_offset[i]+context.stack.back().offset<<"(sp)"<<std::endl;
+                //     }
+                 }
             }
 
             //context.pushStack(dst); //this changes the p and stores ra.
-
-            //really this should happen in function definition and not function call. 
-            //you should find how much memory the function body is expected to use and then 
-            //declare it by shifting the stack pointer. Now i am doing it in call and just shifting
-            //the stack pointer to the next available slot. Which is bad as it technically allows the data to 
-            //grow infinitely in the stack. 
-            //This would also make the compiled code longer as in any program you should expect more calls
-            //than function definitions. 
-
-            //However I am lazy to implement finding the size of the body of a function
-            //and I do not think we will have to worry about overflowing memory
-            //so this is what i will do.
-            
+            std::cerr<<id<<" called"<<std::endl;
             dst<<"call "<<id<<std::endl;
             dst<<"nop"<<std::endl;
             //context.popStack(dst);
-            //dst<<"add x"<<destReg<<", a0, zero"<<std::endl; //move the result from a0 the return register to the destination register
+
         }
        
     }
