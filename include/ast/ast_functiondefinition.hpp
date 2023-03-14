@@ -53,14 +53,16 @@ public:
         std::string id = getId();
         std::vector<int> paramterOffset;
         int parameterSize = 0;
-        int bodySize = compound_statement->getSize(context) + 12; //initialize to 12 to give memory space to store ra and s0 at -4 and -8
+        int bodySize = compound_statement->getSize(context) + declarator->getSize(context)+ 12; //initialize to 12 to give memory space to store ra and s0 at -4 and -8
+        //TODO: BETTER WAY OF FINDING SIZE OF COMPOUND STATEMENT/
+        //SHIFT SP ADVANCE IN CALL TO GIVE SPACE FOR ADDITIONAL PARAMS. 
 
         std::cerr<<"declaring function "<<id<<" require size "<<bodySize<<std::endl;
         context.functions[id] = {parameterSize,paramterOffset}; //adding barebone of function definition to context
 
         dst<<id<<":"<<std::endl; //printing start label of function, used for calls
         
-        dst<<"addi sp, sp, "<<-(bodySize)<<std::endl; //shift sp
+        dst<<"addi sp, sp, "<<-(bodySize)<<std::endl; //shift spGIT
         dst<<"sw ra, "<<bodySize-4<<"(sp)"<<std::endl; //store previous return addess 4 below the fp
         dst<<"sw s0, "<<bodySize-8<<"(sp)"<<std::endl; //store frame pointer addess 8 below the fp
         dst<<"addi s0, sp, "<<bodySize<<std::endl; //shift s0
@@ -115,8 +117,18 @@ public:
         }
     }
     int getSize(Context &context)const override{
-        std::cerr<<"Warning: trying to get size of function declarator, unexpected behavior may occur"<<std::endl;
-        return 1;//default for declarator
+        //std::cerr<<"Warning: trying to get size of function declarator, unexpected behavior may occur"<<std::endl;
+        if (list == NULL){
+            return 0;
+        }
+        else{
+            int size = 0;
+            for(int i = 0; i< list->size() && i < 8 ;i++){ //params above 8 is stored with positive offset
+                size += list->at(i)->getSize(context);
+            }
+            std::cerr<<"declarator size:"<<size;
+            return size;
+        }
     }
     std::string getId()const override{
         return declarator->getId();
