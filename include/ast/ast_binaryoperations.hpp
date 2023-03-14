@@ -73,6 +73,17 @@ public:
         TreePtr _right)
         :binaryOperations(_left,_right)
     {}
+    virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
+        std::string lable1 = context.makeupLabel(getId());
+        std::string lable2 = context.makeupLabel(getId());
+        dst<<":"<<lable1<<std::endl;
+        dst<<":"<<lable2;
+        // int LeftReg  = DoLeft(dst, context, destReg);
+        // int RightReg = DoRight(dst, context, destReg);
+        // dst<<"or x"<<destReg<<", x"<<LeftReg<<", x"<<RightReg<<std::endl;
+        // // context.RegisterFile.freeReg(LeftReg);
+        // context.RegisterFile.freeReg(RightReg);
+    }
 };
 
 class logicalAndOperator
@@ -164,6 +175,14 @@ public:
         TreePtr _right)
         :binaryOperations(_left,_right)
     {}
+    virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
+        int LeftReg  = DoLeft(dst, context, destReg);
+        int RightReg = DoRight(dst, context, destReg);
+        dst<<"xor x"<<destReg<<", x"<<LeftReg<<", x"<<RightReg<<std::endl;
+        dst<<"seqz x"<<destReg<<", x"<<LeftReg<<std::endl;
+        // context.RegisterFile.freeReg(LeftReg);
+        context.RegisterFile.freeReg(RightReg);
+    }
 };
 
 class inequalityOperator
@@ -178,6 +197,14 @@ public:
         TreePtr _right)
         :binaryOperations(_left,_right)
     {}
+    virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
+        int LeftReg  = DoLeft(dst, context, destReg);
+        int RightReg = DoRight(dst, context, destReg);
+        dst<<"xor x"<<destReg<<", x"<<LeftReg<<", x"<<RightReg<<std::endl;
+        dst<<"snez x"<<destReg<<", x"<<LeftReg<<std::endl;
+        // context.RegisterFile.freeReg(LeftReg);
+        context.RegisterFile.freeReg(RightReg);
+    }
 };
 
 class ltOperator
@@ -234,6 +261,14 @@ public:
         TreePtr _right)
         :binaryOperations(_left,_right)
     {}
+    virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
+        int LeftReg  = DoLeft(dst, context, destReg);
+        int RightReg = DoRight(dst, context, destReg);
+        dst<<"slt x"<<destReg<<", x"<<RightReg<<", x"<<LeftReg<<std::endl;
+        dst<<"xori x"<<destReg<<", x"<<destReg<<", 1"<<std::endl;
+        // context.RegisterFile.freeReg(LeftReg);
+        context.RegisterFile.freeReg(RightReg);
+    }
 };
 
 class geOperator
@@ -248,6 +283,14 @@ public:
         TreePtr _right)
         :binaryOperations(_left,_right)
     {}
+    virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
+        int LeftReg  = DoLeft(dst, context, destReg);
+        int RightReg = DoRight(dst, context, destReg);
+        dst<<"slt x"<<destReg<<", x"<<LeftReg<<", x"<<RightReg<<std::endl;
+        dst<<"xori x"<<destReg<<", x"<<destReg<<", 1"<<std::endl;
+        // context.RegisterFile.freeReg(LeftReg);
+        context.RegisterFile.freeReg(RightReg);
+    }
 };
 
 class leftShiftOperator
@@ -415,3 +458,4 @@ public:
 
 
 #endif
+
