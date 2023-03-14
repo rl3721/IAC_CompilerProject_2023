@@ -7,7 +7,7 @@ IS			(u|U|l|L)*
 
 %{
 #include <stdio.h>
-#include "maths_parser.tab.hpp"
+#include "parser.tab.hpp"
 
 void count();
 
