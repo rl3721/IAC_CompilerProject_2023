@@ -81,7 +81,7 @@ public:
                     std::cerr<<"local variable "<<id<<" of size "<<size<<std::endl;
                 }
                 else{
-                    std::cerr<<"warning: multiple declaration of the variable "<<id<<" in local scope";
+                    //std::cerr<<"warning: multiple declaration of the variable "<<id<<" in local scope";
                     //exit(1);
                 }
             }

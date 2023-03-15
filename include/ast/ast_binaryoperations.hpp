@@ -41,10 +41,11 @@ public:
     }
     virtual void compile(std::ostream &dst, Context &context, int destReg)const override{}
     virtual int getSize(Context &context) const override{
+        return 0; //only declarations have memory declared
         return left->getSize(context) + right->getSize(context);
     };
     virtual std::string getId()const override{
-        std::cerr<<"getting Id of expression";
+        std::cerr<<"getting Id of binary expression";
         exit(1);
     };
 
@@ -55,6 +56,7 @@ public:
     }
     
     int DoRight(std::ostream &dst, Context &context, int destReg) const{
+        std::cerr<<"allocating reg"<<std::endl;
         int RightReg = context.RegisterFile.allocate();
         right->compile(dst, context, RightReg);
         return RightReg;
@@ -452,6 +454,18 @@ public:
         TreePtr _right)
         :binaryOperations(_left,_right)
     {}
+    virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
+        //first assume left side is only identifier, we will worry about messier stuff on left side later on. 
+
+        int RightReg = DoRight(dst, context, destReg);
+        std::string id = left->getId();
+        int offset = context.stack.back().varBindings[id].offset;
+
+        //assignment can only happen in local scope so no need to worry about globals
+        dst<<"sw x"<<RightReg<<", "<<offset<<"(s0)"<<std::endl;
+
+        context.RegisterFile.freeReg(RightReg);
+    }
 };
 
 

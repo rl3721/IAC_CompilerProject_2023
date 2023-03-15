@@ -1,21 +1,9 @@
-function definition:int badeclaration: (int a1)
-declaration: (int b2)
-declaration: (int c3)
-declaration: (int a4)
-declaration: (int a5)
-declaration: (int c6)
-declaration: (int c7)
-declaration: (int c8)
-declaration: (int c9)
-declaration: (int c10)
-{RETURN c9
+function definition:int f{declaration: (int x)
+(x
+ = 5678
+)declaration: (int x)
+(x
+ = 1234
+)RETURN x
  
-}function definition:int a{declaration: (int initialize: a = 1
-
-)
-declaration: (int initialize: b = 1
-
-)
-functionCall: ba
- ()
 }

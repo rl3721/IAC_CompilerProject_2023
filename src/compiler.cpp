@@ -26,7 +26,10 @@ void compile(std::ostream &w)
 
     Context context;
     //std::cout<<"addi sp, zero, ffff0000"<<std::endl; //consider this is where the stack pointer starts
-    ast->compile(w,context,context.RegisterFile.allocate());
+    ast->compile(w,context,context.RegisterFile.allocate()); 
+    //this takes away t0, should be freed but doesn't matter, confirm the meaning and figure out if there is something better to do. 
+    
+
 
 
       // Close the files

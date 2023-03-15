@@ -475,17 +475,17 @@ conditional_expression
 
 assignment_expression
 	: conditional_expression								{$$ = $1;}
-	| unary_expression '=' assignment_expression			//{$$ = new assignmentExpression($1,$3);}
-	| unary_expression MUL_ASSIGN assignment_expression		//{$$ = new assignmentExpression($1, new mulOperator($1,$3));}
-	| unary_expression DIV_ASSIGN assignment_expression		//{$$ = new assignmentExpression($1, new divOperator($1,$3));}
-	| unary_expression MOD_ASSIGN assignment_expression		//{$$ = new assignmentExpression($1, new modOperator($1,$3));}
-	| unary_expression ADD_ASSIGN assignment_expression		//{$$ = new assignmentExpression($1, new addOperator($1,$3));}
-	| unary_expression SUB_ASSIGN assignment_expression		//{$$ = new assignmentExpression($1, new subOperator($1,$3));}
-	| unary_expression LEFT_ASSIGN assignment_expression	//{$$ = new assignmentExpression($1, new leftShiftOperator($1,$3));}
-	| unary_expression RIGHT_ASSIGN assignment_expression	//{$$ = new assignmentExpression($1, new rightShiftOperator($1,$3));}
-	| unary_expression AND_ASSIGN assignment_expression		//{$$ = new assignmentExpression($1, new andOperator($1,$3));}
-	| unary_expression XOR_ASSIGN assignment_expression		//{$$ = new assignmentExpression($1, new exclusiveOrOperator($1,$3));}
-	| unary_expression OR_ASSIGN assignment_expression		//{$$ = new assignmentExpression($1, new inclusiveOrOperator($1,$3));}
+	| unary_expression '=' assignment_expression			{$$ = new assignmentExpression($1,$3);}
+	| unary_expression MUL_ASSIGN assignment_expression		{$$ = new assignmentExpression($1, new mulOperator($1,$3));}
+	| unary_expression DIV_ASSIGN assignment_expression		{$$ = new assignmentExpression($1, new divOperator($1,$3));}
+	| unary_expression MOD_ASSIGN assignment_expression		{$$ = new assignmentExpression($1, new modOperator($1,$3));}
+	| unary_expression ADD_ASSIGN assignment_expression		{$$ = new assignmentExpression($1, new addOperator($1,$3));}
+	| unary_expression SUB_ASSIGN assignment_expression		{$$ = new assignmentExpression($1, new subOperator($1,$3));}
+	| unary_expression LEFT_ASSIGN assignment_expression	{$$ = new assignmentExpression($1, new leftShiftOperator($1,$3));}
+	| unary_expression RIGHT_ASSIGN assignment_expression	{$$ = new assignmentExpression($1, new rightShiftOperator($1,$3));}
+	| unary_expression AND_ASSIGN assignment_expression		{$$ = new assignmentExpression($1, new andOperator($1,$3));}
+	| unary_expression XOR_ASSIGN assignment_expression		{$$ = new assignmentExpression($1, new exclusiveOrOperator($1,$3));}
+	| unary_expression OR_ASSIGN assignment_expression		{$$ = new assignmentExpression($1, new inclusiveOrOperator($1,$3));}
 	;
 
 
