@@ -99,7 +99,7 @@ public:
         return 0;
     }
     void compile(std::ostream &dst, Context &context, int destReg)const override{
-        dst<<"addi x"<<destReg<<", zero, "<<val<<std::endl;
+        dst<<"li x"<<destReg<<", "<<val<<std::endl;
     }
     void print(std::ostream &dst)const override{
         dst<<val<<std::endl;
