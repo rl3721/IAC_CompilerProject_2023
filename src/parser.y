@@ -156,7 +156,7 @@ declarator
 	| direct_declarator				{$$ = $1;}
 	;
 
-type_name //not assessed
+type_name //Todo
 	: specifier_qualifier_list						
 	| specifier_qualifier_list abstract_declarator
 	;
@@ -379,35 +379,40 @@ postfix_expression
 	| postfix_expression '[' expression ']'//todo array indexing
 	| postfix_expression '(' ')'							{$$ = new functionCall($1, NULL);}
 	| postfix_expression '(' argument_expression_list ')'	{$$ = new functionCall($1, $3);}
-	| postfix_expression '.' IDENTIFIER
-	| postfix_expression PTR_OP IDENTIFIER
-	| postfix_expression INC_OP
-	| postfix_expression DEC_OP
+	| postfix_expression '.' IDENTIFIER //struct reference
+	| postfix_expression PTR_OP IDENTIFIER //struct pointer reference
+	| postfix_expression INC_OP								{$$ = new postIncrement($1);}
+	| postfix_expression DEC_OP								{$$ = new postDecrement($1);}
 	;
 
 
 
 unary_expression
-	: postfix_expression              {$$ = $1;}
-	| INC_OP unary_expression
-	| DEC_OP unary_expression
-	| unary_operator cast_expression
-	| SIZEOF unary_expression
-	| SIZEOF '(' type_name ')' //not assessed
+	: postfix_expression              	{$$ = $1;}
+	| INC_OP unary_expression			{$$ = new preIncrement($2);}
+	| DEC_OP unary_expression			{$$ = new preIncrement($2);}
+	| '&' cast_expression				{$$ = new addressOperator($2);}
+	| '*' cast_expression				{$$ = new dereferenceOperator($2);}
+	| '+' cast_expression				{$$ = $2;}
+	| '-' cast_expression				{$$ = new negOperator($2);}
+	| '~' cast_expression				{$$ = new bwNotOperator($2);}
+	| '!' cast_expression
+	| SIZEOF unary_expression			{$$ = new sizeOfOperator($2);}
+	| SIZEOF '(' type_name ')' //Todo
 	;
 
-unary_operator
-	: '&'     //{new Tree(Unary_operator, $1);}
-	| '*'     //{new Tree(Unary_operator, $1);}
-	| '+'     //{new Tree(Unary_operator, $1);}
-	| '-'     //{new Tree(Unary_operator, $1);}
-	| '~'     //{new Tree(Unary_operator, $1);}
-	| '!'     //{new Tree(Unary_operator, $1);}
-	;
+// unary_operator
+// 	:      //{new Tree(Unary_operator, $1);}
+// 	|      //{new Tree(Unary_operator, $1);}
+// 	|      //{new Tree(Unary_operator, $1);}
+// 	|      //{new Tree(Unary_operator, $1);}
+// 	|      //{new Tree(Unary_operator, $1);}
+// 	|      //{new Tree(Unary_operator, $1);}
+// 	;
 
 cast_expression
 	: unary_expression						{$$ = $1;}
-	| '(' type_name ')' cast_expression //not assessed
+	| '(' type_name ')' cast_expression //
 	;
 
 multiplicative_expression
