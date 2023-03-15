@@ -78,7 +78,7 @@ struct function{ //I am just going to assume that the
 
 struct Scope{
     std::map<std::string, variable> varBindings; //track the available variables in scope
-    int offset = -52; //tracks the next available word from fp/s0-11.
+    int offset = -56; //tracks the next available word from fp/s0-11.
     //-4 reserved for ra
     //-8 reserved for s0
     int layer = 1; //used for repeated definition in subscope, know how many layers to scover when exiting scope
@@ -136,7 +136,7 @@ struct Context{
         if (ExistedLabel.find(id) != ExistedLabel.end()){        //if the id label already exist
             int index = ExistedLabel[id];   
             std::cerr<<"make up "<<id<< " label_"<<index<<std::endl;                     //get the index of that id
-            return "`__"+id+"_"+"Label"+"__"+std::to_string(index+1); //returen label
+            return "__"+id+"_"+"Label"+"__"+std::to_string(index+1); //returen label
         }
         else{                                            //if the id label does not exist
             ExistedLabel[id] = 0;  

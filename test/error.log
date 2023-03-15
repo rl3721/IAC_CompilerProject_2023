@@ -1,16 +1,55 @@
 return unused register index: 9
-declaring function ffff require size 56
-new scope created for function ffff
-function ffff declared with no paramters
-make up new ffff label_0
-entering subscope
+declarator size:4declaring function fib require size 60
+new scope created for function fib
 local variable x of size 4
  declared
+parameter xat register a0declared and stored at offset-56
+function fib declared with total parameter size 0
+make up new fib label_0
+entering subscope
+do if without else
+make up new IF_TRUE label_0
+make up new IF_END label_0
 allocating reg
 return unused register index: 18
 free register index: 18
+entering subscope
 return unused register index: 18
 free register index: 18
 returning
 exiting subscope
-scope closed for function ffff
+do if without else
+make up IF_TRUE label_0
+make up IF_END label_0
+allocating reg
+return unused register index: 18
+free register index: 18
+entering subscope
+return unused register index: 18
+free register index: 18
+returning
+exiting subscope
+return unused register index: 18
+calling function fib
+loading total of 1 arguments
+loading arguments
+allocating reg
+return unused register index: 19
+free register index: 19
+0th argument loaded
+fib called
+allocating reg
+return unused register index: 19
+calling function fib
+loading total of 1 arguments
+loading arguments
+allocating reg
+return unused register index: 20
+free register index: 20
+0th argument loaded
+fib called
+free register index: 19
+free register index: 18
+returning
+exiting subscope
+scope closed for function fib

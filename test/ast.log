@@ -1,6 +1,21 @@
-function definition:int ffff{declaration: (int x)
+function definition:int fibdeclaration: (int x)
+{doing selection
+condition:
 (x
- = 10
-)RETURN x
+ <= 0
+)ifTure_statement:
+RETURN 0
  
+doing selection
+condition:
+(x
+ == 1
+)ifTure_statement:
+RETURN 1
+ 
+RETURN (functionCall: fib
+ ()
+ + functionCall: fib
+ ()
+) 
 }

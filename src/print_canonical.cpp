@@ -13,7 +13,7 @@ int main()
     freopen("test/error.log", "w", stderr);
 
     Context context;
-    std::cout<<"addi sp, zero, ffff0000"<<std::endl; //consider this is where the stack pointer starts
+    //std::cout<<"addi sp, zero, ffff0000"<<std::endl; //consider this is where the stack pointer starts
     ast->compile(std::cout,context,context.RegisterFile.allocate());
 
 

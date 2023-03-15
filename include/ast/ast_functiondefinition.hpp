@@ -53,7 +53,7 @@ public:
         std::string id = getId();
         std::vector<int> paramterOffset;
         int parameterSize = 0;
-        int bodySize = compound_statement->getSize(context) + declarator->getSize(context)+ 52; //initialize to 12 to give memory space to store ra and s0 at -4 and -8
+        int bodySize = compound_statement->getSize(context) + declarator->getSize(context)+ 56; //initialize to 12 to give memory space to store ra and s0 at -4 and -8
         //TODO: BETTER WAY OF FINDING SIZE OF COMPOUND STATEMENT/
         //SHIFT SP ADVANCE IN CALL TO GIVE SPACE FOR ADDITIONAL PARAMS. 
 
