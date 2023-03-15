@@ -1,9 +1,4 @@
-function definition:int f{declaration: (int x)
-(x
- = 5678
-)declaration: (int x)
-(x
- = 1234
-)RETURN x
+function definition:int f{doing selection
+ RETURN 10
  
 }

@@ -70,8 +70,8 @@ public:
                 }
                 else{
                     
-                    std::cerr<<"warning: multiple declaration of the variable "<<id<<" in global scope";
-                    //exit(1);
+                    std::cerr<<"Error: multiple declaration of the variable "<<id<<" in global scope";
+                    exit(1);
                 }
             }
             else{//declaring variable in local
@@ -81,7 +81,12 @@ public:
                     std::cerr<<"local variable "<<id<<" of size "<<size<<std::endl;
                 }
                 else{
-                    //std::cerr<<"warning: multiple declaration of the variable "<<id<<" in local scope";
+                    context.enterScope();
+                    context.stack.back().varBindings[id] = {size, context.stack.back().offset};
+                    context.stack.back().offset -= size;
+                    context.stack.back().layer++;
+                    std::cerr<<"local variable "<<id<<" of size "<<size<<std::endl;
+                    std::cerr<<"warning: multiple declaration of the variable "<<id<<" in local scope";
                     //exit(1);
                 }
             }

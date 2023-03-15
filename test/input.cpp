@@ -1,10 +1,7 @@
 int f()
 {
-    int x;
-    x=5678;
-    {
-        int x;
-        x=1234;
+    if(0){
+        return 11;
     }
-    return x;
+    return 10;
 }

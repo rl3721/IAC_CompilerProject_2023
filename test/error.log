@@ -1,19 +1,15 @@
 return unused register index: 5
-declaring function f require size 20
+declaring function f require size 12
 new scope created for function f
 function f declared with no paramters
 make up new f label_0
 entering subscope
-local variable x of size 4
- declared
-allocating reg
-return unused register index: 6
-free register index: 6
+do if with else
+make up new IF_TRUE label_0
+make up new ELSE label_0
+make up new IF_END label_0
 entering subscope
-warning: multiple declaration of the variable x in local scope declared
-allocating reg
-return unused register index: 6
-free register index: 6
+returning
 exiting subscope
 returning
 exiting subscope

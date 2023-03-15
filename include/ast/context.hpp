@@ -74,12 +74,14 @@ struct function{ //I am just going to assume that the
     //equivalent to the size of memory need to be assigned when calling the function. 
     std::vector<int> paramter_offset; //stores offset of the more than 8 params(positive offset)
 };
+
+
 struct Scope{
     std::map<std::string, variable> varBindings; //track the available variables in scope
     int offset = -12; //tracks the next available word from fp/s0.
     //-4 reserved for ra
     //-8 reserved for s0
-
+    int layer = 1; //used for repeated definition in subscope, know how many layers to scover when exiting scope
     //labels initialised to undefined, as they are only used in loops
     //define them when entering loop
     //if called when undefined, then error
@@ -123,7 +125,11 @@ struct Context{
         //when entering iterations, make sure to change labels seperately
     }
     void exitScope(){//used when exiting loops
-        stack.pop_back();
+        int layer = stack.back().layer;
+        for (int i = 0; i < layer; i++){
+            stack.pop_back();
+        }
+
     }
     std::string makeupLabel(std::string id){
         // std::vector<Label> ExistedLabel;
