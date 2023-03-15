@@ -125,6 +125,8 @@ public:
         std::string while_head_Label = context.makeupLabel("while_head");
         std::string while_body_Label = context.makeupLabel("while_body");
         std::string while_end_Label = context.makeupLabel("while_end");
+        context.stack.back().endLabel = while_end_Label;
+        context.stack.back().startLabel = while_head_Label;
         dst<<"j "<<while_head_Label<<std::endl;
         dst<<while_head_Label<<":"<<std::endl;
         condition->compile(dst, context, destReg);

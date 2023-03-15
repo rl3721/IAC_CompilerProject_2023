@@ -39,12 +39,6 @@ public:
         dst<<" \n";
     }
     void compile(std::ostream &dst, Context &context, int destReg) const override{
-        // if (expression != NULL){
-        //     int returnReg = context.RegisterFile.allocate();
-        //     expression->compile(dst,context,a0); //store the result in a0 aka the return register 
-        // }
-        // std::cerr<<"returning"<<std::endl;
-        // dst<<"j "<<context.stack.back().returnLabel<<std::endl;
         if (expression != NULL){
             int returnReg = context.RegisterFile.allocate();
             expression->compile(dst,context,returnReg); //store the result in a0 aka the return register
@@ -55,69 +49,61 @@ public:
         dst<<"j "<<context.stack.back().returnLabel<<std::endl;
     }
 };
+class continueStatement 
+    : public Tree
+{
+private:
+protected:
+public:
+    continueStatement()
+    {}
+    virtual ~continueStatement(){}
 
-// class jumpStatement
-//     : public Tree
-// {
-// private:
-    
-// protected:
-//     std::string identifier;
-//     TreePtr expression;
+    int getSize(Context &context)const override{
+        return 0;
+    }
+    std::string getId()const override{
+        std::cerr<<"Error: getting id of continue statement";
+        exit(1);
+    }
+    void print(std::ostream &dst) const override
+    {
+        dst<<"break ";
+        dst<<" \n";
+    }
+    void compile(std::ostream &dst, Context &context, int destReg) const override{
+        std::cerr<<"returning"<<std::endl;
+        dst<<"j "<<context.stack.back().startLabel<<std::endl;
+    }
+};
 
-//     jumpStatement(std::string _identifier, TreePtr _expression)
-//         :identifier(_identifier),
-//         expression(_expression)
-//     {}
-// public:
-//     virtual ~jumpStatement()
-//     {
-//     delete expression;
-//     }
+class breakStatement 
+    : public Tree
+{
+private:
+protected:
+public:
+    breakStatement()
+    {}
+    virtual ~breakStatement(){}
 
-//     virtual const std::string getOpcode() const =0;
-
-//     virtual void print(std::ostream &dst) const override
-//     {
-//         dst<<getOpcode()<<" ";
-//         if (getOpcode() == "RETURN" && expression != NULL){
-//             expression->print(dst);
-//         }
-//         dst<<" \n";
-//     }
-// };
-
-
-// class continueJumpStatement
-//     : public jumpStatement
-// {
-// private:
-// protected:
-//     virtual const std::string getOpcode() const override
-//         { return "CONTINUE"; }
-// public:
-//     continueJumpStatement()
-//         :jumpStatement("CONTINUE", NULL)
-//     {}
-// };
-
-// class breakJumpStatement
-//     : public jumpStatement
-// {
-// private:
-// protected:
-//     virtual const std::string getOpcode() const override
-//         { return "BREAK"; }
-// public:
-//     breakJumpStatement()
-//         :jumpStatement("BREAK", NULL)
-//     {}
-// };
-
-
-
-
-
+    int getSize(Context &context)const override{
+        return 0;
+    }
+    std::string getId()const override{
+        std::cerr<<"Error: getting id of break statement";
+        exit(1);
+    }
+    void print(std::ostream &dst) const override
+    {
+        dst<<"break ";
+        dst<<" \n";
+    }
+    void compile(std::ostream &dst, Context &context, int destReg) const override{
+        std::cerr<<"returning"<<std::endl;
+        dst<<"j "<<context.stack.back().endLabel<<std::endl;
+    }
+};
 
 
 #endif
