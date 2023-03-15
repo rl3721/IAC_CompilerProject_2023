@@ -53,19 +53,26 @@ public:
         std::string id = getId();
         std::vector<int> paramterOffset;
         int parameterSize = 0;
-        int bodySize = compound_statement->getSize(context) + declarator->getSize(context)+ 12; //initialize to 12 to give memory space to store ra and s0 at -4 and -8
+        int bodySize = compound_statement->getSize(context) + declarator->getSize(context)+ 52; //initialize to 12 to give memory space to store ra and s0 at -4 and -8
         //TODO: BETTER WAY OF FINDING SIZE OF COMPOUND STATEMENT/
         //SHIFT SP ADVANCE IN CALL TO GIVE SPACE FOR ADDITIONAL PARAMS. 
 
         std::cerr<<"declaring function "<<id<<" require size "<<bodySize<<std::endl;
         context.functions[id] = {parameterSize,paramterOffset}; //adding barebone of function definition to context
-
+        dst<<".globl "<<id<<std::endl;
         dst<<id<<":"<<std::endl; //printing start label of function, used for calls
         
         dst<<"addi sp, sp, "<<-(bodySize)<<std::endl; //shift spGIT
         dst<<"sw ra, "<<bodySize-4<<"(sp)"<<std::endl; //store previous return addess 4 below the fp
-        dst<<"sw s0, "<<bodySize-8<<"(sp)"<<std::endl; //store frame pointer addess 8 below the fp
+        
+        for (int i = 0; i < 12; i++){
+            dst<<"sw s"<<i<<", "<<bodySize-8-4*i<<"(sp)"<<std::endl;
+        }
+        //dst<<"sw s0, "<<bodySize-8<<"(sp)"<<std::endl; //store frame pointer addess 8 below the fp
+
         dst<<"addi s0, sp, "<<bodySize<<std::endl; //shift s0
+
+        
 
         declarator->compile(dst,context,destReg); //this would fill in the context declaration, 
         //Also opens new local scope and store the parameters
@@ -78,8 +85,11 @@ public:
 
         
         dst<<returnlabel<<":"<<std::endl; //print end of function, used for return. 
+        for (int i = 0; i < 12; i++){
+            dst<<"lw s"<<i<<", "<<bodySize-8-4*i<<"(sp)"<<std::endl;
+        }
 
-        dst<<"lw s0, "<<bodySize-8<<"(sp)"<<std::endl; //restore  previous return addess 
+        //dst<<"lw s0, "<<bodySize-8<<"(sp)"<<std::endl; //restore  previous return addess 
         dst<<"lw ra, "<<bodySize-4<<"(sp)"<<std::endl; //restore  previous return addess
         dst<<"addi sp, sp, "<<bodySize<<std::endl; //restore sp
         dst<<"ret"<<std::endl;

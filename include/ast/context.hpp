@@ -30,16 +30,16 @@ enum variable_types {
 class registers{
     private:
         bool usedReg[32] = { //determining which registers are free to use
-            1,
-            1,
-            1,
-            1,
-            1,
-            0,0,0,
-            1,1,
+            1, //zero
+            1, //ra
+            1, //sp
+            1, //gp
+            1, //tp
+            1,1,1, //t-reg, I don't want them to mess up recur, so lets's just not use them
+            1,0, //fp, another one
             1,1,1,1,1,1,1,1,
-            1,1,1,1,1,1,1,1,1,1,
-            0,0,0,0
+            0,0,0,0,0,0,0,0,0,0,
+            1,1,1,1 //t-reg
         };
     public:
         void useReg(int i){
@@ -78,7 +78,7 @@ struct function{ //I am just going to assume that the
 
 struct Scope{
     std::map<std::string, variable> varBindings; //track the available variables in scope
-    int offset = -12; //tracks the next available word from fp/s0.
+    int offset = -52; //tracks the next available word from fp/s0-11.
     //-4 reserved for ra
     //-8 reserved for s0
     int layer = 1; //used for repeated definition in subscope, know how many layers to scover when exiting scope

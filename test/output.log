@@ -1,32 +1,40 @@
 addi sp, zero, ffff0000
-main:
-addi sp, sp, -24
-sw ra, 20(sp)
-sw s0, 16(sp)
-addi s0, sp, 24
-li x5, 1
-sw x5, -12(s0)
-li x5, 0
-sw x5, -16(s0)
-j __while_head_Label__0
-__while_head_Label__0:
-lw x5, -12(s0)
-lw x6, -16(s0)
-xor x5, x5, x6
-seqz x5, x5
-beq x5, zero, __while_end_Label__0
-j __while_body_Label__0
-__while_body_Label__0:
-li x6, 0
-sw x6, -20(s0)
-j __while_head_Label__0
-__while_end_Label__0:
-li x6, 1
-sw x6, -20(s0)
-__main_Label__0:
-lw s0, 16(sp)
-lw ra, 20(sp)
-addi sp, sp, 24
+ffff:
+addi sp, sp, -56
+sw ra, 52(sp)
+sw s0, 48(sp)
+sw s1, 44(sp)
+sw s2, 40(sp)
+sw s3, 36(sp)
+sw s4, 32(sp)
+sw s5, 28(sp)
+sw s6, 24(sp)
+sw s7, 20(sp)
+sw s8, 16(sp)
+sw s9, 12(sp)
+sw s10, 8(sp)
+sw s11, 4(sp)
+addi s0, sp, 56
+li x18, 10
+sw x18, -52(s0)
+lw x18, -52(s0)
+mv a0, x18
+j __ffff_Label__0
+__ffff_Label__0:
+lw s0, 48(sp)
+lw s1, 44(sp)
+lw s2, 40(sp)
+lw s3, 36(sp)
+lw s4, 32(sp)
+lw s5, 28(sp)
+lw s6, 24(sp)
+lw s7, 20(sp)
+lw s8, 16(sp)
+lw s9, 12(sp)
+lw s10, 8(sp)
+lw s11, 4(sp)
+lw ra, 52(sp)
+addi sp, sp, 56
 ret
 nop
 

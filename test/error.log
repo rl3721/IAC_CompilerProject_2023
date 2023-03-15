@@ -1,28 +1,16 @@
-return unused register index: 5
-declaring function main require size 24
-new scope created for function main
-function main declared with no paramters
-make up new main label_0
+return unused register index: 9
+declaring function ffff require size 56
+new scope created for function ffff
+function ffff declared with no paramters
+make up new ffff label_0
 entering subscope
-local variable a of size 4
- declared and initialized
-local variable b of size 4
- declared and initialized
-local variable c of size 4
+local variable x of size 4
  declared
-make up new while_head label_0
-make up new while_body label_0
-make up new while_end label_0
 allocating reg
-return unused register index: 6
-free register index: 6
-entering subscope
-allocating reg
-return unused register index: 6
-free register index: 6
+return unused register index: 18
+free register index: 18
+return unused register index: 18
+free register index: 18
+returning
 exiting subscope
-allocating reg
-return unused register index: 6
-free register index: 6
-exiting subscope
-scope closed for function main
+scope closed for function ffff
