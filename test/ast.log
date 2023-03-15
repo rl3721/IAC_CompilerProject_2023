@@ -1,4 +1,17 @@
-function definition:int f{doing selection
- RETURN 10
- 
-}
+function definition:int main{declaration: (int initialize: a = 1
+
+)
+declaration: (int initialize: b = 0
+
+)
+declaration: (int c)
+doing selection
+condition:
+(a
+ == b
+)ifTure_statement:
+(c
+ = 0
+)(c
+ = 1
+)}

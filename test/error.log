@@ -1,16 +1,28 @@
 return unused register index: 5
-declaring function f require size 12
-new scope created for function f
-function f declared with no paramters
-make up new f label_0
+declaring function main require size 24
+new scope created for function main
+function main declared with no paramters
+make up new main label_0
 entering subscope
-do if with else
-make up new IF_TRUE label_0
-make up new ELSE label_0
-make up new IF_END label_0
+local variable a of size 4
+ declared and initialized
+local variable b of size 4
+ declared and initialized
+local variable c of size 4
+ declared
+make up new while_head label_0
+make up new while_body label_0
+make up new while_end label_0
+allocating reg
+return unused register index: 6
+free register index: 6
 entering subscope
-returning
+allocating reg
+return unused register index: 6
+free register index: 6
 exiting subscope
-returning
+allocating reg
+return unused register index: 6
+free register index: 6
 exiting subscope
-scope closed for function f
+scope closed for function main

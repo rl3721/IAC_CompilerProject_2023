@@ -1,7 +1,9 @@
-int f()
-{
-    if(0){
-        return 11;
+int main() {
+    int a = 1;
+    int b = 0;
+    int c;
+    while(a==b){
+        c = 0;
     }
-    return 10;
+    c = 1;
 }
