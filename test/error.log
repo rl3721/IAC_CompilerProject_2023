@@ -1,26 +1,71 @@
 return unused register index: 5
-declaring function main require size 28
-new scope created for function main
-function main declared with no paramters
-make up new main label_0
+declarator size:32declaring function ba require size 44
+new scope created for function ba
+local variable a1 of size 4
+ declared
+parameter a1at register a0declared and stored at offset-12
+local variable b2 of size 4
+ declared
+parameter b2at register a1declared and stored at offset-16
+local variable c3 of size 4
+ declared
+parameter c3at register a2declared and stored at offset-20
+local variable a4 of size 4
+ declared
+parameter a4at register a3declared and stored at offset-24
+local variable a5 of size 4
+ declared
+parameter a5at register a4declared and stored at offset-28
+local variable c6 of size 4
+ declared
+parameter c6at register a5declared and stored at offset-32
+local variable c7 of size 4
+ declared
+parameter c7at register a6declared and stored at offset-36
+local variable c8 of size 4
+ declared
+parameter c8at register a7declared and stored at offset-40
+parameter c9not in a register declared and stored at offset0
+parameter c10not in a register declared and stored at offset4
+function ba declared with total parameter size 8
+make up new ba label_0
+entering subscope
+returning
+exiting subscope
+scope closed for function ba
+declaring function a require size 20
+new scope created for function a
+function a declared with no paramters
+make up new a label_0
 entering subscope
 local variable a of size 4
  declared and initialized
 local variable b of size 4
  declared and initialized
-do if with else
-make up new IF_TRUE label_0
-make up new ELSE label_0
-make up new IF_END label_0
-return unused register index: 6
-free register index: 6
-entering subscope
-local variable c of size 4
- declared and initialized
+calling function ba
+loading total of 10 arguments
+argument of size 8 cannot be stored in register, memory declared to store them
+loading arguments
+9th argument loaded
+loading arguments
+8th argument loaded
+loading arguments
+7th argument loaded
+loading arguments
+6th argument loaded
+loading arguments
+5th argument loaded
+loading arguments
+4th argument loaded
+loading arguments
+3th argument loaded
+loading arguments
+2th argument loaded
+loading arguments
+1th argument loaded
+loading arguments
+0th argument loaded
+ba called
+restoring stack declared to store additional arguments of total size8
 exiting subscope
-entering subscope
-local variable c of size 4
- declared and initialized
-exiting subscope
-exiting subscope
-scope closed for function main
+scope closed for function a

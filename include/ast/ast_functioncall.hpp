@@ -32,19 +32,21 @@ public:
         return identifier->getId();
     }
     int getSize(Context &context) const override{
-        std::string id = getId();
-        if(context.functions.find(id) == context.functions.end()){
-            std::cerr<<"Error: getting size of function "<<id<<" but undeclared";
-            exit(1);
-        }
-        else{
-            return context.functions[id].size; //return memory space required store additional params. 
-        }
+        return 0; //if function call require memory to process additional args, it decalres itself. 
+        // std::string id = getId();
+        // if(context.functions.find(id) == context.functions.end()){
+        //     std::cerr<<"Error: getting size of function "<<id<<" but undeclared";
+        //     exit(1);
+        // }
+        // else{
+        //     return 0; //return memory space required store additional params. 
+        // }
     }
    
 
     void compile(std::ostream &dst, Context &context, int destReg) const override{
         std::string id = getId();
+        int additional_arg_size = context.functions[id].size;
         if(context.functions.find(id) == context.functions.end()){
             std::cerr<<"Error: calling of function "<<id<<" but undeclared";
             exit(1);
@@ -57,6 +59,13 @@ public:
             }
             else{//loading in arguments to memory
                 std::cerr<<"loading total of "<<arguments->size()<<" arguments"<<std::endl;
+
+                
+                if(additional_arg_size!= 0){ //allocate memory when the call requires additional memory to store arguments
+                    std::cerr<<"argument of size "<<additional_arg_size<<" cannot be stored in register, memory declared to store them"<<std::endl;
+                    dst<<"addi sp, sp, "<<-additional_arg_size<<std::endl;
+                }
+
                 int argReg = 0;
                 for (int i = arguments->size()-1; i>= 0 ; i--){
                     std::cerr<<"loading arguments"<<std::endl;
@@ -84,6 +93,19 @@ public:
             dst<<"call "<<id<<std::endl;
             dst<<"nop"<<std::endl;
             //context.popStack(dst);
+
+            if(additional_arg_size!= 0){//in compound with previous shift
+                    std::cerr<<"restoring stack declared to store additional arguments of total size"<<additional_arg_size<<std::endl;
+                    dst<<"addi sp, sp, "<<additional_arg_size<<std::endl;
+
+                    //This declares the additional size required by the function call. 
+                    //I believe that theoretically this memory should also be declared when defining the function
+                    //but I don't know how to calculate the memory required by function calls in an expression
+                    //and pass it out, so I will just do this. 
+
+                    //Also I don't think this will be really tested as we prob won't have anything with more than 8 arguments
+                    //as they haven't updated the tests from mips which only had 4 a-regs and they were testing with 5 args given
+            }
 
         }
        

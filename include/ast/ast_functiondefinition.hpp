@@ -146,7 +146,7 @@ public:
         if (list != NULL){
             std::string parameterId;
             int parameterSize;
-            for(int i=list->size()-1; i>=0 ;i--){
+            for(int i=0; i<list->size() ;i++){//TODO: fix the order up according to godbolt
                 //I am not sure why god bolt assign the params in revers order, but I guess I will do it anyway
 
                 //learne about the paramter
@@ -154,7 +154,7 @@ public:
                 parameterId = list->at(i)->getId(); //temporary solution for getting Id for paramter as using declaration in parser. Consider seperating it later on. 
 
                 if(i > 7){//positive offset
-                    context.functions[functionId].paramter_offset.insert(context.functions[functionId].paramter_offset.begin(),size);
+                    context.functions[functionId].paramter_offset.push_back(size);
                     context.stack.back().varBindings[parameterId] = {parameterSize,size};
                     std::cerr<<"parameter "<<parameterId<<"not in a register declared and stored at offset"<<size<<std::endl;
                     size += parameterSize;
