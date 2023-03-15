@@ -39,8 +39,17 @@ public:
         dst<<" \n";
     }
     void compile(std::ostream &dst, Context &context, int destReg) const override{
+        // if (expression != NULL){
+        //     int returnReg = context.RegisterFile.allocate();
+        //     expression->compile(dst,context,a0); //store the result in a0 aka the return register 
+        // }
+        // std::cerr<<"returning"<<std::endl;
+        // dst<<"j "<<context.stack.back().returnLabel<<std::endl;
         if (expression != NULL){
-            expression->compile(dst,context,a0); //store the result in a0 aka the return register 
+            int returnReg = context.RegisterFile.allocate();
+            expression->compile(dst,context,returnReg); //store the result in a0 aka the return register
+            dst<<"mv a0, x"<<returnReg<<std::endl;
+            context.RegisterFile.freeReg(returnReg); 
         }
         std::cerr<<"returning"<<std::endl;
         dst<<"j "<<context.stack.back().returnLabel<<std::endl;

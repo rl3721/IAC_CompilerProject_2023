@@ -92,6 +92,7 @@ public:
             std::cerr<<id<<" called"<<std::endl;
             dst<<"call "<<id<<std::endl;
             dst<<"nop"<<std::endl;
+            dst<<"mv x"<<destReg<<", a0"<<std::endl;
             //context.popStack(dst);
 
             if(additional_arg_size!= 0){//in compound with previous shift
