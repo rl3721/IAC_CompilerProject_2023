@@ -227,7 +227,23 @@ public:
     }
 };
 
+class notOperator
+    : public unaryOperations 
+{
+private:
+protected:
+    virtual const std::string getOpcode() const override
+        { return "logicalNot"; }
+public:
+    notOperator(TreePtr _expression)
+        :unaryOperations(_expression)
+    {}
 
+    virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
+        expression->compile(dst, context, destReg);
+        dst<<"seqz x"<<destReg<<", x"<<destReg<<std::endl;
+    }
+};
 
 
 

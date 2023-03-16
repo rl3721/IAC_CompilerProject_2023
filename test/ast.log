@@ -1,21 +1,11 @@
-function definition:int fibdeclaration: (int x)
-{doing selection
-condition:
-(x
- <= 0
-)ifTure_statement:
-RETURN 0
+function definition:int main{declaration: (int initialize: a = 1
+
+)
+declaration: (int initialize: b = 1
+
+)
+(a
+ =  logicalNotb
+))RETURN a
  
-doing selection
-condition:
-(x
- == 1
-)ifTure_statement:
-RETURN 1
- 
-RETURN (functionCall: fib
- ()
- + functionCall: fib
- ()
-) 
 }

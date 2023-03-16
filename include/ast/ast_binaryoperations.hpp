@@ -76,15 +76,21 @@ public:
         :binaryOperations(_left,_right)
     {}
     virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
-        std::string lable1 = context.makeupLabel(getId());
-        std::string lable2 = context.makeupLabel(getId());
-        dst<<":"<<lable1<<std::endl;
-        dst<<":"<<lable2;
-        // int LeftReg  = DoLeft(dst, context, destReg);
-        // int RightReg = DoRight(dst, context, destReg);
-        // dst<<"or x"<<destReg<<", x"<<LeftReg<<", x"<<RightReg<<std::endl;
-        // // context.RegisterFile.freeReg(LeftReg);
-        // context.RegisterFile.freeReg(RightReg);
+        std::string true_label = context.makeupLabel("logicalOr_TRUE");
+        std::string false_label = context.makeupLabel("logicalOR_FALSE");
+        std::string end_label = context.makeupLabel("logicalOR_END");
+        left->compile(dst, context, destReg);
+        dst<<"bne x"<<destReg<<", zero, "<<true_label<<std::endl;
+        right->compile(dst, context, destReg);
+        dst<<"bne x"<<destReg<<", zero, "<<true_label<<std::endl;
+        dst<<"j "<<false_label<<std::endl;
+        dst<<true_label<<":"<<std::endl;
+        dst<<"addi x"<<destReg<<", zero, 1"<<std::endl;
+        dst<<"j "<<end_label<<std::endl;
+        dst<<false_label<<":"<<std::endl;
+        dst<<"mv x"<<destReg<<", zero"<<std::endl;
+        dst<<"j "<<end_label<<std::endl;
+        dst<<end_label<<":"<<std::endl;
     }
 };
 
@@ -100,6 +106,23 @@ public:
         TreePtr _right)
         :binaryOperations(_left,_right)
     {}
+    virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
+        std::string true_label = context.makeupLabel("logicalOr_TRUE");
+        std::string false_label = context.makeupLabel("logicalOR_FALSE");
+        std::string end_label = context.makeupLabel("logicalOR_END");
+        left->compile(dst, context, destReg);
+        dst<<"beq x"<<destReg<<", zero, "<<false_label<<std::endl;
+        right->compile(dst, context, destReg);
+        dst<<"beq x"<<destReg<<", zero, "<<false_label<<std::endl;
+        dst<<"j "<<true_label<<std::endl;
+        dst<<true_label<<":"<<std::endl;
+        dst<<"addi x"<<destReg<<", zero, 1"<<std::endl;
+        dst<<"j "<<end_label<<std::endl;
+        dst<<false_label<<":"<<std::endl;
+        dst<<"mv x"<<destReg<<", zero"<<std::endl;
+        dst<<"j "<<end_label<<std::endl;
+        dst<<end_label<<":"<<std::endl;
+    }
 };
 
 class inclusiveOrOperator

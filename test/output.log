@@ -1,75 +1,45 @@
-.globl fib
-fib:
-addi sp, sp, -60
-sw ra, 56(sp)
-sw s0, 52(sp)
-sw s1, 48(sp)
-sw s2, 44(sp)
-sw s3, 40(sp)
-sw s4, 36(sp)
-sw s5, 32(sp)
-sw s6, 28(sp)
-sw s7, 24(sp)
-sw s8, 20(sp)
-sw s9, 16(sp)
-sw s10, 12(sp)
-sw s11, 8(sp)
-addi s0, sp, 60
-sw a0, -56(s0)
-lw x9, -56(s0)
-li x18, 0
-slt x9, x18, x9
-xori x9, x9, 1
-beq x9, zero, __IF_END_Label__0
-j __IF_TRUE_Label__0
-__IF_TRUE_Label__0:
-li x18, 0
+.globl main
+main:
+addi sp, sp, -64
+sw ra, 60(sp)
+sw s0, 56(sp)
+sw s1, 52(sp)
+sw s2, 48(sp)
+sw s3, 44(sp)
+sw s4, 40(sp)
+sw s5, 36(sp)
+sw s6, 32(sp)
+sw s7, 28(sp)
+sw s8, 24(sp)
+sw s9, 20(sp)
+sw s10, 16(sp)
+sw s11, 12(sp)
+addi s0, sp, 64
+li x9, 1
+sw x9, -56(s0)
+li x9, 1
+sw x9, -60(s0)
+lw x18, -60(s0)
+seqz x18, x18
+sw x18, -56(s0)
+lw x18, -56(s0)
 mv a0, x18
-j __fib_Label__0
-j __IF_END_Label__0
-__IF_END_Label__0:
-lw x9, -56(s0)
-li x18, 1
-xor x9, x9, x18
-seqz x9, x9
-beq x9, zero, `__IF_END_Label__1
-j `__IF_TRUE_Label__1
-`__IF_TRUE_Label__1:
-li x18, 1
-mv a0, x18
-j __fib_Label__0
-j `__IF_END_Label__1
-`__IF_END_Label__1:
-lw x10, -56(s0)
-li x19, 1
-sub x10, x10, x19
-call fib
-nop
-mv x18, a0
-lw x10, -56(s0)
-li x20, 2
-sub x10, x10, x20
-call fib
-nop
-mv x19, a0
-add x18, x18, x19
-mv a0, x18
-j __fib_Label__0
-__fib_Label__0:
-lw s0, 52(sp)
-lw s1, 48(sp)
-lw s2, 44(sp)
-lw s3, 40(sp)
-lw s4, 36(sp)
-lw s5, 32(sp)
-lw s6, 28(sp)
-lw s7, 24(sp)
-lw s8, 20(sp)
-lw s9, 16(sp)
-lw s10, 12(sp)
-lw s11, 8(sp)
-lw ra, 56(sp)
-addi sp, sp, 60
+j __main_Label__0
+__main_Label__0:
+lw s0, 56(sp)
+lw s1, 52(sp)
+lw s2, 48(sp)
+lw s3, 44(sp)
+lw s4, 40(sp)
+lw s5, 36(sp)
+lw s6, 32(sp)
+lw s7, 28(sp)
+lw s8, 24(sp)
+lw s9, 20(sp)
+lw s10, 16(sp)
+lw s11, 12(sp)
+lw ra, 60(sp)
+addi sp, sp, 64
 ret
 nop
 

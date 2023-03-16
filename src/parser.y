@@ -396,7 +396,7 @@ unary_expression
 	| '+' cast_expression				{$$ = $2;}
 	| '-' cast_expression				{$$ = new negOperator($2);}
 	| '~' cast_expression				{$$ = new bwNotOperator($2);}
-	| '!' cast_expression
+	| '!' cast_expression               {$$ = new notOperator($2);}
 	| SIZEOF unary_expression			{$$ = new sizeOfOperator($2);}
 	| SIZEOF '(' type_name ')' //Todo
 	;
@@ -465,12 +465,12 @@ inclusive_or_expression
 
 logical_and_expression
 	: inclusive_or_expression								{$$ = $1;}
-	| logical_and_expression AND_OP inclusive_or_expression	//{$$ = new logicalAndOperator($1, $3);}
+	| logical_and_expression AND_OP inclusive_or_expression	{$$ = new logicalAndOperator($1, $3);}
 	;
 
 logical_or_expression
 	: logical_and_expression								{$$ = $1;}
-	| logical_or_expression OR_OP logical_and_expression	//{$$ = new logicalOrOperator($1, $3);}
+	| logical_or_expression OR_OP logical_and_expression	{$$ = new logicalOrOperator($1, $3);}
 	;
 
 conditional_expression
