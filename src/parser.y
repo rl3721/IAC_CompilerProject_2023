@@ -333,10 +333,10 @@ selection_statement
 	;
 
 iteration_statement
-	: WHILE '(' expression ')' statement				{$$ = new whileStatement($3,$5,NULL);}
+	: WHILE '(' expression ')' statement				{$$ = new whileStatement($3,NULL,NULL,$5);}
 	| DO statement WHILE '(' expression ')' ';'
-	| FOR '(' expression_statement expression_statement ')' statement
-	| FOR '(' expression_statement expression_statement expression ')' statement
+	| FOR '(' expression_statement expression_statement ')' statement            //{$$ = new forStatement{$3, $4, NULL, $7};}
+	| FOR '(' expression_statement expression_statement expression ')' statement {$$ = new forStatement{$3, $4, $5, $7};}
 	;
 
 jump_statement

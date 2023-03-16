@@ -4,7 +4,7 @@
 #include "ast_base.hpp"
 #include <string>
 
-class selectStatement //involves if and while 
+class selectStatement //involves if and switch 
     : public Tree
 {
 private:
@@ -108,36 +108,5 @@ public:
         }
     }
 };
-
-
-class whileStatement
-    : public selectStatement
-{
-private:
-protected:
-    virtual const std::string getOpcode() const override
-        { return "WHILE"; }
-public:
-    whileStatement(TreePtr _condition, TreePtr _statementTrue, TreePtr _statementFalse)
-        :selectStatement(_condition, _statementTrue, _statementFalse)
-    {}
-    virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
-        std::string while_head_Label = context.makeupLabel("while_head");
-        std::string while_body_Label = context.makeupLabel("while_body");
-        std::string while_end_Label = context.makeupLabel("while_end");
-        context.stack.back().endLabel = while_end_Label;
-        context.stack.back().startLabel = while_head_Label;
-        dst<<"j "<<while_head_Label<<std::endl;
-        dst<<while_head_Label<<":"<<std::endl;
-        condition->compile(dst, context, destReg);
-        dst<<"beq x"<<destReg<<", zero, "<<while_end_Label<<std::endl;
-        dst<<"j "<<while_body_Label<<std::endl;
-        dst<<while_body_Label<<":"<<std::endl;
-        statementTrue->compile(dst, context, destReg);
-        dst<<"j "<<while_head_Label<<std::endl;
-        dst<<while_end_Label<<":"<<std::endl;
-    }
-};
-
 
 #endif

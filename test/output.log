@@ -19,12 +19,19 @@ li x9, 1
 sw x9, -56(s0)
 li x9, 1
 sw x9, -60(s0)
+j __while_head_Label__0
+__while_head_Label__0:
+lw x9, -56(s0)
 lw x18, -60(s0)
-seqz x18, x18
-sw x18, -56(s0)
-lw x18, -56(s0)
-mv a0, x18
-j __main_Label__0
+xor x9, x9, x18
+seqz x9, x9
+beq x9, zero, __while_end_Label__0
+j __while_body_Label__0
+__while_body_Label__0:
+li x18, 2
+sw x18, -60(s0)
+j __while_head_Label__0
+__while_end_Label__0:
 __main_Label__0:
 lw s0, 56(sp)
 lw s1, 52(sp)
