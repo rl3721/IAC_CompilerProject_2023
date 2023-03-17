@@ -5,4 +5,10 @@ declaration: (int initialize: b = 1
 
 )
 doing ieration
-}
+first expression:
+(a
+ == b
+)iteration body:
+(b
+ = 2
+)}
