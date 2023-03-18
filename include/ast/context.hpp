@@ -70,8 +70,7 @@ struct variable{
     int size; //the total memory size required by the variable
     int offset;             //used to store offset from stack pointer for local
             //for global store the "absolute address" (offset relating to program)
-    //int pointer = 0; //determines the size of the type which the pointer is pointing to
-    //if 0, means not pointer
+    int ind_size; //determines the size of each element if is an array, also equivalent to increment of pointer
 };
 struct function{ //I am just going to assume that the 
     int size; //store the size of the parameter that is not enough to fit inside the argument regs. 
@@ -82,9 +81,9 @@ struct function{ //I am just going to assume that the
 
 struct Scope{
     std::map<std::string, variable> varBindings; //track the available variables in scope
-    int offset = -56; //tracks the next available word from fp/s0-11.
+    int offset = -52; //tracks the next last declared word from fp/s0-11.
     //-4 reserved for ra
-    //-8 reserved for s0
+    //-8 reserved for s0 ....
     int layer = 1; //used for repeated definition in subscope, know how many layers to scover when exiting scope
     //labels initialised to undefined, as they are only used in loops
     //define them when entering loop

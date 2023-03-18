@@ -120,6 +120,31 @@ public:
             }
         }
     }
+    // void compileArrayOffset(std::ostream &dst, Context &context, int destReg)override{
+    //     if (context.stack.size() == 0){
+    //         if (context.global.varBindings.find(id) == context.global.varBindings.end()){
+    //             exit(1);
+    //         }
+    //         else{
+    //             dst<<"li x"<<destReg<<", "<<context.global.varBindings[id].offset<<std::endl;
+    //             dst<<"add x"<<destReg<<", x"<<destReg<<", gp"<<std::endl;
+    //         }
+    //     }
+    //     else{
+    //         if (context.stack.back().varBindings.find(id) == context.stack.back().varBindings.end()){
+    //             if (context.global.varBindings.find(id) == context.global.varBindings.end()){
+    //                 exit(1);
+    //             }else{
+    //                 dst<<"li x"<<destReg<<", "<<context.global.varBindings[id].offset<<std::endl;
+    //                 dst<<"add x"<<destReg<<", x"<<destReg<<", gp"<<std::endl;
+    //             }
+    //         }
+    //         else{
+    //             dst<<"li x"<<destReg<<", "<<context.global.varBindings[id].offset<<std::endl;
+    //             dst<<"add x"<<destReg<<", x"<<destReg<<",s0"<<std::endl;
+    //         }
+    //     }
+    // }
 };
 
 

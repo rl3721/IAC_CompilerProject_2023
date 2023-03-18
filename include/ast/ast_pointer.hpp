@@ -25,16 +25,16 @@ public:
     virtual ~Pointer()
     {delete subPointer;}
 
-    virtual void print(std::ostream &dst) const override
+    virtual void print(std::ostream &dst) override
     {
         dst<<"*";
     }
 
-    int getSize(Context &context) const override{
+    int getSize(Context &context) override{
         std::cerr<<"Error: trying to get Size of pointer type";
         exit(1);
     }
-    std::string getId() const override{
+    std::string getId() override{
         std::cerr<<"Error: trying to get Size of pointer type";
     }
     int getLayer(){
@@ -44,7 +44,7 @@ public:
         return 1+ subPointer->getLayer();
     }
 
-    virtual void compile(std::ostream &dst, Context &context, int destReg) const override{
+    virtual void compile(std::ostream &dst, Context &context, int destReg) override{
         ;
     }
 };
@@ -66,7 +66,7 @@ public:
         delete declarator;
         delete list;
     }
-    void print(std::ostream &dst)const override{
+    void print(std::ostream &dst)override{
         dst<<getId();
         if (list!=NULL){
             for (int i = 0; i < list->size(); i++){
@@ -74,7 +74,7 @@ public:
             }
         }
     }
-    int getSize(Context &context)const override{
+    int getSize(Context &context)override{
         //std::cerr<<"Warning: trying to get size of function declarator, unexpected behavior may occur"<<std::endl;
         if (list == NULL){
             return 0;
@@ -88,10 +88,10 @@ public:
             return size;
         }
     }
-    std::string getId()const override{
+    std::string getId()override{
         return declarator->getId();
     }
-    void compile(std::ostream &dst, Context &context, int destReg) const override{
+    void compile(std::ostream &dst, Context &context, int destReg) override{
         int parameterOffset=0; 
         int size=0; //initialize offset to be away from s0, only used for more than 8 params
 
