@@ -20,6 +20,7 @@
 #include "ast/ast_iteration_statement.hpp"
 #include "ast/ast_enum.hpp"
 #include "ast/ast_array.hpp"
+#include "ast/ast_pointer.hpp"
 
 
 //todo: compress all list type subclass into one

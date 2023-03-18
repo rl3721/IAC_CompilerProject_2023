@@ -41,6 +41,12 @@ public:
         std::cerr<<"getting Id of unary expression";
         exit(1);
     };
+    virtual void compileArrayOffset(std::ostream &dst, Context &context, int destReg)const override{
+        std::cerr<<"unable to compile array offset for the class";
+        exit(1); //technically this should be named more like something leftCompile,
+        // as it's function sort of diverged after the initial setup
+        //it is mainly used to compile the expression on leftside of assignment. 
+    }
 
 };
 
@@ -59,10 +65,24 @@ public:
     virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
         std::string id = expression->getId();
         int offset = context.stack.back().varBindings[id].offset;
+        int ind_size = context.stack.back().varBindings[id].ind_size;
         dst<<"lw x"<<destReg<<", "<<offset<<"(s0)"<<std::endl;
-        dst<<"addi x"<<destReg<<", x"<<destReg<<", 1"<<std::endl; //for numbers only, TODO Pointers
+        if (expression->isPointer(context)){
+            dst<<"addi x"<<destReg<<", x"<<destReg<<", "<<ind_size<<std::endl;
+        }
+        else{
+            dst<<"addi x"<<destReg<<", x"<<destReg<<", 1"<<std::endl; 
+        }
         dst<<"sw x"<<destReg<<", "<<offset<<"(s0)"<<std::endl;
-        dst<<"addi x"<<destReg<<", x"<<destReg<<", -1"<<std::endl;
+        if (expression->isPointer(context)){
+            dst<<"addi x"<<destReg<<", x"<<destReg<<", -"<<ind_size<<std::endl;
+        }
+        else{
+            dst<<"addi x"<<destReg<<", x"<<destReg<<", -1"<<std::endl;
+        }
+    }
+    bool isPointer(Context &context)override{
+        return expression->isPointer(context);
     }
 };
 
@@ -81,10 +101,24 @@ public:
     virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
         std::string id = expression->getId();
         int offset = context.stack.back().varBindings[id].offset;
+        int ind_size = context.stack.back().varBindings[id].ind_size;
         dst<<"lw x"<<destReg<<", "<<offset<<"(s0)"<<std::endl;
-        dst<<"addi x"<<destReg<<", x"<<destReg<<", -1"<<std::endl; //for numbers only, TODO Pointers
+        if (expression->isPointer(context)){
+            dst<<"addi x"<<destReg<<", x"<<destReg<<", -"<<ind_size<<std::endl;
+        }
+        else{
+            dst<<"addi x"<<destReg<<", x"<<destReg<<", -1"<<std::endl;
+        }
         dst<<"sw x"<<destReg<<", "<<offset<<"(s0)"<<std::endl;
-        dst<<"addi x"<<destReg<<", x"<<destReg<<", 1"<<std::endl;
+        if (expression->isPointer(context)){
+            dst<<"addi x"<<destReg<<", x"<<destReg<<", "<<ind_size<<std::endl;
+        }
+        else{
+            dst<<"addi x"<<destReg<<", x"<<destReg<<", 1"<<std::endl;
+        }
+    }
+    bool isPointer(Context &context)override{
+        return expression->isPointer(context);
     }
 };
 
@@ -103,11 +137,19 @@ public:
     virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
         std::string id = expression->getId();
         int offset = context.stack.back().varBindings[id].offset;
+        int ind_size = context.stack.back().varBindings[id].ind_size;
         dst<<"lw x"<<destReg<<", "<<offset<<"(s0)"<<std::endl;
-        dst<<"addi x"<<destReg<<", x"<<destReg<<", 1"<<std::endl; //for numbers only, TODO Pointers
+        if (expression->isPointer(context)){
+            dst<<"addi x"<<destReg<<", x"<<destReg<<", "<<ind_size<<std::endl;
+        }
+        else{
+            dst<<"addi x"<<destReg<<", x"<<destReg<<", 1"<<std::endl; 
+        }
         dst<<"sw x"<<destReg<<", "<<offset<<"(s0)"<<std::endl;
     }
-
+    bool isPointer(Context &context)override{
+        return expression->isPointer(context);
+    }
 };
 
 class preDecrement
@@ -125,9 +167,18 @@ public:
     virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
         std::string id = expression->getId();
         int offset = context.stack.back().varBindings[id].offset;
+        int ind_size = context.stack.back().varBindings[id].ind_size;
         dst<<"lw x"<<destReg<<", "<<offset<<"(s0)"<<std::endl;
-        dst<<"addi x"<<destReg<<", x"<<destReg<<", -1"<<std::endl; //for numbers only, TODO Pointers
+        if (expression->isPointer(context)){
+            dst<<"addi x"<<destReg<<", x"<<destReg<<", -"<<ind_size<<std::endl;
+        }
+        else{
+            dst<<"addi x"<<destReg<<", x"<<destReg<<", -1"<<std::endl;
+        }
         dst<<"sw x"<<destReg<<", "<<offset<<"(s0)"<<std::endl;
+    }
+    bool isPointer(Context &context)override{
+        return expression->isPointer(context);
     }
 };
 
@@ -192,7 +243,10 @@ public:
     virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
         std::string id = expression->getId();
         int offset = context.stack.back().varBindings[id].offset; //TODO: define new function to directly get offset
-        dst<<"addi x"<<destReg<<", sp"<<offset<<std::endl; //absolute addess to the variable
+        dst<<"addi x"<<destReg<<", s0, "<<offset<<std::endl; //absolute addess to the variable
+    }
+    bool isPointer(Context &context)override{
+        return true;
     }
 };
 
@@ -213,6 +267,12 @@ public:
         int offset = context.stack.back().varBindings[id].offset; //TODO: define new function to directly get offset
         dst<<"lw x"<<destReg<<", "<<offset<<"(s0)"<<std::endl;
         dst<<"lw x"<<destReg<<", 0(x"<<destReg<<")"<<std::endl;
+    }
+    void compileArrayOffset(std::ostream &dst, Context &context, int destReg)const override{
+        std::string id = expression->getId();
+        int offset = context.stack.back().varBindings[id].offset; //TODO: define new function to directly get offset
+        dst<<"lw x"<<destReg<<", "<<offset<<"(s0)"<<std::endl;
+        std::cerr<<"getting pointer address"<<std::endl;
     }
 };
 

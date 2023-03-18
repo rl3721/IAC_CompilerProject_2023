@@ -152,7 +152,7 @@ direct_declarator
 	;
 
 declarator
-	: pointer direct_declarator		//{$$ = new pointer_declarator($1, $2)}
+	: pointer direct_declarator		{$$ = new pointerDeclarator($2);}
 	| direct_declarator				{$$ = $1;}
 	;
 

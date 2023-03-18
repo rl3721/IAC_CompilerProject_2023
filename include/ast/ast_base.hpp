@@ -38,9 +38,13 @@ public:
     }
     virtual void compileArrayOffset(std::ostream &dst, Context &context, int destReg)const{
         std::cerr<<"unable to compile array offset for the class";
-        exit(1);
+        exit(1); //technically this should be named more like something leftCompile,
+        // as it's function sort of diverged after the initial setup
+        //it is mainly used to compile the expression on leftside of assignment. 
     }
-
+    virtual bool isPointer(Context &context){
+        return false;
+    }
 };
 
 

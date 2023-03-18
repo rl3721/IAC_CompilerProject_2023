@@ -87,14 +87,31 @@ class arrayIndex
         void compileArrayOffset(std::ostream &dst, Context &context, int destReg)const override{
             identifier->compileArrayOffset(dst, context,destReg);
             int newReg = context.RegisterFile.allocate();
-            expression->compile(dst,context,newReg);
-            dst<<"slli x"<<newReg<<", x"<<newReg<<", "<<2<<std::endl; //equialent to multiply by 4. for double and multi dimensional arrays, more features needed. 
+            expression->compile(dst,context,newReg); //
+            dst<<"slli x"<<newReg<<", x"<<newReg<<", "<<2<<std::endl; //equialent to multiply by 4. for double structs and multi dimensional arrays, more features needed.
+            //should also add individual size of each dimension to the context, and multiply by that. 
+            /* I think for multidimensional array, I can change the void to int, the base return zero and each layer ontop returns +1. 
+            This determines the power you need to multiply it by. I will leave this for now cuz I am lazy.*/
             dst<<"add x"<<destReg<<", x"<<destReg<<", x"<<newReg<<std::endl;
             context.RegisterFile.freeReg(newReg);
         }
         void compile(std::ostream &dst, Context &context, int destReg) const override{
+            if(identifier->isPointer(context)){
+                std::string id = identifier->getId();
+                int offset = context.stack.back().varBindings[id].offset;
+                dst<<"lw x"<<destReg<<", "<<offset<<"(s0)"<<std::endl;
+                int newReg = context.RegisterFile.allocate();
+                expression->compile(dst,context,newReg);
+                dst<<"slli x"<<newReg<<", x"<<newReg<<", "<<2<<std::endl;
+                dst<<"add x"<<destReg<<", x"<<destReg<<", x"<<newReg<<std::endl;
+                dst<<"lw x"<<destReg<<", 0(x"<<destReg<<")"<<std::endl;
+                context.RegisterFile.freeReg(newReg);
+            }
+            else{
             compileArrayOffset(dst, context,destReg);
             dst<<"lw x"<<destReg<<", 0(x"<<destReg<<")"<<std::endl;
+            }
+
         }
 };    
 

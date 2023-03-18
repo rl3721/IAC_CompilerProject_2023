@@ -61,6 +61,9 @@ public:
         right->compile(dst, context, RightReg);
         return RightReg;
     }
+    bool isPointer(Context &context) const{
+        return left->isPointer(context) ^ right->isPointer(context);
+    }
 };
 
 class logicalOrOperator
@@ -415,8 +418,17 @@ public:
     virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
         int LeftReg  = DoLeft(dst, context, destReg);
         int RightReg = DoRight(dst, context, destReg);
+        if (left->isPointer(context) && !right->isPointer(context)) {
+            dst<<"slli x"<<RightReg<<", x"<<RightReg<<", 2"<<std::endl;
+        }
+        else if (!left->isPointer(context) && right->isPointer(context)) {
+            dst<<"slli x"<<LeftReg<<", x"<<LeftReg<<", 2"<<std::endl;
+        }
         dst<<"add x"<<destReg<<", x"<<LeftReg<<", x"<<RightReg<<std::endl;
-        // context.RegisterFile.freeReg(LeftReg);
+        // if (left->isPointer(context) && right->isPointer(context)){
+        //     dst<<"srai x"<<destReg<<", x"<<destReg<<", 2"<<std::endl;
+        // } adding two pointers make no sense
+
         context.RegisterFile.freeReg(RightReg);
     }
     int getValue(Context &context) override{
@@ -439,9 +451,19 @@ public:
     virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
         int LeftReg  = DoLeft(dst, context, destReg);
         int RightReg = DoRight(dst, context, destReg);
+
+        if (left->isPointer(context) && !right->isPointer(context)) {
+            dst<<"slli x"<<RightReg<<", x"<<RightReg<<", 2"<<std::endl;
+        }
+        else if (!left->isPointer(context) && right->isPointer(context)) {
+            dst<<"slli x"<<LeftReg<<", x"<<LeftReg<<", 2"<<std::endl;
+        }
         dst<<"sub x"<<destReg<<", x"<<LeftReg<<", x"<<RightReg<<std::endl;
         // context.RegisterFile.freeReg(LeftReg);
         context.RegisterFile.freeReg(RightReg);
+        if (left->isPointer(context) && right->isPointer(context)){
+            dst<<"srai x"<<destReg<<", x"<<destReg<<", 2"<<std::endl;
+        }
     }
     int getValue(Context &context) override{
         return left->getValue(context) - right->getValue(context);

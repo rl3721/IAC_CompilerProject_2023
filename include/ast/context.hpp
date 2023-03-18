@@ -71,6 +71,8 @@ struct variable{
     int offset;             //used to store offset from stack pointer for local
             //for global store the "absolute address" (offset relating to program)
     int ind_size; //determines the size of each element if is an array, also equivalent to increment of pointer
+    int is_pointer; //determines if the variable is a pointer,
+    //currently I will just use it as bool, but I will change it to int if I want to support multilayer pointer
 };
 struct function{ //I am just going to assume that the 
     int size; //store the size of the parameter that is not enough to fit inside the argument regs. 

@@ -52,6 +52,18 @@ public:
     void print(std::ostream &dst)const override{
         dst<<id<<std::endl;
     }
+    bool isPointer(Context &context)override{
+        if (context.stack.size() == 0){
+            if (context.global.varBindings[id].is_pointer > 0)
+            return true;
+        }
+        else{
+            if (context.stack.back().varBindings[id].is_pointer > 0)
+            return true;
+        }
+        return false;
+    }
+    
     void compile(std::ostream &dst, Context &context, int destReg)const override{
         if(context.stack.size() == 0){//if in global scope
             if(context.global.varBindings.find(id) == context.global.varBindings.end()){

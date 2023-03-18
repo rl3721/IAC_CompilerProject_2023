@@ -65,14 +65,21 @@ public:
         int ind_size;
         for(int i = 0; i < List->size(); i++){//do each of them declaration
             id = List->at(i)->getId();
-            size = List->at(i)->getSize(context)*declaration_specifiers->getSize(context);
+
+            if (List->at(i)->isPointer(context)){
+                size = List->at(i)->getSize(context)*4;
+            }
+            else{
+                size = List->at(i)->getSize(context)*declaration_specifiers->getSize(context);
+            }
+            
             ind_size = declaration_specifiers->getSize(context);
 
             //adding declared variable to scope, giving it the required memory size in stack
             if (context.stack.size() == 0){ //no stack meaning declaring variable in global
                 if (context.global.varBindings.find(id) == context.global.varBindings.end()){
                     context.global.offset -= size;
-                    context.global.varBindings[id] = {size, context.global.offset, ind_size};
+                    context.global.varBindings[id] = {size, context.global.offset, ind_size, 0};
                     std::cerr<<"global variable "<<id<<" of size "<<size;
                 }
                 else{
@@ -84,13 +91,13 @@ public:
             else{//declaring variable in local
                 if (context.stack.back().varBindings.find(id) == context.stack.back().varBindings.end()){
                     context.stack.back().offset -= size;
-                    context.stack.back().varBindings[id] = {size, context.stack.back().offset, ind_size};
+                    context.stack.back().varBindings[id] = {size, context.stack.back().offset, ind_size, 0};
                     std::cerr<<"local variable "<<id<<" of size "<<size<<std::endl;
                 }
                 else{
                     context.enterScope();
                     context.stack.back().offset -= size;
-                    context.stack.back().varBindings[id] = {size, context.stack.back().offset, ind_size};
+                    context.stack.back().varBindings[id] = {size, context.stack.back().offset, ind_size, 0};
                     context.stack.back().layer++;
                     std::cerr<<"local variable "<<id<<" of size "<<size<<std::endl;
                     std::cerr<<"warning: multiple declaration of the variable "<<id<<" in local scope";
