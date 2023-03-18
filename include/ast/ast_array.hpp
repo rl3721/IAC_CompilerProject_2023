@@ -7,6 +7,10 @@
 #include <string>
 #include "List.hpp"
 
+/* For arrys, it is only done such it passes the test, but it is not fully implemented
+Multidimensional arrays not supported
+Unary Operator not supported
+Initialization not supported*/
 class arrayDeclarator
     : public Tree
 {
