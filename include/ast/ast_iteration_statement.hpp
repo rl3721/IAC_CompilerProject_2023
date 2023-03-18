@@ -45,14 +45,18 @@ public:
     virtual void print(std::ostream &dst) const override
     {
         dst<<"doing ieration"<<std::endl;
-        // dst<<"condition:"<<std::endl;
-        // condition->print(dst);
-        // dst<<"ifTure_statement:"<<std::endl;
-        // statementTrue->print(dst);
-        // if(statementFalse != NULL){
-        //     dst<<"elseStatement:"<<std::endl;
-        //     statementFalse->print(dst);
-        // }
+        dst<<"first expression:"<<std::endl;
+        firstExpression->print(dst);
+        if (secondExpression!=NULL){
+            dst<<"second expression:"<<std::endl;
+            secondExpression->print(dst);
+        }
+        if (thirdExpression!=NULL){
+            dst<<"third expression:"<<std::endl;
+            thirdExpression->print(dst);
+        }
+        dst<<"iteration body:"<<std::endl;
+        iterationBody->print(dst);
     }
 
 };
