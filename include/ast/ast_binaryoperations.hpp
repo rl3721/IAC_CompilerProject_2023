@@ -1,4 +1,4 @@
-#ifndef ast_binaryOperations_hpp
+#ifndef ast_binaryOperations_hppue()
 #define ast_binaryOperations_hpp
 
 #include "ast_base.hpp"
@@ -92,6 +92,9 @@ public:
         dst<<"j "<<end_label<<std::endl;
         dst<<end_label<<":"<<std::endl;
     }
+    int getValue(Context &context) override{
+        return left->getValue(context) || right->getValue(context);
+    }
 };
 
 class logicalAndOperator
@@ -123,6 +126,9 @@ public:
         dst<<"j "<<end_label<<std::endl;
         dst<<end_label<<":"<<std::endl;
     }
+    int getValue(Context &context) override{
+        return left->getValue(context) && right->getValue(context);
+    }
 };
 
 class inclusiveOrOperator
@@ -143,6 +149,9 @@ public:
         dst<<"or x"<<destReg<<", x"<<LeftReg<<", x"<<RightReg<<std::endl;
         // context.RegisterFile.freeReg(LeftReg);
         context.RegisterFile.freeReg(RightReg);
+    }
+    int getValue(Context &context) override{
+        return left->getValue(context) | right->getValue(context);
     }
 };
 
@@ -165,6 +174,9 @@ public:
         // context.RegisterFile.freeReg(LeftReg);
         context.RegisterFile.freeReg(RightReg);
     }
+    int getValue(Context &context) override{
+        return left->getValue(context) ^ right->getValue(context);
+    }
 };
 
 class andOperator
@@ -185,6 +197,9 @@ public:
         dst<<"and x"<<destReg<<", x"<<LeftReg<<", x"<<RightReg<<std::endl;
         // context.RegisterFile.freeReg(LeftReg);
         context.RegisterFile.freeReg(RightReg);
+    }
+    int getValue(Context &context) override{
+        return left->getValue(context) & right->getValue(context);
     }
 };
 
@@ -208,6 +223,9 @@ public:
         // context.RegisterFile.freeReg(LeftReg);
         context.RegisterFile.freeReg(RightReg);
     }
+    int getValue(Context &context) override{
+        return left->getValue(context) == right->getValue(context);
+    }
 };
 
 class inequalityOperator
@@ -230,6 +248,9 @@ public:
         // context.RegisterFile.freeReg(LeftReg);
         context.RegisterFile.freeReg(RightReg);
     }
+    int getValue(Context &context) override{
+        return left->getValue(context) != right->getValue(context);
+    }
 };
 
 class ltOperator
@@ -251,6 +272,9 @@ public:
         // context.RegisterFile.freeReg(LeftReg);
         context.RegisterFile.freeReg(RightReg);
     }
+    int getValue(Context &context) override{
+        return left->getValue(context) < right->getValue(context);
+    }
 };
 
 class gtOperator
@@ -271,6 +295,9 @@ public:
         dst<<"slt x"<<destReg<<", x"<<RightReg<<", x"<<LeftReg<<std::endl;
         // context.RegisterFile.freeReg(LeftReg);
         context.RegisterFile.freeReg(RightReg);
+    }
+    int getValue(Context &context) override{
+        return left->getValue(context) > right->getValue(context);
     }
 };
 
@@ -294,6 +321,9 @@ public:
         // context.RegisterFile.freeReg(LeftReg);
         context.RegisterFile.freeReg(RightReg);
     }
+    int getValue(Context &context) override{
+        return left->getValue(context) <= right->getValue(context);
+    }
 };
 
 class geOperator
@@ -316,6 +346,9 @@ public:
         // context.RegisterFile.freeReg(LeftReg);
         context.RegisterFile.freeReg(RightReg);
     }
+    int getValue(Context &context) override{
+        return left->getValue(context) >= right->getValue(context);
+    }
 };
 
 class leftShiftOperator
@@ -336,6 +369,9 @@ public:
         dst<<"sll x"<<destReg<<", x"<<LeftReg<<", x"<<RightReg<<std::endl;
         // context.RegisterFile.freeReg(LeftReg);
         context.RegisterFile.freeReg(RightReg);
+    }
+    int getValue(Context &context) override{
+        return left->getValue(context) << right->getValue(context);
     }
 };
 
@@ -358,6 +394,10 @@ public:
         // context.RegisterFile.freeReg(LeftReg);
         context.RegisterFile.freeReg(RightReg);
     }
+
+    int getValue(Context &context) override{
+        return left->getValue(context) >> right->getValue(context);
+    }
 };
 
 class addOperator
@@ -378,6 +418,9 @@ public:
         dst<<"add x"<<destReg<<", x"<<LeftReg<<", x"<<RightReg<<std::endl;
         // context.RegisterFile.freeReg(LeftReg);
         context.RegisterFile.freeReg(RightReg);
+    }
+    int getValue(Context &context) override{
+        return left->getValue(context) + right->getValue(context);
     }
 };
 
@@ -400,6 +443,9 @@ public:
         // context.RegisterFile.freeReg(LeftReg);
         context.RegisterFile.freeReg(RightReg);
     }
+    int getValue(Context &context) override{
+        return left->getValue(context) - right->getValue(context);
+    }
 };
 
 class mulOperator
@@ -420,6 +466,9 @@ public:
         dst<<"mul x"<<destReg<<", x"<<LeftReg<<", x"<<RightReg<<std::endl;
         // context.RegisterFile.freeReg(LeftReg);
         context.RegisterFile.freeReg(RightReg);
+    }
+    int getValue(Context &context) override{
+        return left->getValue(context) * right->getValue(context);
     }
 };
 
@@ -442,6 +491,9 @@ public:
         // context.RegisterFile.freeReg(LeftReg);
         context.RegisterFile.freeReg(RightReg);
     }
+    int getValue(Context &context) override{
+        return left->getValue(context) / right->getValue(context);
+    }
 };
 
 class modOperator
@@ -462,6 +514,9 @@ public:
         dst<<"rem x"<<destReg<<", x"<<LeftReg<<", x"<<RightReg<<std::endl;
         // context.RegisterFile.freeReg(LeftReg);
         context.RegisterFile.freeReg(RightReg);
+    }
+    int getValue(Context &context) override{
+        return left->getValue(context) % right->getValue(context);
     }
 };
 

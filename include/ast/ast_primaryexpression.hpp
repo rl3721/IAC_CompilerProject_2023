@@ -55,26 +55,68 @@ public:
     void compile(std::ostream &dst, Context &context, int destReg)const override{
         if(context.stack.size() == 0){//if in global scope
             if(context.global.varBindings.find(id) == context.global.varBindings.end()){
-                    std::cerr<<" Error: variable "<<id<<" not declared in global";
+                if (context.global.enumBindings.find(id) == context.global.enumBindings.end()) {
+                    std::cerr << " Error: variable " << id << " not declared in global";
                     exit(1);
                 }
-                else{
-                    dst<<"lw x"<<destReg<<", "<<context.global.varBindings[id].offset<<"(gp)"<<std::endl;
+                else {
+                    dst << "li x" << destReg << ", " << context.global.enumBindings[id] << std::endl;
                 }
+            }
+            else{
+                dst<<"lw x"<<destReg<<", "<<context.global.varBindings[id].offset<<"(gp)"<<std::endl;
+            }
         }
         else{
             //if in local scope
             if(context.stack.back().varBindings.find(id) == context.stack.back().varBindings.end()){
                 if(context.global.varBindings.find(id) == context.global.varBindings.end()){
-                    std::cerr<<" Error: variable "<<id<<" not declared in scope";
-                    exit(1);
+                    if(context.stack.back().enumBindings.find(id) == context.stack.back().enumBindings.end()){
+                        if (context.global.enumBindings.find(id) == context.global.enumBindings.end()) {
+                            std::cerr << " Error: variable " << id << " not declared in local scope";
+                            exit(1);
+                        }
+                        else {//priority 4
+                            dst << "li x" << destReg << ", " << context.global.enumBindings[id] << std::endl;
+                            std::cerr << "using enum " << id << " in global scope" << std::endl;
+                        }
+                    }
+                    else{//priority 3
+                        dst<<"li x"<<destReg<<", "<<context.stack.back().enumBindings[id]<<std::endl;
+                        std::cerr<<"using enum "<<id<<" in local scope"<<std::endl;
+                    }
                 }
-                else{
+                else{//priority 2
                     dst<<"lw x"<<destReg<<", "<<context.global.varBindings[id].offset<<"(gp)"<<std::endl;
                 }
             }
-            else{
+            else{//priority 1
                 dst<<"lw x"<<destReg<<", "<<context.stack.back().varBindings[id].offset<<"(s0)"<<std::endl;
+            }
+        }
+    }
+    int getValue(Context &context) override{
+        if (context.stack.size() == 0) {//if in global scope
+            if (context.global.enumBindings.find(id) == context.global.enumBindings.end()) {
+                std::cerr << " Error: variable " << id << " not declared in global";
+                exit(1);
+            }
+            else {
+                return context.global.enumBindings[id];
+            }
+        }
+        else {
+            if (context.stack.back().enumBindings.find(id) == context.stack.back().enumBindings.end()) {
+                if (context.global.enumBindings.find(id) == context.global.enumBindings.end()) {
+                    std::cerr << " Error: variable " << id << " not declared in scope";
+                    exit(1);
+                }
+                else {
+                    return context.global.enumBindings[id];
+                }
+            }
+            else {
+                return context.stack.back().enumBindings[id];
             }
         }
     }
@@ -103,6 +145,9 @@ public:
     }
     void print(std::ostream &dst)const override{
         dst<<val<<std::endl;
+    }
+    int getValue(Context &context) override{
+        return val;
     }
 };
 

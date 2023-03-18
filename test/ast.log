@@ -1,8 +1,1 @@
-function definition:int main{declaration: (int initialize: a = 1
-
-)
-declaration: (int initialize: b = 1
-
-)
-doing ieration
-}
+declaration: (enumSpecifier

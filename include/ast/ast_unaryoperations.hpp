@@ -64,7 +64,6 @@ public:
         dst<<"sw x"<<destReg<<", "<<offset<<"(s0)"<<std::endl;
         dst<<"addi x"<<destReg<<", x"<<destReg<<", -1"<<std::endl;
     }
-
 };
 
 class postDecrement
@@ -149,6 +148,10 @@ public:
         expression->compile(dst,context,destReg);
         dst<<"neg x"<<destReg<<", x"<<destReg<<std::endl; //for numbers only, TODO Pointers
     }
+
+    int getValue(Context &context)override{
+        return - expression->getValue(context);
+    }
 };
 
 class sizeOfOperator
@@ -167,6 +170,10 @@ public:
         std::string id = expression->getId();
         int size = context.stack.back().varBindings[id].size; //TODO: define new function to directly get offset
         dst<<"li x"<<destReg<<", "<<size<<std::endl;
+    }
+    int getValue(Context &context)override{
+        std::cerr<<"unfinished, value of sizeof";
+        exit(1);
     }
 };
 
@@ -223,7 +230,11 @@ public:
 
     virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
         expression->compile(dst,context,destReg);
-        dst<<'not x'<<destReg<<", x"<<destReg<<std::endl;
+        dst<<"not x"<<destReg<<", x"<<destReg<<std::endl;
+    }
+
+    int getValue(Context &context)override{
+        return ~ expression->getValue(context);
     }
 };
 
@@ -242,6 +253,9 @@ public:
     virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
         expression->compile(dst, context, destReg);
         dst<<"seqz x"<<destReg<<", x"<<destReg<<std::endl;
+    }
+    int getValue(Context &context)override{
+        return ! expression->getValue(context);
     }
 };
 

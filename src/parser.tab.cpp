@@ -638,23 +638,23 @@ static const yytype_int16 yyrline[] =
      111,   112,   113,   114,   115,   116,   117,   118,   123,   124,
      125,   126,   127,   131,   132,   136,   137,   138,   139,   145,
      146,   147,   148,   149,   150,   151,   155,   156,   160,   161,
-     166,   168,   172,   173,   176,   177,   178,   184,   185,   191,
-     192,   193,   198,   199,   200,   203,   204,   209,   210,   211,
-     212,   215,   216,   217,   220,   221,   222,   223,   224,   225,
-     226,   227,   228,   234,   235,   236,   239,   240,   244,   245,
-     248,   251,   252,   253,   258,   259,   260,   261,   264,   265,
-     268,   269,   272,   273,   276,   277,   280,   281,   284,   285,
-     288,   289,   292,   293,   296,   297,   301,   302,   305,   306,
-     310,   311,   312,   313,   314,   315,   319,   320,   321,   325,
-     326,   330,   331,   332,   336,   337,   338,   339,   343,   344,
-     345,   346,   347,   351,   352,   370,   371,   372,   373,   374,
-     378,   379,   380,   381,   382,   383,   384,   385,   391,   392,
-     393,   394,   395,   396,   397,   398,   399,   400,   401,   414,
-     415,   419,   420,   421,   422,   426,   427,   428,   432,   433,
-     434,   438,   439,   440,   441,   442,   446,   447,   448,   452,
-     453,   457,   458,   462,   463,   467,   468,   472,   473,   477,
-     478,   482,   483,   484,   485,   486,   487,   488,   489,   490,
-     491,   492,   493,   498,   499,   503
+     166,   167,   171,   172,   175,   176,   177,   183,   184,   190,
+     191,   192,   197,   198,   199,   202,   203,   208,   209,   210,
+     211,   214,   215,   216,   219,   220,   221,   222,   223,   224,
+     225,   226,   227,   233,   234,   235,   238,   239,   243,   244,
+     247,   250,   251,   252,   257,   258,   259,   260,   263,   264,
+     267,   268,   271,   272,   275,   276,   279,   280,   283,   284,
+     287,   288,   291,   292,   295,   296,   300,   301,   304,   305,
+     309,   310,   311,   312,   313,   314,   318,   319,   320,   324,
+     325,   329,   330,   331,   335,   336,   337,   338,   342,   343,
+     344,   345,   346,   350,   351,   369,   370,   371,   372,   373,
+     377,   378,   379,   380,   381,   382,   383,   384,   390,   391,
+     392,   393,   394,   395,   396,   397,   398,   399,   400,   413,
+     414,   418,   419,   420,   421,   425,   426,   427,   431,   432,
+     433,   437,   438,   439,   440,   441,   445,   446,   447,   451,
+     452,   456,   457,   461,   462,   466,   467,   471,   472,   476,
+     477,   481,   482,   483,   484,   485,   486,   487,   488,   489,
+     490,   491,   492,   497,   498,   502
 };
 #endif
 
@@ -1761,684 +1761,732 @@ yyreduce:
 
   case 40: /* declaration: declaration_specifiers ';'  */
 #line 166 "src/parser.y"
-                                                                                {std::cerr<<"variable with no name";exit(1);}
+                                                                                {(yyval.tree) = new declaration((yyvsp[-1].tree), NULL);}
 #line 1766 "src/parser.tab.cpp"
     break;
 
   case 41: /* declaration: declaration_specifiers init_declarator_list ';'  */
-#line 168 "src/parser.y"
+#line 167 "src/parser.y"
                                                                 {(yyval.tree) = new declaration((yyvsp[-2].tree), (yyvsp[-1].list));}
 #line 1772 "src/parser.tab.cpp"
     break;
 
   case 42: /* init_declarator: declarator  */
-#line 172 "src/parser.y"
+#line 171 "src/parser.y"
                                                         {(yyval.tree) = (yyvsp[0].tree);}
 #line 1778 "src/parser.tab.cpp"
     break;
 
   case 43: /* init_declarator: declarator '=' initializer  */
-#line 173 "src/parser.y"
+#line 172 "src/parser.y"
                                         {(yyval.tree) = new initDeclarator((yyvsp[-2].tree), (yyvsp[0].tree));}
 #line 1784 "src/parser.tab.cpp"
     break;
 
   case 44: /* initializer: assignment_expression  */
-#line 176 "src/parser.y"
+#line 175 "src/parser.y"
                                                 {(yyval.tree) = (yyvsp[0].tree);}
 #line 1790 "src/parser.tab.cpp"
     break;
 
   case 47: /* function_definition: declarator compound_statement  */
-#line 184 "src/parser.y"
+#line 183 "src/parser.y"
                                                                                                                                 {std::cerr<<"function witout type"<<std::endl;}
 #line 1796 "src/parser.tab.cpp"
     break;
 
   case 48: /* function_definition: declaration_specifiers declarator compound_statement  */
-#line 185 "src/parser.y"
+#line 184 "src/parser.y"
                                                                                                         {(yyval.tree) = new functionDefinition((yyvsp[-2].tree), (yyvsp[-1].tree), (yyvsp[0].tree)) ;}
 #line 1802 "src/parser.tab.cpp"
     break;
 
   case 49: /* parameter_declaration: declaration_specifiers declarator  */
-#line 191 "src/parser.y"
+#line 190 "src/parser.y"
                                                                         {(yyval.tree) = new declaration((yyvsp[-1].tree), initList((yyvsp[0].tree))); }
 #line 1808 "src/parser.tab.cpp"
     break;
 
-  case 51: /* parameter_declaration: declaration_specifiers  */
-#line 193 "src/parser.y"
-                                                                                {std::cerr<<"parameter with no name";exit(1);}
+  case 50: /* parameter_declaration: declaration_specifiers abstract_declarator  */
+#line 191 "src/parser.y"
+                                                         {std::cerr<<"Error: abstract declarators, unsupported"; exit(1);}
 #line 1814 "src/parser.tab.cpp"
     break;
 
-  case 77: /* struct_or_union: UNION  */
-#line 240 "src/parser.y"
-                        {std::cerr<<"union not assessed"; exit(1);}
+  case 51: /* parameter_declaration: declaration_specifiers  */
+#line 192 "src/parser.y"
+                                                                                {std::cerr<<"Error: abstract declarators, unsupported"; exit(1);}
 #line 1820 "src/parser.tab.cpp"
     break;
 
-  case 84: /* specifier_qualifier_list: specifier_qualifier_list type_specifier  */
-#line 258 "src/parser.y"
-                                                        {(yyval.list) = concatList((yyvsp[-1].list), (yyvsp[0].tree));}
+  case 52: /* enum_specifier: ENUM '{' enumerator_list '}'  */
+#line 197 "src/parser.y"
+                                                                {(yyval.tree) = new enumSpecifier((yyvsp[-1].list));}
 #line 1826 "src/parser.tab.cpp"
     break;
 
-  case 85: /* specifier_qualifier_list: type_specifier  */
-#line 259 "src/parser.y"
-                                                                                {(yyval.list) = initList((yyvsp[0].tree));}
+  case 53: /* enum_specifier: ENUM IDENTIFIER '{' enumerator_list '}'  */
+#line 198 "src/parser.y"
+                                                        {(yyval.tree) = new enumSpecifier(*(yyvsp[-3].string), (yyvsp[-1].list));}
 #line 1832 "src/parser.tab.cpp"
     break;
 
-  case 88: /* struct_declarator_list: struct_declarator  */
-#line 264 "src/parser.y"
-                                                                                        {(yyval.list) = initList((yyvsp[0].tree));}
+  case 54: /* enum_specifier: ENUM IDENTIFIER  */
+#line 199 "src/parser.y"
+                                                                                {(yyval.tree) = new enumSpecifier(*(yyvsp[0].string), NULL);}
 #line 1838 "src/parser.tab.cpp"
     break;
 
-  case 89: /* struct_declarator_list: struct_declarator_list ',' struct_declarator  */
-#line 265 "src/parser.y"
-                                                        {(yyval.list) = concatList((yyvsp[-2].list), (yyvsp[0].tree));}
+  case 55: /* enumerator: IDENTIFIER  */
+#line 202 "src/parser.y"
+                                                                        {(yyval.tree) = new Enumerator(*(yyvsp[0].string), NULL);}
 #line 1844 "src/parser.tab.cpp"
     break;
 
-  case 90: /* init_declarator_list: init_declarator  */
-#line 268 "src/parser.y"
-                                                                                {(yyval.list) = initList((yyvsp[0].tree));}
+  case 56: /* enumerator: IDENTIFIER '=' constant_expression  */
+#line 203 "src/parser.y"
+                                                {(yyval.tree) = new Enumerator(*(yyvsp[-2].string), (yyvsp[0].tree));}
 #line 1850 "src/parser.tab.cpp"
     break;
 
-  case 91: /* init_declarator_list: init_declarator_list ',' init_declarator  */
-#line 269 "src/parser.y"
-                                                        {(yyval.list) = concatList((yyvsp[-2].list), (yyvsp[0].tree));}
+  case 77: /* struct_or_union: UNION  */
+#line 239 "src/parser.y"
+                        {std::cerr<<"union not assessed"; exit(1);}
 #line 1856 "src/parser.tab.cpp"
     break;
 
-  case 92: /* enumerator_list: enumerator  */
-#line 272 "src/parser.y"
-                                                                {(yyval.list) = initList((yyvsp[0].tree));}
+  case 84: /* specifier_qualifier_list: specifier_qualifier_list type_specifier  */
+#line 257 "src/parser.y"
+                                                        {(yyval.list) = concatList((yyvsp[-1].list), (yyvsp[0].tree));}
 #line 1862 "src/parser.tab.cpp"
     break;
 
-  case 93: /* enumerator_list: enumerator_list ',' enumerator  */
-#line 273 "src/parser.y"
-                                                {(yyval.list) = concatList((yyvsp[-2].list), (yyvsp[0].tree));}
+  case 85: /* specifier_qualifier_list: type_specifier  */
+#line 258 "src/parser.y"
+                                                                                {(yyval.list) = initList((yyvsp[0].tree));}
 #line 1868 "src/parser.tab.cpp"
     break;
 
-  case 94: /* initializer_list: initializer  */
-#line 276 "src/parser.y"
-                                                                {(yyval.list) = initList((yyvsp[0].tree));}
+  case 88: /* struct_declarator_list: struct_declarator  */
+#line 263 "src/parser.y"
+                                                                                        {(yyval.list) = initList((yyvsp[0].tree));}
 #line 1874 "src/parser.tab.cpp"
     break;
 
-  case 95: /* initializer_list: initializer_list ',' initializer  */
-#line 277 "src/parser.y"
-                                                {(yyval.list) = concatList((yyvsp[-2].list), (yyvsp[0].tree));}
+  case 89: /* struct_declarator_list: struct_declarator_list ',' struct_declarator  */
+#line 264 "src/parser.y"
+                                                        {(yyval.list) = concatList((yyvsp[-2].list), (yyvsp[0].tree));}
 #line 1880 "src/parser.tab.cpp"
     break;
 
-  case 96: /* identifier_list: IDENTIFIER  */
-#line 280 "src/parser.y"
-                                                                {(yyval.list) = initList(new identifier(*(yyvsp[0].string)));}
+  case 90: /* init_declarator_list: init_declarator  */
+#line 267 "src/parser.y"
+                                                                                {(yyval.list) = initList((yyvsp[0].tree));}
 #line 1886 "src/parser.tab.cpp"
     break;
 
-  case 97: /* identifier_list: identifier_list ',' IDENTIFIER  */
-#line 281 "src/parser.y"
-                                                {(yyval.list) = concatList((yyvsp[-2].list), new identifier(*(yyvsp[0].string)));}
+  case 91: /* init_declarator_list: init_declarator_list ',' init_declarator  */
+#line 268 "src/parser.y"
+                                                        {(yyval.list) = concatList((yyvsp[-2].list), (yyvsp[0].tree));}
 #line 1892 "src/parser.tab.cpp"
     break;
 
-  case 100: /* parameter_type_list: parameter_list  */
-#line 288 "src/parser.y"
-                                                        {(yyval.list) = (yyvsp[0].list);}
+  case 92: /* enumerator_list: enumerator  */
+#line 271 "src/parser.y"
+                                                                {(yyval.list) = initList((yyvsp[0].tree));}
 #line 1898 "src/parser.tab.cpp"
     break;
 
-  case 101: /* parameter_type_list: parameter_list ',' ELLIPSIS  */
-#line 289 "src/parser.y"
-                                        {std::cerr<<"ellipsed parameters not assessed"<<std::endl; exit(1);}
+  case 93: /* enumerator_list: enumerator_list ',' enumerator  */
+#line 272 "src/parser.y"
+                                                {(yyval.list) = concatList((yyvsp[-2].list), (yyvsp[0].tree));}
 #line 1904 "src/parser.tab.cpp"
     break;
 
-  case 102: /* parameter_list: parameter_declaration  */
-#line 292 "src/parser.y"
-                                                                        {(yyval.list) = initList((yyvsp[0].tree));}
+  case 94: /* initializer_list: initializer  */
+#line 275 "src/parser.y"
+                                                                {(yyval.list) = initList((yyvsp[0].tree));}
 #line 1910 "src/parser.tab.cpp"
     break;
 
-  case 103: /* parameter_list: parameter_list ',' parameter_declaration  */
-#line 293 "src/parser.y"
-                                                        {(yyval.list) = concatList((yyvsp[-2].list), (yyvsp[0].tree));}
+  case 95: /* initializer_list: initializer_list ',' initializer  */
+#line 276 "src/parser.y"
+                                                {(yyval.list) = concatList((yyvsp[-2].list), (yyvsp[0].tree));}
 #line 1916 "src/parser.tab.cpp"
     break;
 
-  case 104: /* argument_expression_list: assignment_expression  */
-#line 296 "src/parser.y"
-                                                                                                {(yyval.list) = initList((yyvsp[0].tree));}
+  case 96: /* identifier_list: IDENTIFIER  */
+#line 279 "src/parser.y"
+                                                                {(yyval.list) = initList(new identifier(*(yyvsp[0].string)));}
 #line 1922 "src/parser.tab.cpp"
     break;
 
-  case 105: /* argument_expression_list: argument_expression_list ',' assignment_expression  */
-#line 297 "src/parser.y"
-                                                                {(yyval.list) = concatList((yyvsp[-2].list), (yyvsp[0].tree));}
+  case 97: /* identifier_list: identifier_list ',' IDENTIFIER  */
+#line 280 "src/parser.y"
+                                                {(yyval.list) = concatList((yyvsp[-2].list), new identifier(*(yyvsp[0].string)));}
 #line 1928 "src/parser.tab.cpp"
     break;
 
-  case 106: /* declaration_or_statement: declaration  */
-#line 301 "src/parser.y"
-                        {(yyval.tree) = (yyvsp[0].tree);}
+  case 100: /* parameter_type_list: parameter_list  */
+#line 287 "src/parser.y"
+                                                        {(yyval.list) = (yyvsp[0].list);}
 #line 1934 "src/parser.tab.cpp"
     break;
 
-  case 107: /* declaration_or_statement: statement  */
-#line 302 "src/parser.y"
-                                {(yyval.tree) = (yyvsp[0].tree);}
+  case 101: /* parameter_type_list: parameter_list ',' ELLIPSIS  */
+#line 288 "src/parser.y"
+                                        {std::cerr<<"ellipsed parameters not assessed"<<std::endl; exit(1);}
 #line 1940 "src/parser.tab.cpp"
     break;
 
-  case 108: /* declaration_or_statement_list: declaration_or_statement  */
-#line 305 "src/parser.y"
-                                                                                                {(yyval.list) = initList((yyvsp[0].tree));}
+  case 102: /* parameter_list: parameter_declaration  */
+#line 291 "src/parser.y"
+                                                                        {(yyval.list) = initList((yyvsp[0].tree));}
 #line 1946 "src/parser.tab.cpp"
     break;
 
-  case 109: /* declaration_or_statement_list: declaration_or_statement_list declaration_or_statement  */
-#line 306 "src/parser.y"
-                                                                 {(yyval.list) = concatList((yyvsp[-1].list), (yyvsp[0].tree));}
+  case 103: /* parameter_list: parameter_list ',' parameter_declaration  */
+#line 292 "src/parser.y"
+                                                        {(yyval.list) = concatList((yyvsp[-2].list), (yyvsp[0].tree));}
 #line 1952 "src/parser.tab.cpp"
     break;
 
-  case 110: /* statement: labeled_statement  */
-#line 310 "src/parser.y"
-                                        {(yyval.tree) = (yyvsp[0].tree);}
+  case 104: /* argument_expression_list: assignment_expression  */
+#line 295 "src/parser.y"
+                                                                                                {(yyval.list) = initList((yyvsp[0].tree));}
 #line 1958 "src/parser.tab.cpp"
     break;
 
-  case 111: /* statement: compound_statement  */
-#line 311 "src/parser.y"
-                                {(yyval.tree) = (yyvsp[0].tree);}
+  case 105: /* argument_expression_list: argument_expression_list ',' assignment_expression  */
+#line 296 "src/parser.y"
+                                                                {(yyval.list) = concatList((yyvsp[-2].list), (yyvsp[0].tree));}
 #line 1964 "src/parser.tab.cpp"
     break;
 
-  case 112: /* statement: expression_statement  */
-#line 312 "src/parser.y"
-                                {(yyval.tree) = (yyvsp[0].tree);}
+  case 106: /* declaration_or_statement: declaration  */
+#line 300 "src/parser.y"
+                        {(yyval.tree) = (yyvsp[0].tree);}
 #line 1970 "src/parser.tab.cpp"
     break;
 
-  case 113: /* statement: selection_statement  */
-#line 313 "src/parser.y"
+  case 107: /* declaration_or_statement: statement  */
+#line 301 "src/parser.y"
                                 {(yyval.tree) = (yyvsp[0].tree);}
 #line 1976 "src/parser.tab.cpp"
     break;
 
-  case 114: /* statement: iteration_statement  */
-#line 314 "src/parser.y"
-                                {(yyval.tree) = (yyvsp[0].tree);}
+  case 108: /* declaration_or_statement_list: declaration_or_statement  */
+#line 304 "src/parser.y"
+                                                                                                {(yyval.list) = initList((yyvsp[0].tree));}
 #line 1982 "src/parser.tab.cpp"
     break;
 
-  case 115: /* statement: jump_statement  */
-#line 315 "src/parser.y"
-                                        {(yyval.tree) = (yyvsp[0].tree);}
+  case 109: /* declaration_or_statement_list: declaration_or_statement_list declaration_or_statement  */
+#line 305 "src/parser.y"
+                                                                 {(yyval.list) = concatList((yyvsp[-1].list), (yyvsp[0].tree));}
 #line 1988 "src/parser.tab.cpp"
     break;
 
-  case 119: /* expression_statement: ';'  */
-#line 325 "src/parser.y"
-                                        {(yyval.tree) = NULL;}
+  case 110: /* statement: labeled_statement  */
+#line 309 "src/parser.y"
+                                        {(yyval.tree) = (yyvsp[0].tree);}
 #line 1994 "src/parser.tab.cpp"
     break;
 
-  case 120: /* expression_statement: expression ';'  */
-#line 326 "src/parser.y"
-                                {(yyval.tree) = (yyvsp[-1].tree);}
+  case 111: /* statement: compound_statement  */
+#line 310 "src/parser.y"
+                                {(yyval.tree) = (yyvsp[0].tree);}
 #line 2000 "src/parser.tab.cpp"
     break;
 
-  case 121: /* selection_statement: IF '(' expression ')' statement  */
-#line 330 "src/parser.y"
-                                                                                {(yyval.tree) = new ifElseStatement((yyvsp[-2].tree),(yyvsp[0].tree),NULL);}
+  case 112: /* statement: expression_statement  */
+#line 311 "src/parser.y"
+                                {(yyval.tree) = (yyvsp[0].tree);}
 #line 2006 "src/parser.tab.cpp"
     break;
 
-  case 122: /* selection_statement: IF '(' expression ')' statement ELSE statement  */
-#line 331 "src/parser.y"
-                                                                {(yyval.tree) = new ifElseStatement((yyvsp[-4].tree),(yyvsp[-2].tree),(yyvsp[0].tree));}
+  case 113: /* statement: selection_statement  */
+#line 312 "src/parser.y"
+                                {(yyval.tree) = (yyvsp[0].tree);}
 #line 2012 "src/parser.tab.cpp"
     break;
 
-  case 124: /* iteration_statement: WHILE '(' expression ')' statement  */
-#line 336 "src/parser.y"
-                                                                        {(yyval.tree) = new whileStatement((yyvsp[-2].tree),NULL,NULL,(yyvsp[0].tree));}
+  case 114: /* statement: iteration_statement  */
+#line 313 "src/parser.y"
+                                {(yyval.tree) = (yyvsp[0].tree);}
 #line 2018 "src/parser.tab.cpp"
     break;
 
-  case 127: /* iteration_statement: FOR '(' expression_statement expression_statement expression ')' statement  */
-#line 339 "src/parser.y"
-                                                                                     {(yyval.tree) = new forStatement{(yyvsp[-4].tree), (yyvsp[-3].tree), (yyvsp[-2].tree), (yyvsp[0].tree)};}
+  case 115: /* statement: jump_statement  */
+#line 314 "src/parser.y"
+                                        {(yyval.tree) = (yyvsp[0].tree);}
 #line 2024 "src/parser.tab.cpp"
     break;
 
-  case 129: /* jump_statement: CONTINUE ';'  */
-#line 344 "src/parser.y"
-                                        {(yyval.tree) = new continueStatement();}
+  case 119: /* expression_statement: ';'  */
+#line 324 "src/parser.y"
+                                        {(yyval.tree) = NULL;}
 #line 2030 "src/parser.tab.cpp"
     break;
 
-  case 130: /* jump_statement: BREAK ';'  */
-#line 345 "src/parser.y"
-                                                {(yyval.tree) = new breakStatement();}
+  case 120: /* expression_statement: expression ';'  */
+#line 325 "src/parser.y"
+                                {(yyval.tree) = (yyvsp[-1].tree);}
 #line 2036 "src/parser.tab.cpp"
     break;
 
-  case 131: /* jump_statement: RETURN ';'  */
-#line 346 "src/parser.y"
-                                        {(yyval.tree) = new returnStatement(NULL);}
+  case 121: /* selection_statement: IF '(' expression ')' statement  */
+#line 329 "src/parser.y"
+                                                                                {(yyval.tree) = new ifElseStatement((yyvsp[-2].tree),(yyvsp[0].tree),NULL);}
 #line 2042 "src/parser.tab.cpp"
     break;
 
-  case 132: /* jump_statement: RETURN expression ';'  */
-#line 347 "src/parser.y"
-                                {(yyval.tree) = new returnStatement((yyvsp[-1].tree));}
+  case 122: /* selection_statement: IF '(' expression ')' statement ELSE statement  */
+#line 330 "src/parser.y"
+                                                                {(yyval.tree) = new ifElseStatement((yyvsp[-4].tree),(yyvsp[-2].tree),(yyvsp[0].tree));}
 #line 2048 "src/parser.tab.cpp"
     break;
 
-  case 133: /* compound_statement: '{' '}'  */
-#line 351 "src/parser.y"
-                                                                                        {(yyval.tree) = new compoundStatement(NULL);}
+  case 124: /* iteration_statement: WHILE '(' expression ')' statement  */
+#line 335 "src/parser.y"
+                                                                        {(yyval.tree) = new whileStatement((yyvsp[-2].tree),NULL,NULL,(yyvsp[0].tree));}
 #line 2054 "src/parser.tab.cpp"
     break;
 
-  case 134: /* compound_statement: '{' declaration_or_statement_list '}'  */
-#line 352 "src/parser.y"
-                                                    {{(yyval.tree) = new compoundStatement((yyvsp[-1].list));}}
+  case 127: /* iteration_statement: FOR '(' expression_statement expression_statement expression ')' statement  */
+#line 338 "src/parser.y"
+                                                                                     {(yyval.tree) = new forStatement{(yyvsp[-4].tree), (yyvsp[-3].tree), (yyvsp[-2].tree), (yyvsp[0].tree)};}
 #line 2060 "src/parser.tab.cpp"
     break;
 
-  case 135: /* primary_expression: IDENTIFIER  */
-#line 370 "src/parser.y"
-                                        {(yyval.tree) = new identifier(*(yyvsp[0].string));}
+  case 128: /* jump_statement: GOTO IDENTIFIER ';'  */
+#line 342 "src/parser.y"
+                                {std::cerr<<"goto not assessed"; exit(1);}
 #line 2066 "src/parser.tab.cpp"
     break;
 
-  case 136: /* primary_expression: CONSTANT_INT  */
-#line 371 "src/parser.y"
-                                        {(yyval.tree) = new intConstant((yyvsp[0].ival));}
+  case 129: /* jump_statement: CONTINUE ';'  */
+#line 343 "src/parser.y"
+                                        {(yyval.tree) = new continueStatement();}
 #line 2072 "src/parser.tab.cpp"
     break;
 
-  case 139: /* primary_expression: '(' expression ')'  */
-#line 374 "src/parser.y"
-                                {(yyval.tree) = (yyvsp[-1].tree);}
+  case 130: /* jump_statement: BREAK ';'  */
+#line 344 "src/parser.y"
+                                                {(yyval.tree) = new breakStatement();}
 #line 2078 "src/parser.tab.cpp"
     break;
 
-  case 140: /* postfix_expression: primary_expression  */
-#line 378 "src/parser.y"
-                                                                                                {(yyval.tree) = (yyvsp[0].tree);}
+  case 131: /* jump_statement: RETURN ';'  */
+#line 345 "src/parser.y"
+                                        {(yyval.tree) = new returnStatement(NULL);}
 #line 2084 "src/parser.tab.cpp"
     break;
 
-  case 142: /* postfix_expression: postfix_expression '(' ')'  */
-#line 380 "src/parser.y"
-                                                                                        {(yyval.tree) = new functionCall((yyvsp[-2].tree), NULL);}
+  case 132: /* jump_statement: RETURN expression ';'  */
+#line 346 "src/parser.y"
+                                {(yyval.tree) = new returnStatement((yyvsp[-1].tree));}
 #line 2090 "src/parser.tab.cpp"
     break;
 
-  case 143: /* postfix_expression: postfix_expression '(' argument_expression_list ')'  */
-#line 381 "src/parser.y"
-                                                                {(yyval.tree) = new functionCall((yyvsp[-3].tree), (yyvsp[-1].list));}
+  case 133: /* compound_statement: '{' '}'  */
+#line 350 "src/parser.y"
+                                                                                        {(yyval.tree) = new compoundStatement(NULL);}
 #line 2096 "src/parser.tab.cpp"
     break;
 
-  case 146: /* postfix_expression: postfix_expression INC_OP  */
-#line 384 "src/parser.y"
-                                                                                                {(yyval.tree) = new postIncrement((yyvsp[-1].tree));}
+  case 134: /* compound_statement: '{' declaration_or_statement_list '}'  */
+#line 351 "src/parser.y"
+                                                    {{(yyval.tree) = new compoundStatement((yyvsp[-1].list));}}
 #line 2102 "src/parser.tab.cpp"
     break;
 
-  case 147: /* postfix_expression: postfix_expression DEC_OP  */
-#line 385 "src/parser.y"
-                                                                                                {(yyval.tree) = new postDecrement((yyvsp[-1].tree));}
+  case 135: /* primary_expression: IDENTIFIER  */
+#line 369 "src/parser.y"
+                                        {(yyval.tree) = new identifier(*(yyvsp[0].string));}
 #line 2108 "src/parser.tab.cpp"
     break;
 
-  case 148: /* unary_expression: postfix_expression  */
-#line 391 "src/parser.y"
-                                                {(yyval.tree) = (yyvsp[0].tree);}
+  case 136: /* primary_expression: CONSTANT_INT  */
+#line 370 "src/parser.y"
+                                        {(yyval.tree) = new intConstant((yyvsp[0].ival));}
 #line 2114 "src/parser.tab.cpp"
     break;
 
-  case 149: /* unary_expression: INC_OP unary_expression  */
-#line 392 "src/parser.y"
-                                                        {(yyval.tree) = new preIncrement((yyvsp[0].tree));}
+  case 139: /* primary_expression: '(' expression ')'  */
+#line 373 "src/parser.y"
+                                {(yyval.tree) = (yyvsp[-1].tree);}
 #line 2120 "src/parser.tab.cpp"
     break;
 
-  case 150: /* unary_expression: DEC_OP unary_expression  */
-#line 393 "src/parser.y"
-                                                        {(yyval.tree) = new preIncrement((yyvsp[0].tree));}
+  case 140: /* postfix_expression: primary_expression  */
+#line 377 "src/parser.y"
+                                                                                                {(yyval.tree) = (yyvsp[0].tree);}
 #line 2126 "src/parser.tab.cpp"
     break;
 
-  case 151: /* unary_expression: '&' cast_expression  */
-#line 394 "src/parser.y"
-                                                        {(yyval.tree) = new addressOperator((yyvsp[0].tree));}
+  case 142: /* postfix_expression: postfix_expression '(' ')'  */
+#line 379 "src/parser.y"
+                                                                                        {(yyval.tree) = new functionCall((yyvsp[-2].tree), NULL);}
 #line 2132 "src/parser.tab.cpp"
     break;
 
-  case 152: /* unary_expression: '*' cast_expression  */
-#line 395 "src/parser.y"
-                                                        {(yyval.tree) = new dereferenceOperator((yyvsp[0].tree));}
+  case 143: /* postfix_expression: postfix_expression '(' argument_expression_list ')'  */
+#line 380 "src/parser.y"
+                                                                {(yyval.tree) = new functionCall((yyvsp[-3].tree), (yyvsp[-1].list));}
 #line 2138 "src/parser.tab.cpp"
     break;
 
-  case 153: /* unary_expression: '+' cast_expression  */
-#line 396 "src/parser.y"
-                                                        {(yyval.tree) = (yyvsp[0].tree);}
+  case 146: /* postfix_expression: postfix_expression INC_OP  */
+#line 383 "src/parser.y"
+                                                                                                {(yyval.tree) = new postIncrement((yyvsp[-1].tree));}
 #line 2144 "src/parser.tab.cpp"
     break;
 
-  case 154: /* unary_expression: '-' cast_expression  */
-#line 397 "src/parser.y"
-                                                        {(yyval.tree) = new negOperator((yyvsp[0].tree));}
+  case 147: /* postfix_expression: postfix_expression DEC_OP  */
+#line 384 "src/parser.y"
+                                                                                                {(yyval.tree) = new postDecrement((yyvsp[-1].tree));}
 #line 2150 "src/parser.tab.cpp"
     break;
 
-  case 155: /* unary_expression: '~' cast_expression  */
-#line 398 "src/parser.y"
-                                                        {(yyval.tree) = new bwNotOperator((yyvsp[0].tree));}
+  case 148: /* unary_expression: postfix_expression  */
+#line 390 "src/parser.y"
+                                                {(yyval.tree) = (yyvsp[0].tree);}
 #line 2156 "src/parser.tab.cpp"
     break;
 
-  case 156: /* unary_expression: '!' cast_expression  */
-#line 399 "src/parser.y"
-                                            {(yyval.tree) = new notOperator((yyvsp[0].tree));}
+  case 149: /* unary_expression: INC_OP unary_expression  */
+#line 391 "src/parser.y"
+                                                        {(yyval.tree) = new preIncrement((yyvsp[0].tree));}
 #line 2162 "src/parser.tab.cpp"
     break;
 
-  case 157: /* unary_expression: SIZEOF unary_expression  */
-#line 400 "src/parser.y"
-                                                        {(yyval.tree) = new sizeOfOperator((yyvsp[0].tree));}
+  case 150: /* unary_expression: DEC_OP unary_expression  */
+#line 392 "src/parser.y"
+                                                        {(yyval.tree) = new preIncrement((yyvsp[0].tree));}
 #line 2168 "src/parser.tab.cpp"
     break;
 
-  case 159: /* cast_expression: unary_expression  */
-#line 414 "src/parser.y"
-                                                                        {(yyval.tree) = (yyvsp[0].tree);}
+  case 151: /* unary_expression: '&' cast_expression  */
+#line 393 "src/parser.y"
+                                                        {(yyval.tree) = new addressOperator((yyvsp[0].tree));}
 #line 2174 "src/parser.tab.cpp"
     break;
 
-  case 161: /* multiplicative_expression: cast_expression  */
-#line 419 "src/parser.y"
-                                                                                        {(yyval.tree) = (yyvsp[0].tree);}
+  case 152: /* unary_expression: '*' cast_expression  */
+#line 394 "src/parser.y"
+                                                        {(yyval.tree) = new dereferenceOperator((yyvsp[0].tree));}
 #line 2180 "src/parser.tab.cpp"
     break;
 
-  case 162: /* multiplicative_expression: multiplicative_expression '*' cast_expression  */
-#line 420 "src/parser.y"
-                                                        {(yyval.tree) = new mulOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
+  case 153: /* unary_expression: '+' cast_expression  */
+#line 395 "src/parser.y"
+                                                        {(yyval.tree) = (yyvsp[0].tree);}
 #line 2186 "src/parser.tab.cpp"
     break;
 
-  case 163: /* multiplicative_expression: multiplicative_expression '/' cast_expression  */
-#line 421 "src/parser.y"
-                                                        {(yyval.tree) = new divOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
+  case 154: /* unary_expression: '-' cast_expression  */
+#line 396 "src/parser.y"
+                                                        {(yyval.tree) = new negOperator((yyvsp[0].tree));}
 #line 2192 "src/parser.tab.cpp"
     break;
 
-  case 164: /* multiplicative_expression: multiplicative_expression '%' cast_expression  */
-#line 422 "src/parser.y"
-                                                        {(yyval.tree) = new modOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
+  case 155: /* unary_expression: '~' cast_expression  */
+#line 397 "src/parser.y"
+                                                        {(yyval.tree) = new bwNotOperator((yyvsp[0].tree));}
 #line 2198 "src/parser.tab.cpp"
     break;
 
-  case 165: /* additive_expression: multiplicative_expression  */
-#line 426 "src/parser.y"
-                                                                                        {(yyval.tree) = (yyvsp[0].tree);}
+  case 156: /* unary_expression: '!' cast_expression  */
+#line 398 "src/parser.y"
+                                            {(yyval.tree) = new notOperator((yyvsp[0].tree));}
 #line 2204 "src/parser.tab.cpp"
     break;
 
-  case 166: /* additive_expression: additive_expression '+' multiplicative_expression  */
-#line 427 "src/parser.y"
-                                                                {(yyval.tree) = new addOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
+  case 157: /* unary_expression: SIZEOF unary_expression  */
+#line 399 "src/parser.y"
+                                                        {(yyval.tree) = new sizeOfOperator((yyvsp[0].tree));}
 #line 2210 "src/parser.tab.cpp"
     break;
 
-  case 167: /* additive_expression: additive_expression '-' multiplicative_expression  */
-#line 428 "src/parser.y"
-                                                                {(yyval.tree) = new subOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
+  case 159: /* cast_expression: unary_expression  */
+#line 413 "src/parser.y"
+                                                                        {(yyval.tree) = (yyvsp[0].tree);}
 #line 2216 "src/parser.tab.cpp"
     break;
 
-  case 168: /* shift_expression: additive_expression  */
-#line 432 "src/parser.y"
-                                                                                {(yyval.tree) = (yyvsp[0].tree);}
+  case 160: /* cast_expression: '(' type_name ')' cast_expression  */
+#line 414 "src/parser.y"
+                                            {std::cerr<<"Error: casting not supported"; exit(1);}
 #line 2222 "src/parser.tab.cpp"
     break;
 
-  case 169: /* shift_expression: shift_expression LEFT_OP additive_expression  */
-#line 433 "src/parser.y"
-                                                        {(yyval.tree) = new leftShiftOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
+  case 161: /* multiplicative_expression: cast_expression  */
+#line 418 "src/parser.y"
+                                                                                        {(yyval.tree) = (yyvsp[0].tree);}
 #line 2228 "src/parser.tab.cpp"
     break;
 
-  case 170: /* shift_expression: shift_expression RIGHT_OP additive_expression  */
-#line 434 "src/parser.y"
-                                                        {(yyval.tree) = new rightShiftOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
+  case 162: /* multiplicative_expression: multiplicative_expression '*' cast_expression  */
+#line 419 "src/parser.y"
+                                                        {(yyval.tree) = new mulOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
 #line 2234 "src/parser.tab.cpp"
     break;
 
-  case 171: /* relational_expression: shift_expression  */
-#line 438 "src/parser.y"
-                                                                                                {(yyval.tree) = (yyvsp[0].tree);}
+  case 163: /* multiplicative_expression: multiplicative_expression '/' cast_expression  */
+#line 420 "src/parser.y"
+                                                        {(yyval.tree) = new divOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
 #line 2240 "src/parser.tab.cpp"
     break;
 
-  case 172: /* relational_expression: relational_expression '<' shift_expression  */
-#line 439 "src/parser.y"
-                                                                {(yyval.tree) = new ltOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
+  case 164: /* multiplicative_expression: multiplicative_expression '%' cast_expression  */
+#line 421 "src/parser.y"
+                                                        {(yyval.tree) = new modOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
 #line 2246 "src/parser.tab.cpp"
     break;
 
-  case 173: /* relational_expression: relational_expression '>' shift_expression  */
-#line 440 "src/parser.y"
-                                                                {(yyval.tree) = new gtOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
+  case 165: /* additive_expression: multiplicative_expression  */
+#line 425 "src/parser.y"
+                                                                                        {(yyval.tree) = (yyvsp[0].tree);}
 #line 2252 "src/parser.tab.cpp"
     break;
 
-  case 174: /* relational_expression: relational_expression LE_OP shift_expression  */
-#line 441 "src/parser.y"
-                                                                {(yyval.tree) = new leOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
+  case 166: /* additive_expression: additive_expression '+' multiplicative_expression  */
+#line 426 "src/parser.y"
+                                                                {(yyval.tree) = new addOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
 #line 2258 "src/parser.tab.cpp"
     break;
 
-  case 175: /* relational_expression: relational_expression GE_OP shift_expression  */
-#line 442 "src/parser.y"
-                                                                {(yyval.tree) = new geOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
+  case 167: /* additive_expression: additive_expression '-' multiplicative_expression  */
+#line 427 "src/parser.y"
+                                                                {(yyval.tree) = new subOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
 #line 2264 "src/parser.tab.cpp"
     break;
 
-  case 176: /* equality_expression: relational_expression  */
-#line 446 "src/parser.y"
-                                                                                        {(yyval.tree) = (yyvsp[0].tree);}
+  case 168: /* shift_expression: additive_expression  */
+#line 431 "src/parser.y"
+                                                                                {(yyval.tree) = (yyvsp[0].tree);}
 #line 2270 "src/parser.tab.cpp"
     break;
 
-  case 177: /* equality_expression: equality_expression EQ_OP relational_expression  */
-#line 447 "src/parser.y"
-                                                                {(yyval.tree) = new equalityOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
+  case 169: /* shift_expression: shift_expression LEFT_OP additive_expression  */
+#line 432 "src/parser.y"
+                                                        {(yyval.tree) = new leftShiftOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
 #line 2276 "src/parser.tab.cpp"
     break;
 
-  case 178: /* equality_expression: equality_expression NE_OP relational_expression  */
-#line 448 "src/parser.y"
-                                                                {(yyval.tree) = new inequalityOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
+  case 170: /* shift_expression: shift_expression RIGHT_OP additive_expression  */
+#line 433 "src/parser.y"
+                                                        {(yyval.tree) = new rightShiftOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
 #line 2282 "src/parser.tab.cpp"
     break;
 
-  case 179: /* and_expression: equality_expression  */
-#line 452 "src/parser.y"
-                                                                        {(yyval.tree) = (yyvsp[0].tree);}
+  case 171: /* relational_expression: shift_expression  */
+#line 437 "src/parser.y"
+                                                                                                {(yyval.tree) = (yyvsp[0].tree);}
 #line 2288 "src/parser.tab.cpp"
     break;
 
-  case 180: /* and_expression: and_expression '&' equality_expression  */
-#line 453 "src/parser.y"
-                                                        {(yyval.tree) = new andOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
+  case 172: /* relational_expression: relational_expression '<' shift_expression  */
+#line 438 "src/parser.y"
+                                                                {(yyval.tree) = new ltOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
 #line 2294 "src/parser.tab.cpp"
     break;
 
-  case 181: /* exclusive_or_expression: and_expression  */
-#line 457 "src/parser.y"
-                                                                                        {(yyval.tree) = (yyvsp[0].tree);}
+  case 173: /* relational_expression: relational_expression '>' shift_expression  */
+#line 439 "src/parser.y"
+                                                                {(yyval.tree) = new gtOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
 #line 2300 "src/parser.tab.cpp"
     break;
 
-  case 182: /* exclusive_or_expression: exclusive_or_expression '^' and_expression  */
-#line 458 "src/parser.y"
-                                                        {(yyval.tree) = new exclusiveOrOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
+  case 174: /* relational_expression: relational_expression LE_OP shift_expression  */
+#line 440 "src/parser.y"
+                                                                {(yyval.tree) = new leOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
 #line 2306 "src/parser.tab.cpp"
     break;
 
-  case 183: /* inclusive_or_expression: exclusive_or_expression  */
-#line 462 "src/parser.y"
-                                                                                                {(yyval.tree) = (yyvsp[0].tree);}
+  case 175: /* relational_expression: relational_expression GE_OP shift_expression  */
+#line 441 "src/parser.y"
+                                                                {(yyval.tree) = new geOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
 #line 2312 "src/parser.tab.cpp"
     break;
 
-  case 184: /* inclusive_or_expression: inclusive_or_expression '|' exclusive_or_expression  */
-#line 463 "src/parser.y"
-                                                                {(yyval.tree) = new inclusiveOrOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
+  case 176: /* equality_expression: relational_expression  */
+#line 445 "src/parser.y"
+                                                                                        {(yyval.tree) = (yyvsp[0].tree);}
 #line 2318 "src/parser.tab.cpp"
     break;
 
-  case 185: /* logical_and_expression: inclusive_or_expression  */
-#line 467 "src/parser.y"
-                                                                                                {(yyval.tree) = (yyvsp[0].tree);}
+  case 177: /* equality_expression: equality_expression EQ_OP relational_expression  */
+#line 446 "src/parser.y"
+                                                                {(yyval.tree) = new equalityOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
 #line 2324 "src/parser.tab.cpp"
     break;
 
-  case 186: /* logical_and_expression: logical_and_expression AND_OP inclusive_or_expression  */
-#line 468 "src/parser.y"
-                                                                {(yyval.tree) = new logicalAndOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
+  case 178: /* equality_expression: equality_expression NE_OP relational_expression  */
+#line 447 "src/parser.y"
+                                                                {(yyval.tree) = new inequalityOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
 #line 2330 "src/parser.tab.cpp"
     break;
 
-  case 187: /* logical_or_expression: logical_and_expression  */
-#line 472 "src/parser.y"
-                                                                                                {(yyval.tree) = (yyvsp[0].tree);}
+  case 179: /* and_expression: equality_expression  */
+#line 451 "src/parser.y"
+                                                                        {(yyval.tree) = (yyvsp[0].tree);}
 #line 2336 "src/parser.tab.cpp"
     break;
 
-  case 188: /* logical_or_expression: logical_or_expression OR_OP logical_and_expression  */
-#line 473 "src/parser.y"
-                                                                {(yyval.tree) = new logicalOrOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
+  case 180: /* and_expression: and_expression '&' equality_expression  */
+#line 452 "src/parser.y"
+                                                        {(yyval.tree) = new andOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
 #line 2342 "src/parser.tab.cpp"
     break;
 
-  case 189: /* conditional_expression: logical_or_expression  */
-#line 477 "src/parser.y"
-                                                                                                                        {(yyval.tree) = (yyvsp[0].tree);}
+  case 181: /* exclusive_or_expression: and_expression  */
+#line 456 "src/parser.y"
+                                                                                        {(yyval.tree) = (yyvsp[0].tree);}
 #line 2348 "src/parser.tab.cpp"
     break;
 
-  case 191: /* assignment_expression: conditional_expression  */
-#line 482 "src/parser.y"
-                                                                                                {(yyval.tree) = (yyvsp[0].tree);}
+  case 182: /* exclusive_or_expression: exclusive_or_expression '^' and_expression  */
+#line 457 "src/parser.y"
+                                                        {(yyval.tree) = new exclusiveOrOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
 #line 2354 "src/parser.tab.cpp"
     break;
 
-  case 192: /* assignment_expression: unary_expression '=' assignment_expression  */
-#line 483 "src/parser.y"
-                                                                        {(yyval.tree) = new assignmentExpression((yyvsp[-2].tree),(yyvsp[0].tree));}
+  case 183: /* inclusive_or_expression: exclusive_or_expression  */
+#line 461 "src/parser.y"
+                                                                                                {(yyval.tree) = (yyvsp[0].tree);}
 #line 2360 "src/parser.tab.cpp"
     break;
 
-  case 193: /* assignment_expression: unary_expression MUL_ASSIGN assignment_expression  */
-#line 484 "src/parser.y"
-                                                                        {(yyval.tree) = new assignmentExpression((yyvsp[-2].tree), new mulOperator((yyvsp[-2].tree),(yyvsp[0].tree)));}
+  case 184: /* inclusive_or_expression: inclusive_or_expression '|' exclusive_or_expression  */
+#line 462 "src/parser.y"
+                                                                {(yyval.tree) = new inclusiveOrOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
 #line 2366 "src/parser.tab.cpp"
     break;
 
-  case 194: /* assignment_expression: unary_expression DIV_ASSIGN assignment_expression  */
-#line 485 "src/parser.y"
-                                                                        {(yyval.tree) = new assignmentExpression((yyvsp[-2].tree), new divOperator((yyvsp[-2].tree),(yyvsp[0].tree)));}
+  case 185: /* logical_and_expression: inclusive_or_expression  */
+#line 466 "src/parser.y"
+                                                                                                {(yyval.tree) = (yyvsp[0].tree);}
 #line 2372 "src/parser.tab.cpp"
     break;
 
-  case 195: /* assignment_expression: unary_expression MOD_ASSIGN assignment_expression  */
-#line 486 "src/parser.y"
-                                                                        {(yyval.tree) = new assignmentExpression((yyvsp[-2].tree), new modOperator((yyvsp[-2].tree),(yyvsp[0].tree)));}
+  case 186: /* logical_and_expression: logical_and_expression AND_OP inclusive_or_expression  */
+#line 467 "src/parser.y"
+                                                                {(yyval.tree) = new logicalAndOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
 #line 2378 "src/parser.tab.cpp"
     break;
 
-  case 196: /* assignment_expression: unary_expression ADD_ASSIGN assignment_expression  */
-#line 487 "src/parser.y"
-                                                                        {(yyval.tree) = new assignmentExpression((yyvsp[-2].tree), new addOperator((yyvsp[-2].tree),(yyvsp[0].tree)));}
+  case 187: /* logical_or_expression: logical_and_expression  */
+#line 471 "src/parser.y"
+                                                                                                {(yyval.tree) = (yyvsp[0].tree);}
 #line 2384 "src/parser.tab.cpp"
     break;
 
-  case 197: /* assignment_expression: unary_expression SUB_ASSIGN assignment_expression  */
-#line 488 "src/parser.y"
-                                                                        {(yyval.tree) = new assignmentExpression((yyvsp[-2].tree), new subOperator((yyvsp[-2].tree),(yyvsp[0].tree)));}
+  case 188: /* logical_or_expression: logical_or_expression OR_OP logical_and_expression  */
+#line 472 "src/parser.y"
+                                                                {(yyval.tree) = new logicalOrOperator((yyvsp[-2].tree), (yyvsp[0].tree));}
 #line 2390 "src/parser.tab.cpp"
     break;
 
-  case 198: /* assignment_expression: unary_expression LEFT_ASSIGN assignment_expression  */
-#line 489 "src/parser.y"
-                                                                {(yyval.tree) = new assignmentExpression((yyvsp[-2].tree), new leftShiftOperator((yyvsp[-2].tree),(yyvsp[0].tree)));}
+  case 189: /* conditional_expression: logical_or_expression  */
+#line 476 "src/parser.y"
+                                                                                                                        {(yyval.tree) = (yyvsp[0].tree);}
 #line 2396 "src/parser.tab.cpp"
     break;
 
-  case 199: /* assignment_expression: unary_expression RIGHT_ASSIGN assignment_expression  */
-#line 490 "src/parser.y"
-                                                                {(yyval.tree) = new assignmentExpression((yyvsp[-2].tree), new rightShiftOperator((yyvsp[-2].tree),(yyvsp[0].tree)));}
+  case 191: /* assignment_expression: conditional_expression  */
+#line 481 "src/parser.y"
+                                                                                                {(yyval.tree) = (yyvsp[0].tree);}
 #line 2402 "src/parser.tab.cpp"
     break;
 
-  case 200: /* assignment_expression: unary_expression AND_ASSIGN assignment_expression  */
-#line 491 "src/parser.y"
-                                                                        {(yyval.tree) = new assignmentExpression((yyvsp[-2].tree), new andOperator((yyvsp[-2].tree),(yyvsp[0].tree)));}
+  case 192: /* assignment_expression: unary_expression '=' assignment_expression  */
+#line 482 "src/parser.y"
+                                                                        {(yyval.tree) = new assignmentExpression((yyvsp[-2].tree),(yyvsp[0].tree));}
 #line 2408 "src/parser.tab.cpp"
     break;
 
-  case 201: /* assignment_expression: unary_expression XOR_ASSIGN assignment_expression  */
-#line 492 "src/parser.y"
-                                                                        {(yyval.tree) = new assignmentExpression((yyvsp[-2].tree), new exclusiveOrOperator((yyvsp[-2].tree),(yyvsp[0].tree)));}
+  case 193: /* assignment_expression: unary_expression MUL_ASSIGN assignment_expression  */
+#line 483 "src/parser.y"
+                                                                        {(yyval.tree) = new assignmentExpression((yyvsp[-2].tree), new mulOperator((yyvsp[-2].tree),(yyvsp[0].tree)));}
 #line 2414 "src/parser.tab.cpp"
     break;
 
-  case 202: /* assignment_expression: unary_expression OR_ASSIGN assignment_expression  */
-#line 493 "src/parser.y"
-                                                                        {(yyval.tree) = new assignmentExpression((yyvsp[-2].tree), new inclusiveOrOperator((yyvsp[-2].tree),(yyvsp[0].tree)));}
+  case 194: /* assignment_expression: unary_expression DIV_ASSIGN assignment_expression  */
+#line 484 "src/parser.y"
+                                                                        {(yyval.tree) = new assignmentExpression((yyvsp[-2].tree), new divOperator((yyvsp[-2].tree),(yyvsp[0].tree)));}
 #line 2420 "src/parser.tab.cpp"
     break;
 
-  case 203: /* expression: assignment_expression  */
-#line 498 "src/parser.y"
-                                                                {(yyval.tree) = (yyvsp[0].tree);}
+  case 195: /* assignment_expression: unary_expression MOD_ASSIGN assignment_expression  */
+#line 485 "src/parser.y"
+                                                                        {(yyval.tree) = new assignmentExpression((yyvsp[-2].tree), new modOperator((yyvsp[-2].tree),(yyvsp[0].tree)));}
 #line 2426 "src/parser.tab.cpp"
     break;
 
-  case 204: /* expression: expression ',' assignment_expression  */
-#line 499 "src/parser.y"
-                                                {std::cerr<<"not assessed"; exit(1);}
+  case 196: /* assignment_expression: unary_expression ADD_ASSIGN assignment_expression  */
+#line 486 "src/parser.y"
+                                                                        {(yyval.tree) = new assignmentExpression((yyvsp[-2].tree), new addOperator((yyvsp[-2].tree),(yyvsp[0].tree)));}
 #line 2432 "src/parser.tab.cpp"
     break;
 
-  case 205: /* constant_expression: conditional_expression  */
-#line 503 "src/parser.y"
-                                        {(yyval.tree) = (yyvsp[0].tree);}
+  case 197: /* assignment_expression: unary_expression SUB_ASSIGN assignment_expression  */
+#line 487 "src/parser.y"
+                                                                        {(yyval.tree) = new assignmentExpression((yyvsp[-2].tree), new subOperator((yyvsp[-2].tree),(yyvsp[0].tree)));}
 #line 2438 "src/parser.tab.cpp"
     break;
 
+  case 198: /* assignment_expression: unary_expression LEFT_ASSIGN assignment_expression  */
+#line 488 "src/parser.y"
+                                                                {(yyval.tree) = new assignmentExpression((yyvsp[-2].tree), new leftShiftOperator((yyvsp[-2].tree),(yyvsp[0].tree)));}
+#line 2444 "src/parser.tab.cpp"
+    break;
 
-#line 2442 "src/parser.tab.cpp"
+  case 199: /* assignment_expression: unary_expression RIGHT_ASSIGN assignment_expression  */
+#line 489 "src/parser.y"
+                                                                {(yyval.tree) = new assignmentExpression((yyvsp[-2].tree), new rightShiftOperator((yyvsp[-2].tree),(yyvsp[0].tree)));}
+#line 2450 "src/parser.tab.cpp"
+    break;
+
+  case 200: /* assignment_expression: unary_expression AND_ASSIGN assignment_expression  */
+#line 490 "src/parser.y"
+                                                                        {(yyval.tree) = new assignmentExpression((yyvsp[-2].tree), new andOperator((yyvsp[-2].tree),(yyvsp[0].tree)));}
+#line 2456 "src/parser.tab.cpp"
+    break;
+
+  case 201: /* assignment_expression: unary_expression XOR_ASSIGN assignment_expression  */
+#line 491 "src/parser.y"
+                                                                        {(yyval.tree) = new assignmentExpression((yyvsp[-2].tree), new exclusiveOrOperator((yyvsp[-2].tree),(yyvsp[0].tree)));}
+#line 2462 "src/parser.tab.cpp"
+    break;
+
+  case 202: /* assignment_expression: unary_expression OR_ASSIGN assignment_expression  */
+#line 492 "src/parser.y"
+                                                                        {(yyval.tree) = new assignmentExpression((yyvsp[-2].tree), new inclusiveOrOperator((yyvsp[-2].tree),(yyvsp[0].tree)));}
+#line 2468 "src/parser.tab.cpp"
+    break;
+
+  case 203: /* expression: assignment_expression  */
+#line 497 "src/parser.y"
+                                                                {(yyval.tree) = (yyvsp[0].tree);}
+#line 2474 "src/parser.tab.cpp"
+    break;
+
+  case 204: /* expression: expression ',' assignment_expression  */
+#line 498 "src/parser.y"
+                                                {std::cerr<<"not assessed"; exit(1);}
+#line 2480 "src/parser.tab.cpp"
+    break;
+
+  case 205: /* constant_expression: conditional_expression  */
+#line 502 "src/parser.y"
+                                        {(yyval.tree) = (yyvsp[0].tree);}
+#line 2486 "src/parser.tab.cpp"
+    break;
+
+
+#line 2490 "src/parser.tab.cpp"
 
       default: break;
     }
@@ -2631,7 +2679,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 509 "src/parser.y"
+#line 508 "src/parser.y"
 
 #include <stdio.h>
 

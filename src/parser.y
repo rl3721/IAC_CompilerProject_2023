@@ -116,7 +116,7 @@ type_specifier
 	| UNSIGNED						//{$$ = new typeSpecifier("UNSIGNED");}
 	| struct_or_union_specifier		{$$ = $1;} //may be do struct
 	| enum_specifier				{$$ = $1;} //todo enum
-	//| TYPE_NAME //removed from lexer
+	//| TYPE_NAME //required for typedef, let's not worry about it.
 	;
 
 storage_class_specifier
@@ -152,7 +152,7 @@ direct_declarator
 	;
 
 declarator
-	: pointer direct_declarator		//todo pointer
+	: pointer direct_declarator		//{$$ = new pointer_declarator($1, $2)}
 	| direct_declarator				{$$ = $1;}
 	;
 
@@ -163,8 +163,7 @@ type_name //Todo
 	/***********variable declaration************/
 
 declaration
-	: declaration_specifiers ';' 						{std::cerr<<"variable with no name";exit(1);} //I am not sure if this actually does anything, variable with no name?
-															//okay I think it just increases the scope offset by size of the speicifer, I will do that later
+	: declaration_specifiers ';' 						{$$ = new declaration($1, NULL);} //used when to initialize struct/enum
 	| declaration_specifiers init_declarator_list ';'	{$$ = new declaration($1, $2);}
 	;
 
@@ -189,26 +188,26 @@ function_definition //type, identifier(parameter?), {statements}
 
 parameter_declaration
 	: declaration_specifiers declarator				{$$ = new declaration($1, initList($2)); } //similar to variable declaration
-	| declaration_specifiers abstract_declarator	 //todo:pointers
-	| declaration_specifiers						{std::cerr<<"parameter with no name";exit(1);}//not sure what this does
+	| declaration_specifiers abstract_declarator	 {std::cerr<<"Error: abstract declarators, unsupported"; exit(1);}
+	| declaration_specifiers						{std::cerr<<"Error: abstract declarators, unsupported"; exit(1);}
 	;
 
 	/***********enum related******************/
 enum_specifier
-	: ENUM '{' enumerator_list '}'
-	| ENUM IDENTIFIER '{' enumerator_list '}'
-	| ENUM IDENTIFIER
+	: ENUM '{' enumerator_list '}'				{$$ = new enumSpecifier($3);}
+	| ENUM IDENTIFIER '{' enumerator_list '}'	{$$ = new enumSpecifier(*$2, $4);}
+	| ENUM IDENTIFIER							{$$ = new enumSpecifier(*$2, NULL);}
 	;
 enumerator
-	: IDENTIFIER
-	| IDENTIFIER '=' constant_expression
+	: IDENTIFIER							{$$ = new Enumerator(*$1, NULL);}
+	| IDENTIFIER '=' constant_expression	{$$ = new Enumerator(*$1, $3);}
 	;
 
 	/*******pointer related*******/
-pointer
-	: '*'	//todo: pointers
+pointer //since we don't need to need to check types, I assume we don't need to know how deep pointers go. (hopefully)
+	: '*'	//					{$$ = new Pointer(NULL);}
 	| '*' type_qualifier_list		//not assessed
-	| '*' pointer		//todo: pointers
+	| '*' pointer		//{$$ = new Pointer($2);}
 	| '*' type_qualifier_list pointer	//not assessed
 	;
 abstract_declarator
@@ -216,7 +215,7 @@ abstract_declarator
 	| direct_abstract_declarator
 	| pointer direct_abstract_declarator
 	;
-direct_abstract_declarator
+direct_abstract_declarator //Unsupported
 	: '(' abstract_declarator ')'
 	| '[' ']'
 	| '[' constant_expression ']'
@@ -340,7 +339,7 @@ iteration_statement
 	;
 
 jump_statement
-	: GOTO IDENTIFIER ';'	//{std::cerr<<"goto not assessed"; exit(1);}
+	: GOTO IDENTIFIER ';'	{std::cerr<<"goto not assessed"; exit(1);}
 	| CONTINUE ';'			{$$ = new continueStatement();}
 	| BREAK ';'				{$$ = new breakStatement();}
 	| RETURN ';'			{$$ = new returnStatement(NULL);}
@@ -412,7 +411,7 @@ unary_expression
 
 cast_expression
 	: unary_expression						{$$ = $1;}
-	| '(' type_name ')' cast_expression //
+	| '(' type_name ')' cast_expression {std::cerr<<"Error: casting not supported"; exit(1);}
 	;
 
 multiplicative_expression

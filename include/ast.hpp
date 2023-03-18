@@ -18,6 +18,7 @@
 #include "ast/ast_selection_statement.hpp"
 #include "ast/ast_unaryoperations.hpp"
 #include "ast/ast_iteration_statement.hpp"
+#include "ast/ast_enum.hpp"
 
 
 //todo: compress all list type subclass into one

@@ -1,5 +1,5 @@
-#include "ast.hpp"
 #include <cstdio>
+#include "ast.hpp"
 
 int main()
 {

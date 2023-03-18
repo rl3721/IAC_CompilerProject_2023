@@ -54,9 +54,15 @@ public:
     }
 
     void compile(std::ostream &dst, Context &context, int destReg) const override{
+        declaration_specifiers->compile(dst,context,destReg); //when it is struct or enum. Do these will add to scope, other wise nothing.
+        if (List == NULL){
+            return;
+        }//only adding specifier to scope if we don't have the list, which only does anything if it is enum or struct.
+
+
+        //else we compile the list, aka starting the nightmare
         std::string id;
         int size;
-
         for(int i = 0; i < List->size(); i++){//do each of them declaration
             id = List->at(i)->getId();
             size = List->at(i)->getSize(context)*declaration_specifiers->getSize(context);

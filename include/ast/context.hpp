@@ -24,8 +24,10 @@ enum Reg {
 
 enum variable_types {
     _void,
-    _int //to be extended
+    _int, //to be extended
 };
+
+
 
 class registers{
     private:
@@ -65,9 +67,11 @@ class registers{
 };
 
 struct variable{
-    int size;
+    int size; //the total memory size required by the variable
     int offset;             //used to store offset from stack pointer for local
-                            //for global store the "absolute address" (offset relating to program)
+            //for global store the "absolute address" (offset relating to program)
+    //int pointer = 0; //determines the size of the type which the pointer is pointing to
+    //if 0, means not pointer
 };
 struct function{ //I am just going to assume that the 
     int size; //store the size of the parameter that is not enough to fit inside the argument regs. 
@@ -88,6 +92,9 @@ struct Scope{
     std::string returnLabel = "undefined"; //used for return
     std::string startLabel = "undefined"; //used for continue
     std::string endLabel = "undefined"; //used for break
+
+    std::map<std::string, int> enumBindings = {}; //stores all available enums in the scope
+    std::map<std::string, std::vector<int>> enumSets = {}; //stores the availble enum sets in scope the available values to that scope. 
 };
 
 struct Context{

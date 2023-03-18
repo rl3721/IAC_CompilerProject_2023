@@ -28,6 +28,14 @@ public:
     //used in codeGen
     virtual int getSize(Context &context)const =0;
     virtual std::string getId()const =0;
+    virtual int getValue(Context &context){
+        std::cerr<<"unable to get value for the class";
+        exit(1);
+    }
+    virtual bool enumValueExist(){
+        std::cerr<<"unable to get enum value exist for the class";
+        exit(1);
+    }
 
 };
 
