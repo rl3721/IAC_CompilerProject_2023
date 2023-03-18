@@ -144,8 +144,8 @@ declaration_specifiers
 direct_declarator 
 	: IDENTIFIER 										{$$ = new variableDeclarator(*$1);}
 	| '(' declarator ')'								{$$ = $2;}
-	| direct_declarator '[' constant_expression ']'		//{$$ = new arrayDeclarator($1, $3);}
-	| direct_declarator '[' ']'							//{$$ = new arrayDeclarator($1, NULL);}
+	| direct_declarator '[' constant_expression ']'		{$$ = new arrayDeclarator($1, $3);}
+	| direct_declarator '[' ']'							{std::cerr<<"not assessed"; exit(1);}
 	| direct_declarator '(' parameter_type_list ')'		{$$ = new functionDeclarator($1, $3);}
 	| direct_declarator '(' identifier_list ')'			//{$$ = new functionDeclarator($1, $3);}
 	| direct_declarator '(' ')'							{$$ = new functionDeclarator($1, NULL);}
@@ -375,7 +375,7 @@ primary_expression
 
 postfix_expression 
 	: primary_expression									{$$ = $1;}
-	| postfix_expression '[' expression ']'//todo array indexing
+	| postfix_expression '[' expression ']'					{$$ = new arrayIndex($1, $3);}
 	| postfix_expression '(' ')'							{$$ = new functionCall($1, NULL);}
 	| postfix_expression '(' argument_expression_list ')'	{$$ = new functionCall($1, $3);}
 	| postfix_expression '.' IDENTIFIER //struct reference

@@ -535,12 +535,15 @@ public:
     virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
         //first assume left side is only identifier, we will worry about messier stuff on left side later on. 
 
-        int RightReg = DoRight(dst, context, destReg);
-        std::string id = left->getId();
-        int offset = context.stack.back().varBindings[id].offset;
+        left->compileArrayOffset(dst, context, destReg); //store pointer in destReg
+        int RightReg = DoRight(dst, context, destReg); //store value in RightReg
+        // std::string id = left->getId();
+        // int offset = context.stack.back().varBindings[id].offset;
+
+
 
         //assignment can only happen in local scope so no need to worry about globals
-        dst<<"sw x"<<RightReg<<", "<<offset<<"(s0)"<<std::endl;
+        dst<<"sw x"<<RightReg<<", "<<"0(x"<<destReg<<")"<<std::endl;
 
         context.RegisterFile.freeReg(RightReg);
     }

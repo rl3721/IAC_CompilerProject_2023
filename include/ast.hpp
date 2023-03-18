@@ -19,6 +19,7 @@
 #include "ast/ast_unaryoperations.hpp"
 #include "ast/ast_iteration_statement.hpp"
 #include "ast/ast_enum.hpp"
+#include "ast/ast_array.hpp"
 
 
 //todo: compress all list type subclass into one
