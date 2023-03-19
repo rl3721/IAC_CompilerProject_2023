@@ -323,7 +323,7 @@ labeled_statement_list
 
 labeled_statement //case and switch todo
 	: IDENTIFIER ':' statement
-	| CASE constant_expression ':' statement {}
+	| CASE constant_expression ':' statement  {$$ = new caseStatement($2, $4);}
 	| DEFAULT ':' statement
 	;
 
@@ -335,7 +335,7 @@ expression_statement
 selection_statement
 	: IF '(' expression ')' statement					{$$ = new ifElseStatement($3,$5,NULL);}
 	| IF '(' expression ')' statement ELSE statement	{$$ = new ifElseStatement($3,$5,$7);}
-	| SWITCH '(' expression ')' labeled_statement_list //todo switch
+	| SWITCH '(' expression ')' statement 				{$$ = new switchStatement($3,$5);}
 	;
 
 iteration_statement

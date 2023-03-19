@@ -4,7 +4,7 @@
 #include "ast_base.hpp"
 #include <string>
 
-class iterationStatement //involves if and while 
+class iterationStatement //involves for and while 
     : public Tree
 {
 private:

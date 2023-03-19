@@ -65,23 +65,6 @@ public:
     // }
 };
 
-class switchStatement
-    : public selectStatement
-{
-private:
-protected:
-    virtual const std::string getOpcode() const override
-        { return "SWITCH"; }
-public:
-    switchStatement(TreePtr _condition, TreePtr _statementTrue, TreePtr _statementFalse)
-        :selectStatement(_condition, _statementTrue, _statementFalse)
-    {}
-    virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
-        condition->compile(dst, context, destReg);
-        statementTrue->compile(dst, context, destReg);
-    }
-};
-
 
 class ifElseStatement
     : public selectStatement

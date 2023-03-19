@@ -15,6 +15,8 @@ typedef Tree *TreePtr;
 
 class Tree //The most basic tree, the root for everything
 {
+protected:
+    std::vector<TreePtr> branches;
 public:
     //destructor
     virtual ~Tree(){};

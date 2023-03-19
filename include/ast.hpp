@@ -21,6 +21,9 @@
 #include "ast/ast_enum.hpp"
 #include "ast/ast_array.hpp"
 #include "ast/ast_pointer.hpp"
+#include "ast/ast_case.hpp"
+#include "ast/ast_switch.hpp"
+#include "ast/ast_default.hpp"
 
 
 //todo: compress all list type subclass into one
