@@ -44,6 +44,7 @@ class registers{
             1,1,1,1 //t-reg
         };
     public:
+        int isFloat = 0;
         void useReg(int i){
             usedReg[i] = 1;
         }
@@ -150,6 +151,15 @@ struct Context{
             ExistedLabel[id] = 0;  
             std::cerr<<"make up new "<<id<< " label_0"<<std::endl;                      //insert that label into ExistedLabel
             return "__"+id+"_"+"Label"+"__0";              //return label
+        }
+    }
+
+    std::string adjustInstruction(std::string instruction){
+        if (RegisterFile.isFloat = 1){
+            
+        }
+        else{
+            return instruction;
         }
     }
 

@@ -75,7 +75,7 @@
 %type <list> argument_expression_list init_declarator_list struct_declaration_list 
 %type <list> specifier_qualifier_list struct_declarator_list enumerator_list
 %type <list>  parameter_type_list identifier_list parameter_list 
-%type <list> initializer_list declaration_or_statement_list
+%type <list> initializer_list declaration_or_statement_list labeled_statement_list
 //%type <tree> declaration_list statement_list
 
 //operator
@@ -314,9 +314,16 @@ statement
 	| jump_statement		{$$ = $1;}
 	;
 
+labeled_statement_list
+	: "{" labeled_statement_list "}" {$$ = $2;}
+	| labeled_statement_list labeled_statement {$$ = concatList($1, $2);}
+	| labeled_statement {$$ = initList($1);}
+
+
+
 labeled_statement //case and switch todo
 	: IDENTIFIER ':' statement
-	| CASE constant_expression ':' statement
+	| CASE constant_expression ':' statement {}
 	| DEFAULT ':' statement
 	;
 
@@ -328,7 +335,7 @@ expression_statement
 selection_statement
 	: IF '(' expression ')' statement					{$$ = new ifElseStatement($3,$5,NULL);}
 	| IF '(' expression ')' statement ELSE statement	{$$ = new ifElseStatement($3,$5,$7);}
-	| SWITCH '(' expression ')' statement//todo switch
+	| SWITCH '(' expression ')' labeled_statement_list //todo switch
 	;
 
 iteration_statement

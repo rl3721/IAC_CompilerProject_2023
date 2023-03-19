@@ -1,8 +1,3 @@
-enum X{
-    vv 
-};
-
-int g()
-{
-    return vv+1;
+int main(){
+    return 1;
 }

@@ -77,7 +77,8 @@ public:
         :selectStatement(_condition, _statementTrue, _statementFalse)
     {}
     virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
-
+        condition->compile(dst, context, destReg);
+        statementTrue->compile(dst, context, destReg);
     }
 };
 
