@@ -76,6 +76,7 @@
 %type <list> specifier_qualifier_list struct_declarator_list enumerator_list
 %type <list>  parameter_type_list identifier_list parameter_list 
 %type <list> initializer_list declaration_or_statement_list labeled_statement_list
+%type <list> array_index_list array_constant_index_list
 //%type <tree> declaration_list statement_list
 
 //operator
@@ -144,11 +145,17 @@ declaration_specifiers
 direct_declarator 
 	: IDENTIFIER 										{$$ = new variableDeclarator(*$1);}
 	| '(' declarator ')'								{$$ = $2;}
-	| direct_declarator '[' constant_expression ']'		{$$ = new arrayDeclarator($1, $3);}
-	| direct_declarator '[' ']'							{std::cerr<<"not assessed"; exit(1);}
+	//| direct_declarator '[' constant_expression ']'		{$$ = new arrayDeclarator($1, $3);}
+	//| direct_declarator array_constant_index_list		{$$ = new arrayDeclarator($1, $2);}
+	//| direct_declarator '[' ']'							{std::cerr<<"not assessed"; exit(1);}
 	| direct_declarator '(' parameter_type_list ')'		{$$ = new functionDeclarator($1, $3);}
 	| direct_declarator '(' identifier_list ')'			//{$$ = new functionDeclarator($1, $3);}
 	| direct_declarator '(' ')'							{$$ = new functionDeclarator($1, NULL);}
+	;
+
+array_constant_index_list
+	: '[' constant_expression ']'					{$$ = initList($2);}
+	| array_index_list '[' constant_expression ']'	{$$ = concatList($1, $3);}
 	;
 
 declarator
@@ -383,6 +390,7 @@ primary_expression
 postfix_expression 
 	: primary_expression									{$$ = $1;}
 	| postfix_expression '[' expression ']'					{$$ = new arrayIndex($1, $3);}
+	//| postfix_expression array_index_list					{$$ = new arrayIndex($1, $2);}
 	| postfix_expression '(' ')'							{$$ = new functionCall($1, NULL);}
 	| postfix_expression '(' argument_expression_list ')'	{$$ = new functionCall($1, $3);}
 	| postfix_expression '.' IDENTIFIER //struct reference
@@ -391,7 +399,10 @@ postfix_expression
 	| postfix_expression DEC_OP								{$$ = new postDecrement($1);}
 	;
 
-
+array_index_list
+	: '[' expression ']'	{$$ = initList($2);}
+	| array_index_list '[' expression ']'	{$$ = concatList($1, $3);}
+	;
 
 unary_expression
 	: postfix_expression              	{$$ = $1;}

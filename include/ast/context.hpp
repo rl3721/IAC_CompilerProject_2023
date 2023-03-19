@@ -74,11 +74,15 @@ struct variable{
     int ind_size; //determines the size of each element if is an array, also equivalent to increment of pointer
     int is_pointer; //determines if the variable is a pointer,
     //currently I will just use it as bool, but I will change it to int if I want to support multilayer pointer
+    std::vector<int> arrayIndex; //stores the size of each dimension of the array
+    //I am also not sure if an array of pointer is allowed, but I don't think normal humans 
+    //will like to use it anyway, so I won't bother to support it.
 };
 struct function{ //I am just going to assume that the 
     int size; //store the size of the parameter that is not enough to fit inside the argument regs. 
     //equivalent to the size of memory need to be assigned when calling the function. 
     std::vector<int> paramter_offset; //stores offset of the more than 8 params(positive offset)
+    
 };
 
 

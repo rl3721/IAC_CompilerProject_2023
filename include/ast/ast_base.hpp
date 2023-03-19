@@ -38,7 +38,7 @@ public:
         std::cerr<<"unable to get enum value exist for the class";
         exit(1);
     }
-    virtual void compileArrayOffset(std::ostream &dst, Context &context, int destReg)const{
+    virtual void leftCompile(std::ostream &dst, Context &context, int destReg)const{
         std::cerr<<"unable to compile array offset for the class";
         exit(1); //technically this should be named more like something leftCompile,
         // as it's function sort of diverged after the initial setup

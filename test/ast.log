@@ -1,17 +1,3 @@
-function definition:int main{declaration: (int initialize: x = 1
-
-)
-switch statement: expression:
-x
-statement:
-case statement: expression:
-1
-statement:
-RETURN 10
- 
-case statement: expression:
-2
-statement:
-RETURN 11
+function definition:int main{RETURN 1
  
 }

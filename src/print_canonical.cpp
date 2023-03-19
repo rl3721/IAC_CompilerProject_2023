@@ -9,15 +9,15 @@ int main()
     
     ast->print(std::cout);
       
-    freopen("test/output.log", "w", stdout);
-    freopen("test/error.log", "w", stderr);
+     freopen("test/output.log", "w", stdout);
+     freopen("test/error.log", "w", stderr);
 
-    Context context;
-    //std::cout<<"addi sp, zero, ffff0000"<<std::endl; //consider this is where the stack pointer starts
-    ast->compile(std::cout,context,context.RegisterFile.allocate());
+     Context context;
+     std::cout<<"addi sp, zero, ffff0000"<<std::endl; //consider this is where the stack pointer starts
+     ast->compile(std::cout,context, context.RegisterFile.allocate());
 
 
-      // Close the files
-  fclose(stdout);
-  fclose(stderr);
+    //   // Close the files
+     fclose(stdout);
+     fclose(stderr);
 }
