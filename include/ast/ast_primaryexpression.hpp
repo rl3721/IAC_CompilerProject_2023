@@ -132,7 +132,7 @@ public:
             }
         }
     }
-    void compileArrayOffset(std::ostream &dst, Context &context, int destReg)const override{
+    void leftCompile(std::ostream &dst, Context &context, int destReg)const override{
         if (context.stack.size() == 0){
             if (context.global.varBindings.find(id) == context.global.varBindings.end()){
                 exit(1);

@@ -1,4 +1,4 @@
-#ifndef ast_binaryOperations_hppue()
+#ifndef ast_binaryOperations_hpp
 #define ast_binaryOperations_hpp
 
 #include "ast_base.hpp"
@@ -557,7 +557,7 @@ public:
     virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
         //first assume left side is only identifier, we will worry about messier stuff on left side later on. 
 
-        left->compileArrayOffset(dst, context, destReg); //store pointer in destReg
+        left->leftCompile(dst, context, destReg); //store pointer in destReg
         int RightReg = DoRight(dst, context, destReg); //store value in RightReg
         // std::string id = left->getId();
         // int offset = context.stack.back().varBindings[id].offset;

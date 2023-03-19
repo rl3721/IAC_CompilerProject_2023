@@ -41,7 +41,7 @@ public:
         std::cerr<<"getting Id of unary expression";
         exit(1);
     };
-    virtual void compileArrayOffset(std::ostream &dst, Context &context, int destReg)const override{
+    virtual void leftCompile(std::ostream &dst, Context &context, int destReg)const override{
         std::cerr<<"unable to compile array offset for the class";
         exit(1); //technically this should be named more like something leftCompile,
         // as it's function sort of diverged after the initial setup
@@ -268,7 +268,7 @@ public:
         dst<<"lw x"<<destReg<<", "<<offset<<"(s0)"<<std::endl;
         dst<<"lw x"<<destReg<<", 0(x"<<destReg<<")"<<std::endl;
     }
-    void compileArrayOffset(std::ostream &dst, Context &context, int destReg)const override{
+    void leftCompile(std::ostream &dst, Context &context, int destReg)const override{
         std::string id = expression->getId();
         int offset = context.stack.back().varBindings[id].offset; //TODO: define new function to directly get offset
         dst<<"lw x"<<destReg<<", "<<offset<<"(s0)"<<std::endl;
