@@ -31,11 +31,11 @@ public:
 
     virtual void print(std::ostream &dst) const override
     {
-        dst<<"function definition:";
+        dst<<"function definition:  ";
         declaration_specifiers->print(dst);
         dst<<" ";
         declarator->print(dst);
-        dst<<"{";
+        dst<<"{"<<std::endl;
         compound_statement->print(dst);
         dst<<"}";
     }

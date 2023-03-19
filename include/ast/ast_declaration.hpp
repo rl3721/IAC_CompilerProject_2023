@@ -29,7 +29,8 @@ public:
 
     virtual void print(std::ostream &dst) const override
     {
-        dst<<"declaration: (";
+        dst<<"declaration: "<<std::endl;
+        dst<<"(";
         declaration_specifiers->print(dst);
         dst<<" ";
         for (int i = 0; i < List->size(); i++){

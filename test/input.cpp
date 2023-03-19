@@ -6,5 +6,7 @@ int main(){
             return 10;
         case 2:
             return 11;
+        case 3:
+            return 12;
     }
 }

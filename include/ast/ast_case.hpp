@@ -46,9 +46,10 @@ public:
         int conReg = context.RegisterFile.allocate();
         expression->compile(dst,context,conReg);
         std::string nextCase = context.makeupLabel("CASE");
-        dst<<"bne x"<<destReg<<", x"<<conReg<<", "<<nextCase<<std::endl;
-        context.RegisterFile.freeReg(conReg);
         context.stack.back().startLabel = nextCase;
+        dst<<"bne x"<<destReg<<", x"<<conReg<<", "<<nextCase<<std::endl;
+        dst<<"current destReg: "<<destReg<<std::endl;
+        context.RegisterFile.freeReg(conReg);
         statement->compile(dst,context,destReg);
     }
 };

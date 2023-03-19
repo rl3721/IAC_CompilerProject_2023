@@ -1,4 +1,6 @@
-function definition:int main{declaration: (int initialize: x = 1
+function definition:  int main{
+declaration: 
+(int initialize: x = 1
 
 )
 switch statement: expression:
@@ -13,5 +15,10 @@ case statement: expression:
 2
 statement:
 RETURN 11
+ 
+case statement: expression:
+3
+statement:
+RETURN 12
  
 }
