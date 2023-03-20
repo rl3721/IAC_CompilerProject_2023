@@ -50,7 +50,7 @@ public:
     }
     
     void print(std::ostream &dst)const override{
-        dst<<id<<std::endl;
+        dst<<id;
     }
     bool isPointer(Context &context)override{
         if (context.stack.size() == 0){
@@ -103,7 +103,12 @@ public:
                 }
             }
             else{//priority 1
-                dst<<"lw x"<<destReg<<", "<<context.stack.back().varBindings[id].offset<<"(s0)"<<std::endl;
+                if(context.RegisterFile.type >= 2){
+                    dst<<"flw f"<<destReg<<", "<<context.stack.back().varBindings[id].offset<<"(s0)"<<std::endl;
+                }
+                else{
+                    dst<<"lw x"<<destReg<<", "<<context.stack.back().varBindings[id].offset<<"(s0)"<<std::endl;
+                }
             }
         }
     }
@@ -181,7 +186,7 @@ public:
         dst<<"li x"<<destReg<<", "<<val<<std::endl;
     }
     void print(std::ostream &dst)const override{
-        dst<<val<<std::endl;
+        dst<<val;
     }
     int getValue(Context &context) override{
         return val;
@@ -217,7 +222,7 @@ public:
 
     }
     void print(std::ostream &dst)const override{
-        dst<<'"'<<val<<'"'<<std::endl;
+        dst<<'"'<<val;
     }
     int getValue(Context &context) override{
         std::cerr<<"Error: Getting value, of string immediate";

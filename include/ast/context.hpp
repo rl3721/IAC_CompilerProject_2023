@@ -66,8 +66,8 @@ class registers{
         int allocate(){
             if(type == 2 || type == 3){ //float or double
                 for(int i = 5; i < 32; i++){ //starting from 5 as first 5 non allocatable by program
-                    if(usedReg[i]==0){
-                        usedReg[i] = 1;
+                    if(floatReg[i]==0){
+                        floatReg[i] = 1;
                         std::cerr<<"return float register index: "<<i<<std::endl;
                         return i;
                     }

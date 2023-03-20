@@ -1,4 +1,9 @@
 function definition:  int main{
-RETURN 1
- 
+declaration: 
+(float initialize: a = 1
+)
+declaration: 
+(float initialize: b = 2
+)
+RETURN (a + b) 
 }

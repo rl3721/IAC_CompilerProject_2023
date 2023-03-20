@@ -424,7 +424,15 @@ public:
         else if (!left->isPointer(context) && right->isPointer(context)) {
             dst<<"slli x"<<LeftReg<<", x"<<LeftReg<<", 2"<<std::endl;
         }
-        dst<<"add x"<<destReg<<", x"<<LeftReg<<", x"<<RightReg<<std::endl;
+        if(context.RegisterFile.type == 2){
+            dst<<"fadd.s f"<<destReg<<", f"<<LeftReg<<", f"<<RightReg<<std::endl;
+        }
+        else if(context.RegisterFile.type == 3){
+            dst<<"fadd.d f"<<destReg<<", f"<<LeftReg<<", f"<<RightReg<<std::endl;
+        }
+        else{
+            dst<<"add x"<<destReg<<", x"<<LeftReg<<", x"<<RightReg<<std::endl;
+        }
         // if (left->isPointer(context) && right->isPointer(context)){
         //     dst<<"srai x"<<destReg<<", x"<<destReg<<", 2"<<std::endl;
         // } adding two pointers make no sense

@@ -1,3 +1,5 @@
 int main(){
-    return 1;
+    float a = 1;
+    float b = 2;
+    return a+b;
 }

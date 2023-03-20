@@ -111,7 +111,7 @@ type_specifier
 	| SHORT							{std::cerr<<"short not assessed";exit(1);}
 	| INT							{$$ = new typeSpecifier(variable_types::_int);}
 	| LONG							{std::cerr<<"long not spported";exit(1);}
-	| FLOAT							//{$$ = new typeSpecifier("FLOAT");}
+	| FLOAT							{$$ = new typeSpecifier(variable_types::_float);}
 	| DOUBLE						//{$$ = new typeSpecifier("DOUBLE");}
 	| SIGNED						//{$$ = new typeSpecifier("INT");} //this is wrong, but just let it be
 	| UNSIGNED						//{$$ = new typeSpecifier("UNSIGNED");}
