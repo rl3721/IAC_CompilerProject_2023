@@ -47,6 +47,14 @@ public:
     virtual bool isPointer(Context &context){
         return false;
     }
+    virtual TreePtr node(int i){
+        if (i < branches.size()){
+            return branches[i];
+        }
+        else{
+            return NULL;
+        }
+    }
 };
 
 

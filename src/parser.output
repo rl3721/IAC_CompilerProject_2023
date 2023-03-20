@@ -1,22 +1,13 @@
 Nonterminals useless in grammar
 
-    unary_operator
     labeled_statement_list
+    unary_operator
 
 
 Terminals unused in grammar
 
     TYPE_NAME
     HELLO_WORLD
-    "{"
-    "}"
-
-
-Rules useless in grammar
-
-  208 labeled_statement_list: "{" labeled_statement_list "}"
-  209                       | labeled_statement_list labeled_statement
-  210                       | labeled_statement
 
 
 State 53 conflicts: 1 shift/reduce
@@ -388,204 +379,202 @@ Terminals, with rules where they appear
     BREAK (315) 130
     RETURN (316) 131 132
     HELLO_WORLD (317)
-    "{" (318)
-    "}" (319)
 
 
 Nonterminals, with rules where they appear
 
-    $accept (89)
+    $accept (87)
         on left: 0
-    ROOT <tree> (90)
+    ROOT <tree> (88)
         on left: 1
         on right: 0
-    translation_unit <list> (91)
+    translation_unit <list> (89)
         on left: 2 3
         on right: 1 3
-    external_declaration <tree> (92)
+    external_declaration <tree> (90)
         on left: 4 5
         on right: 2 3
-    type_specifier <tree> (93)
+    type_specifier <tree> (91)
         on left: 6 7 8 9 10 11 12 13 14 15 16
         on right: 26 27 84 85
-    storage_class_specifier <tree> (94)
+    storage_class_specifier <tree> (92)
         on left: 17 18 19 20 21
         on right: 24 25
-    type_qualifier <tree> (95)
+    type_qualifier <tree> (93)
         on left: 22 23
         on right: 86 87 98 99
-    declaration_specifiers <tree> (96)
+    declaration_specifiers <tree> (94)
         on left: 24 25 26 27
         on right: 25 27 40 41 48 49 50 51
-    direct_declarator <tree> (97)
+    direct_declarator <tree> (95)
         on left: 28 29 30 31 32 33
         on right: 30 31 32 33 36 37
-    array_constant_index_list <list> (98)
+    array_constant_index_list <list> (96)
         on left: 34 35
         on right: 30 35
-    declarator <tree> (99)
+    declarator <tree> (97)
         on left: 36 37
         on right: 29 42 43 47 48 49 81 83
-    type_name <tree> (100)
+    type_name <tree> (98)
         on left: 38 39
         on right: 160 162
-    declaration <tree> (101)
+    declaration <tree> (99)
         on left: 40 41
         on right: 5 106
-    init_declarator <tree> (102)
+    init_declarator <tree> (100)
         on left: 42 43
         on right: 90 91
-    initializer <tree> (103)
+    initializer <tree> (101)
         on left: 44 45 46
         on right: 43 94 95
-    function_definition <tree> (104)
+    function_definition <tree> (102)
         on left: 47 48
         on right: 4
-    parameter_declaration <tree> (105)
+    parameter_declaration <tree> (103)
         on left: 49 50 51
         on right: 102 103
-    enum_specifier <tree> (106)
+    enum_specifier <tree> (104)
         on left: 52 53 54
         on right: 16
-    enumerator <tree> (107)
+    enumerator <tree> (105)
         on left: 55 56
         on right: 92 93
-    pointer (108)
+    pointer (106)
         on left: 57 58 59 60
         on right: 36 59 60 61 63
-    abstract_declarator <tree> (109)
+    abstract_declarator <tree> (107)
         on left: 61 62 63
         on right: 39 50 64
-    direct_abstract_declarator <tree> (110)
+    direct_abstract_declarator <tree> (108)
         on left: 64 65 66 67 68 69 70 71 72
         on right: 62 63 67 68 71 72
-    struct_or_union_specifier <tree> (111)
+    struct_or_union_specifier <tree> (109)
         on left: 73 74 75
         on right: 15
-    struct_or_union <tree> (112)
+    struct_or_union <tree> (110)
         on left: 76 77
         on right: 73 74 75
-    struct_declaration_list <list> (113)
+    struct_declaration_list <list> (111)
         on left: 78 79
         on right: 73 74 79
-    struct_declaration <tree> (114)
+    struct_declaration <tree> (112)
         on left: 80
         on right: 78 79
-    struct_declarator <tree> (115)
+    struct_declarator <tree> (113)
         on left: 81 82 83
         on right: 88 89
-    specifier_qualifier_list <list> (116)
+    specifier_qualifier_list <list> (114)
         on left: 84 85 86 87
         on right: 38 39 80 84 86
-    struct_declarator_list <list> (117)
+    struct_declarator_list <list> (115)
         on left: 88 89
         on right: 80 89
-    init_declarator_list <list> (118)
+    init_declarator_list <list> (116)
         on left: 90 91
         on right: 41 91
-    enumerator_list <list> (119)
+    enumerator_list <list> (117)
         on left: 92 93
         on right: 52 53 93
-    initializer_list <list> (120)
+    initializer_list <list> (118)
         on left: 94 95
         on right: 45 46 95
-    identifier_list <list> (121)
+    identifier_list <list> (119)
         on left: 96 97
         on right: 32 97
-    type_qualifier_list (122)
+    type_qualifier_list (120)
         on left: 98 99
         on right: 58 60 99
-    parameter_type_list <list> (123)
+    parameter_type_list <list> (121)
         on left: 100 101
         on right: 31 70 72
-    parameter_list <list> (124)
+    parameter_list <list> (122)
         on left: 102 103
         on right: 100 101 103
-    argument_expression_list <list> (125)
+    argument_expression_list <list> (123)
         on left: 104 105
         on right: 105 143
-    declaration_or_statement <tree> (126)
+    declaration_or_statement <tree> (124)
         on left: 106 107
         on right: 108 109
-    declaration_or_statement_list <list> (127)
+    declaration_or_statement_list <list> (125)
         on left: 108 109
         on right: 109 134
-    statement <tree> (128)
+    statement <tree> (126)
         on left: 110 111 112 113 114 115
         on right: 107 116 117 118 121 122 123 124 125 126 127
-    labeled_statement <tree> (129)
+    labeled_statement <tree> (127)
         on left: 116 117 118
         on right: 110
-    expression_statement <tree> (130)
+    expression_statement <tree> (128)
         on left: 119 120
         on right: 112 126 127
-    selection_statement <tree> (131)
+    selection_statement <tree> (129)
         on left: 121 122 123
         on right: 113
-    iteration_statement <tree> (132)
+    iteration_statement <tree> (130)
         on left: 124 125 126 127
         on right: 114
-    jump_statement <tree> (133)
+    jump_statement <tree> (131)
         on left: 128 129 130 131 132
         on right: 115
-    compound_statement <tree> (134)
+    compound_statement <tree> (132)
         on left: 133 134
         on right: 47 48 111
-    primary_expression <tree> (135)
+    primary_expression <tree> (133)
         on left: 135 136 137 138 139
         on right: 140
-    postfix_expression <tree> (136)
+    postfix_expression <tree> (134)
         on left: 140 141 142 143 144 145 146 147
         on right: 141 142 143 144 145 146 147 150
-    array_index_list <list> (137)
+    array_index_list <list> (135)
         on left: 148 149
         on right: 141 149
-    unary_expression <tree> (138)
+    unary_expression <tree> (136)
         on left: 150 151 152 153 154 155 156 157 158 159 160
         on right: 151 152 159 161 194 195 196 197 198 199 200 201 202 203 204
-    cast_expression <tree> (139)
+    cast_expression <tree> (137)
         on left: 161 162
         on right: 153 154 155 156 157 158 162 163 164 165 166
-    multiplicative_expression <tree> (140)
+    multiplicative_expression <tree> (138)
         on left: 163 164 165 166
         on right: 164 165 166 167 168 169
-    additive_expression <tree> (141)
+    additive_expression <tree> (139)
         on left: 167 168 169
         on right: 168 169 170 171 172
-    shift_expression <tree> (142)
+    shift_expression <tree> (140)
         on left: 170 171 172
         on right: 171 172 173 174 175 176 177
-    relational_expression <tree> (143)
+    relational_expression <tree> (141)
         on left: 173 174 175 176 177
         on right: 174 175 176 177 178 179 180
-    equality_expression <tree> (144)
+    equality_expression <tree> (142)
         on left: 178 179 180
         on right: 179 180 181 182
-    and_expression <tree> (145)
+    and_expression <tree> (143)
         on left: 181 182
         on right: 182 183 184
-    exclusive_or_expression <tree> (146)
+    exclusive_or_expression <tree> (144)
         on left: 183 184
         on right: 184 185 186
-    inclusive_or_expression <tree> (147)
+    inclusive_or_expression <tree> (145)
         on left: 185 186
         on right: 186 187 188
-    logical_and_expression <tree> (148)
+    logical_and_expression <tree> (146)
         on left: 187 188
         on right: 188 189 190
-    logical_or_expression <tree> (149)
+    logical_or_expression <tree> (147)
         on left: 189 190
         on right: 190 191 192
-    conditional_expression <tree> (150)
+    conditional_expression <tree> (148)
         on left: 191 192
         on right: 192 193 207
-    assignment_expression <tree> (151)
+    assignment_expression <tree> (149)
         on left: 193 194 195 196 197 198 199 200 201 202 203 204
         on right: 44 104 105 194 195 196 197 198 199 200 201 202 203 204 205 206
-    expression <tree> (152)
+    expression <tree> (150)
         on left: 205 206
         on right: 120 121 122 123 124 125 127 132 139 148 149 192 206
-    constant_expression <tree> (153)
+    constant_expression <tree> (151)
         on left: 207
         on right: 34 35 56 66 68 82 83 117
 

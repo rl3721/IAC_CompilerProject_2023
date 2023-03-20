@@ -321,17 +321,17 @@ statement
 	| jump_statement		{$$ = $1;}
 	;
 
-labeled_statement_list
-	: "{" labeled_statement_list "}" {$$ = $2;}
-	| labeled_statement_list labeled_statement {$$ = concatList($1, $2);}
-	| labeled_statement {$$ = initList($1);}
+// labeled_statement_list
+// 	: "{" labeled_statement_list "}" {$$ = $2;}
+// 	| labeled_statement_list labeled_statement {$$ = concatList($1, $2);}
+// 	| labeled_statement {$$ = initList($1);}
 
 
 
 labeled_statement //case and switch todo
 	: IDENTIFIER ':' statement
 	| CASE constant_expression ':' statement  {$$ = new caseStatement($2, $4);}
-	| DEFAULT ':' statement
+	| DEFAULT ':' statement          //{$$ = new defaultStatement($3);}
 	;
 
 expression_statement

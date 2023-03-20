@@ -3,14 +3,23 @@ declaration:
 (int initialize: x = 1
 
 )
+declaration: 
+(int initialize: y = 0
+
+)
 switch statement: expression:
 x
 statement:
 case statement: expression:
 1
 statement:
-RETURN 10
+(y
+ = 10
+)(y
+ = 11
+)RETURN 10
  
+break  
 case statement: expression:
 2
 statement:
@@ -21,4 +30,5 @@ case statement: expression:
 statement:
 RETURN 12
  
+break  
 }
