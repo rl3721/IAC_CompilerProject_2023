@@ -148,6 +148,7 @@ struct Context{
         // std::vector<Label> ExistedLabel;
         if (ExistedLabel.find(id) != ExistedLabel.end()){        //if the id label already exist
             int index = ExistedLabel[id];   
+            ExistedLabel[id] ++;
             std::cerr<<"make up "<<id<< " label_"<<index<<std::endl;                     //get the index of that id
             return "__"+id+"_"+"Label"+"__"+std::to_string(index+1); //returen label
         }

@@ -41,16 +41,16 @@ public:
     }
 
     void compile(std::ostream &dst, Context &context, int destReg) const override{
-        dst<<"#switch statement------------"<<std::endl;
         std::string nextCase = context.makeupLabel("CASE");
         std::string endLabel = context.makeupLabel("switchEnd");
         context.stack.back().startLabel = nextCase;
         context.stack.back().endLabel = endLabel;
         expression->compile(dst,context,destReg);
         dst<<"j "<<nextCase<<std::endl;
+        dst<<context.stack.back().startLabel<<":"<<std::endl;
+
         statement->compile(dst,context,destReg);
         dst<<endLabel<<":"<<std::endl;
-        dst<<"#end switch statement------------"<<std::endl;
     }
 };
 

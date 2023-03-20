@@ -42,15 +42,16 @@ public:
     }
 
     void compile(std::ostream &dst, Context &context, int destReg) const override{
-        dst<<context.stack.back().startLabel<<":"<<std::endl;
+        // dst<<context.stack.back().startLabel<<":"<<std::endl;
+
         int conReg = context.RegisterFile.allocate();
         expression->compile(dst,context,conReg);
         std::string nextCase = context.makeupLabel("CASE");
         context.stack.back().startLabel = nextCase;
         dst<<"bne x"<<destReg<<", x"<<conReg<<", "<<nextCase<<std::endl;
-        dst<<"current destReg: "<<destReg<<std::endl;
         context.RegisterFile.freeReg(conReg);
         statement->compile(dst,context,destReg);
+        dst<<context.stack.back().startLabel<<":"<<std::endl;
     }
 };
 
