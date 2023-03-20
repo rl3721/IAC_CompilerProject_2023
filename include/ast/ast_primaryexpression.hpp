@@ -188,6 +188,44 @@ public:
     }
 };
 
+class stringConstant
+    : public Tree
+{
+private:
+protected:
+public:
+    std::string val;
+    stringConstant(std::string _val)
+        :val(_val)
+    {
+        val = val.substr(1, val.size()-2);
+    }
+    std::string getId()const override{
+        std::cerr<<"Error: Getting Id, of string immediate";
+        exit(1);
+    }
+    int getSize(Context &context)const override{
+        return 0;
+    }
+    void compile(std::ostream &dst, Context &context, int destReg)const override{
+        std::string string_label = context.makeupLabel("string");
+        dst<<string_label<<":"<<std::endl;
+        dst<<" .string "<<'"'<<val<<'"'<<std::endl;
+        dst<<"lui x"<<destReg<<", %hi("<<string_label<<")"<<std::endl;
+        dst<<"addi x"<<destReg<<", x"<<destReg<<", %lo("<<string_label<<")"<<std::endl;
+        dst<<"lbu x"<<destReg<<", 0(x"<<destReg<<")"<<std::endl;
+
+    }
+    void print(std::ostream &dst)const override{
+        dst<<'"'<<val<<'"'<<std::endl;
+    }
+    int getValue(Context &context) override{
+        std::cerr<<"Error: Getting value, of string immediate";
+        exit(1);
+    }
+
+};
+
 
 
 #endif
