@@ -24,7 +24,9 @@ enum Reg {
 
 enum variable_types {
     _void,
-    _int, //to be extended
+    _int, 
+    _float,
+    _double,//to be extended
 };
 
 
@@ -43,8 +45,17 @@ class registers{
             0,0,0,0,0,0,0,0,0,0,
             1,1,1,1 //t-reg
         };
+
+        bool floatReg[32] = { //determining which registers are free to use
+            0,0,0,0,0,0,0,0, //ft0-ft7
+            1,1, //fs0-fs1
+            0,0,0,0,0,0,0,0, //fa0-fa7
+            0,0,0,0,0,0,0,0,0,0, //fs2-fs11
+            0,0,0,0 //ft8-ft11
+        };
+
     public:
-        int isFloat = 0;
+        int type = 1;
         void useReg(int i){
             usedReg[i] = 1;
         }
@@ -53,13 +64,37 @@ class registers{
             std::cerr<<"free register index: "<<i<<std::endl;
         }
         int allocate(){
-            for(int i = 5; i < 32; i++){ //starting from 5 as first 5 non allocatable by program
-                if(usedReg[i]==0){
-                    usedReg[i] = 1;
-                    std::cerr<<"return unused register index: "<<i<<std::endl;
-                    return i;
+            if(type == 2 || type == 3){ //float or double
+                for(int i = 5; i < 32; i++){ //starting from 5 as first 5 non allocatable by program
+                    if(usedReg[i]==0){
+                        usedReg[i] = 1;
+                        std::cerr<<"return float register index: "<<i<<std::endl;
+                        return i;
+                    }
                 }
+                std::cerr<<"Error:no register available";
+                exit(1);
+                return -1; //no registers allocatable
             }
+            else{ //int
+                for(int i = 5; i < 32; i++){ //starting from 5 as first 5 non allocatable by program
+                    if(usedReg[i]==0){
+                        usedReg[i] = 1;
+                        std::cerr<<"return unused register index: "<<i<<std::endl;
+                        return i;
+                    }
+                }
+                std::cerr<<"Error:no register available";
+                exit(1);
+                return -1; //no registers allocatable
+            }
+            // for(int i = 5; i < 32; i++){ //starting from 5 as first 5 non allocatable by program
+            //     if(usedReg[i]==0){
+            //         usedReg[i] = 1;
+            //         std::cerr<<"return unused register index: "<<i<<std::endl;
+            //         return i;
+            //     }
+            // }
             std::cerr<<"Error:no register available";
             exit(1);
                 //return -1; //no registers allocatable
@@ -159,14 +194,14 @@ struct Context{
         }
     }
 
-    std::string adjustInstruction(std::string instruction){
-        if (RegisterFile.isFloat = 1){
+    // std::string adjustInstruction(std::string instruction){
+    //     if (RegisterFile.isFloat = 1){
             
-        }
-        else{
-            return instruction;
-        }
-    }
+    //     }
+    //     else{
+    //         return instruction;
+    //     }
+    // }
 
 };
 
