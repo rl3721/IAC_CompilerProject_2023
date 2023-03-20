@@ -23,9 +23,9 @@ enum Reg {
 };
 
 enum variable_types {
-    _void,
-    //_char,
-    _int, 
+    _void = -1,
+    _char = 0,
+    _int,
     _float,
     _double,//to be extended
 };
@@ -65,7 +65,7 @@ class registers{
             std::cerr<<"free register index: "<<i<<std::endl;
         }
         int allocate(){
-            if(type == 2 || type == 3){ //float or double
+            if(type == 3 || type == 4){ //float or double
                 for(int i = 5; i < 32; i++){ //starting from 5 as first 5 non allocatable by program
                     if(floatReg[i]==0){
                         floatReg[i] = 1;
@@ -135,7 +135,7 @@ struct Scope{
     std::string startLabel = "undefined"; //used for continue
     std::string endLabel = "undefined"; //used for break
 
-    std::string return_type = "undefined";
+    std::string return_type = "undefined"; //determine the type of the return value
 
     std::map<std::string, int> enumBindings = {}; //stores all available enums in the scope
     std::map<std::string, std::vector<int>> enumSets = {}; //stores the availble enum sets in scope the available values to that scope. 

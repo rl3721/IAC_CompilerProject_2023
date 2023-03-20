@@ -43,7 +43,7 @@ public:
             int returnReg = context.RegisterFile.allocate();
             expression->compile(dst,context,returnReg); //store the result in a0 aka the return register
             if(context.RegisterFile.type == 2){
-                dst<<"fcvt.w.s a0, f"<<returnReg<<", rtz"<<std::endl;
+                dst<<"fmv.s fa0, f"<<returnReg<<std::endl;
             }
             else{
                 dst<<"mv a0, x"<<returnReg<<std::endl;

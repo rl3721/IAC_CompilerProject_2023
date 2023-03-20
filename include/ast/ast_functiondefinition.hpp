@@ -174,7 +174,12 @@ public:
                 else{//negative offset
                     list->at(i)->compile(dst,context,destReg); //this calls declaration and adds the parameters to context
                     //destReg should not do anything
-                    dst<<"sw a"<<i<<", "<<context.stack.back().varBindings[parameterId].offset<<"(s0)"<<std::endl;
+                    if(context.RegisterFile.type >=2){
+                        dst<<"fsd fa"<<i<<", "<<context.stack.back().varBindings[parameterId].offset<<"(s0)"<<std::endl;
+                    }
+                    else{
+                        dst<<"sw a"<<i<<", "<<context.stack.back().varBindings[parameterId].offset<<"(s0)"<<std::endl;
+                    }
                     std::cerr<<"parameter "<<parameterId<<"at register a"<<i<<"declared and stored at offset"<<context.stack.back().varBindings[parameterId].offset<<std::endl;
                 }
                 
