@@ -42,7 +42,12 @@ public:
         if (expression != NULL){
             int returnReg = context.RegisterFile.allocate();
             expression->compile(dst,context,returnReg); //store the result in a0 aka the return register
-            dst<<"mv a0, x"<<returnReg<<std::endl;
+            if(context.RegisterFile.type == 2){
+                dst<<"fcvt.w.s a0, f"<<returnReg<<", rtz"<<std::endl;
+            }
+            else{
+                dst<<"mv a0, x"<<returnReg<<std::endl;
+            }
             context.RegisterFile.freeReg(returnReg); 
         }
         std::cerr<<"returning"<<std::endl;

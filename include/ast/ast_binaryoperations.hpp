@@ -426,6 +426,7 @@ public:
         }
         if(context.RegisterFile.type == 2){
             dst<<"fadd.s f"<<destReg<<", f"<<LeftReg<<", f"<<RightReg<<std::endl;
+            // dst<<"fcvt.d.s f"<<destReg<<", f"<<destReg<<std::endl;
         }
         else if(context.RegisterFile.type == 3){
             dst<<"fadd.d f"<<destReg<<", f"<<LeftReg<<", f"<<RightReg<<std::endl;

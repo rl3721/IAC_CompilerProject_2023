@@ -1,9 +1,9 @@
 function definition:  int main{
 declaration: 
-(float initialize: a = 1
+(float initialize: a = 1.1
 )
 declaration: 
-(float initialize: b = 2
+(float initialize: b = 2.2
 )
 RETURN (a + b) 
 }

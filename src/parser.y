@@ -382,7 +382,7 @@ declaration_list //also in statementlist_hpp
 primary_expression
 	: IDENTIFIER			{$$ = new identifier(*$1);}
 	| CONSTANT_INT			{$$ = new intConstant($1);}
-	| CONSTANT_FLOAT				//{$$ = new floatConstant($1);}
+	| CONSTANT_FLOAT		{$$ = new floatConstant($1);}
 	| STRING_LITERAL		{$$ = new stringConstant(*$1);}
 	| '(' expression ')'	{$$ = $2;} 
 	;
