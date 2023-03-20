@@ -61,10 +61,9 @@ void count();
 {D}*"."{D}+({E})?{FS}?	{ yylval.dval = std::stod(yytext);count(); return(CONSTANT_FLOAT); }
 {D}+"."{D}*({E})?{FS}?	{ yylval.dval = std::stod(yytext);count(); return(CONSTANT_FLOAT); }
 
-L?'(\\.|[^\\'])+'	/*This shoudl be char literals but we will ignore this for now*/
-					/*{ yylval.number = std::stod(yytext);count(); return(CONSTANT_INT); }*/
+L?'(\\.|[^\\'])+'	{yylval.string = new std::string(yytext) ;count(); return(STRING_LITERAL); }
 
-L?\"(\\.|[^\\"])*\"	//{yylval.string = new std::string(yytext); count(); return(STRING_LITERAL); } // ignore this for now
+L?\"(\\.|[^\\"])*\"	{yylval.string = new std::string(yytext); count(); return(STRING_LITERAL); } 
 
 "..."			{ count(); return(ELLIPSIS); }
 ">>="			{ count(); return(RIGHT_ASSIGN); }

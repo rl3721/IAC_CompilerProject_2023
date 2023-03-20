@@ -383,7 +383,7 @@ primary_expression
 	: IDENTIFIER			{$$ = new identifier(*$1);}
 	| CONSTANT_INT			{$$ = new intConstant($1);}
 	| CONSTANT_FLOAT				//{$$ = new floatConstant($1);}
-	| STRING_LITERAL		//{$$ = new stringPrimaryExpression(*$1);} //don't bother with this for now
+	| STRING_LITERAL		{$$ = new stringConstant(*$1);}
 	| '(' expression ')'	{$$ = $2;} 
 	;
 
