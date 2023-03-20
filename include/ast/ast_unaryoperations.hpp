@@ -223,8 +223,28 @@ public:
         dst<<"li x"<<destReg<<", "<<size<<std::endl;
     }
     int getValue(Context &context)override{
-        std::cerr<<"unfinished, value of sizeof";
-        exit(1);
+        return context.stack.back().varBindings[expression->getId()].size;
+    }
+};
+
+class sizeOfTypeOperator
+    : public unaryOperations 
+{
+private:
+protected:
+    virtual const std::string getOpcode() const override
+        { return "sizeof: "; }
+public:
+    sizeOfTypeOperator(TreePtr _expression)
+        :unaryOperations(_expression)
+    {}
+
+    virtual void compile(std::ostream &dst, Context &context, int destReg)const override{
+        int size = expression->getSize(context); 
+        dst<<"li x"<<destReg<<", "<<size<<std::endl;
+    }
+    int getValue(Context &context)override{
+        return context.stack.back().varBindings[expression->getId()].size;
     }
 };
 

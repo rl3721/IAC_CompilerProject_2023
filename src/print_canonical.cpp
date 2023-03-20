@@ -9,7 +9,7 @@ int main()
     
     ast->print(std::cout);
       
-     freopen("test/output.log", "w", stdout);
+     freopen("test/output.s", "w", stdout);
      freopen("test/error.log", "w", stderr);
 
      Context context;

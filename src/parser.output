@@ -226,7 +226,7 @@ Grammar
   157                 | '~' cast_expression
   158                 | '!' cast_expression
   159                 | SIZEOF unary_expression
-  160                 | SIZEOF '(' type_name ')'
+  160                 | SIZEOF '(' type_specifier ')'
 
   161 cast_expression: unary_expression
   162                | '(' type_name ')' cast_expression
@@ -396,7 +396,7 @@ Nonterminals, with rules where they appear
         on right: 2 3
     type_specifier <tree> (91)
         on left: 6 7 8 9 10 11 12 13 14 15 16
-        on right: 26 27 84 85
+        on right: 26 27 84 85 160
     storage_class_specifier <tree> (92)
         on left: 17 18 19 20 21
         on right: 24 25
@@ -417,7 +417,7 @@ Nonterminals, with rules where they appear
         on right: 29 42 43 47 48 49 81 83
     type_name <tree> (98)
         on left: 38 39
-        on right: 160 162
+        on right: 162
     declaration <tree> (99)
         on left: 40 41
         on right: 5 106
@@ -1586,7 +1586,7 @@ State 80
 State 81
 
   159 unary_expression: SIZEOF . unary_expression
-  160                 | SIZEOF . '(' type_name ')'
+  160                 | SIZEOF . '(' type_specifier ')'
 
     CONSTANT_INT    shift, and go to state 77
     CONSTANT_FLOAT  shift, and go to state 78
@@ -2951,7 +2951,7 @@ State 161
 State 162
 
   139 primary_expression: '(' . expression ')'
-  160 unary_expression: SIZEOF '(' . type_name ')'
+  160 unary_expression: SIZEOF '(' . type_specifier ')'
 
     CONSTANT_INT    shift, and go to state 77
     CONSTANT_FLOAT  shift, and go to state 78
@@ -2968,8 +2968,6 @@ State 162
     UNSIGNED        shift, and go to state 12
     FLOAT           shift, and go to state 13
     DOUBLE          shift, and go to state 14
-    CONST           shift, and go to state 38
-    VOLATILE        shift, and go to state 39
     VOID            shift, and go to state 15
     STRUCT          shift, and go to state 16
     UNION           shift, and go to state 17
@@ -2982,13 +2980,10 @@ State 162
     '~'             shift, and go to state 89
     '!'             shift, and go to state 90
 
-    type_specifier             go to state 138
-    type_qualifier             go to state 139
-    type_name                  go to state 257
+    type_specifier             go to state 257
     enum_specifier             go to state 31
     struct_or_union_specifier  go to state 33
     struct_or_union            go to state 34
-    specifier_qualifier_list   go to state 168
     primary_expression         go to state 91
     postfix_expression         go to state 92
     unary_expression           go to state 133
@@ -4935,7 +4930,7 @@ State 256
 
 State 257
 
-  160 unary_expression: SIZEOF '(' type_name . ')'
+  160 unary_expression: SIZEOF '(' type_specifier . ')'
 
     ')'  shift, and go to state 326
 
@@ -5757,7 +5752,7 @@ State 325
 
 State 326
 
-  160 unary_expression: SIZEOF '(' type_name ')' .
+  160 unary_expression: SIZEOF '(' type_specifier ')' .
 
     $default  reduce using rule 160 (unary_expression)
 

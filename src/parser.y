@@ -107,7 +107,7 @@ external_declaration //global declarations
 
 type_specifier
 	: VOID							{$$ = new typeSpecifier(variable_types::_void);}
-	| CHAR							//{$$ = new typeSpecifier("CHAR");}
+	| CHAR							//{$$ = new typeSpecifier(variable_types::_char);}
 	| SHORT							{std::cerr<<"short not assessed";exit(1);}
 	| INT							{$$ = new typeSpecifier(variable_types::_int);}
 	| LONG							{std::cerr<<"long not spported";exit(1);}
@@ -415,7 +415,8 @@ unary_expression
 	| '~' cast_expression				{$$ = new bwNotOperator($2);}
 	| '!' cast_expression               {$$ = new notOperator($2);}
 	| SIZEOF unary_expression			{$$ = new sizeOfOperator($2);}
-	| SIZEOF '(' type_name ')' //Todo
+	//| SIZEOF '(' type_name ')' //Todo
+	| SIZEOF '(' type_specifier ')'		{$$ = new sizeOfTypeOperator($3);}
 	;
 
 // unary_operator

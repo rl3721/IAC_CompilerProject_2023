@@ -24,6 +24,7 @@ enum Reg {
 
 enum variable_types {
     _void,
+    //_char,
     _int, 
     _float,
     _double,//to be extended
@@ -133,6 +134,8 @@ struct Scope{
     std::string returnLabel = "undefined"; //used for return
     std::string startLabel = "undefined"; //used for continue
     std::string endLabel = "undefined"; //used for break
+
+    std::string return_type = "undefined";
 
     std::map<std::string, int> enumBindings = {}; //stores all available enums in the scope
     std::map<std::string, std::vector<int>> enumSets = {}; //stores the availble enum sets in scope the available values to that scope. 

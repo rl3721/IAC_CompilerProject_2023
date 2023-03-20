@@ -81,6 +81,7 @@ public:
         std::string returnlabel = context.makeupLabel(id);
 
         context.stack.back().returnLabel = returnlabel;
+        context.stack.back().return_type = declaration_specifiers->getId();
         compound_statement->compile(dst,context,destReg);  
 
         

@@ -30,6 +30,9 @@ public:
             case _void:
                 dst<<"void";
                 break;
+            // case _char:
+            //     dst<<"char";
+            //     break;
             case _float:
                 dst<<"float";
                 break;
@@ -44,6 +47,8 @@ public:
 
     virtual int getSize(Context &context) const override{
         switch(type){
+            // case _char:
+            //     return 1;
             case _int:
                 return 4;
             case _void:
