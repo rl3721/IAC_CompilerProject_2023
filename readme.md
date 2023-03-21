@@ -1,57 +1,54 @@
-# Parser+AST
+# The compiler
 
-This branch is to build the parser and ast for the compiler project. For working version, go to the branch parser_ast. Do test in this branch. After finish testing. Push the changes back to the parer_ast branch. 
+## Supported features
 
-### To do list
+* int operations
+    * memory allignment not complete
+* float operations (free reg to be fixed)
+    * memory alignment not complete
+* defining and calling arguments
+    * "infinite" number of only int arguments supported
+    * up to 8 only float/double arguments supported
+         * not supporting alternating int and float arguments
+         * not supporting more than 8 float arguments
+* enum
+* sizeof
+* single layer pointers
+* array
+    * multidimensional call and definition
+    * initializer not complete
+* if else statement, while loop, for loop
+* switch with default
+    * only deals with default at end of switch 
+    
 
-- [x] Hello world
-- [ ] Function declarations
-- [ ] Arithmetics
-- [ ] If, While, For
-- [ ] Pointers
-- [ ] Struct
 
 
-Notes for code gen:
- // Define a base class Tree with subclasses a, b, and c
-class Tree {
-    // ...
-};
+## 一些合法但有病的代码：
 
-class a : public Tree {
-    // ...
-};
-
-class b : public Tree {
-    // ...
-};
-
-class c : public Tree {
-    // ...
-};
-
-// Declare a pointer to a Tree object
-Tree* pointer;
-
-// Check if pointer is of subtype a
-if (a* a_ptr = dynamic_cast<a*>(pointer)) {
-    // pointer is of subtype a
-    // handle a_ptr here
+* should return 2: done but ugly
+``` 
+int main(){
+    int x = 1;
+    {
+        x = 2;
+        int x;
+        x = 3;
+    }
+    return x;
 }
+```
 
-// Check if pointer is of subtype b
-else if (b* b_ptr = dynamic_cast<b*>(pointer)) {
-    // pointer is of subtype b
-    // handle b_ptr here
+* should return 2, not done
+``` 
+int main(){
+    int x = 3;
+    switch{
+        case 0:
+            return 0;
+        default:
+        case 9999:
+            return 2;
+    }
 }
-
-// Check if pointer is of subtype c
-else if (c* c_ptr = dynamic_cast<c*>(pointer)) {
-    // pointer is of subtype c
-    // handle c_ptr here
-}
-
-// Handle cases where pointer is not of any subtype
-else {
-    // handle other cases here
-}
+```
