@@ -23,8 +23,9 @@ enum Reg {
 };
 
 enum variable_types {
-    _void = -1,
-    _char = 0,
+    _void = -2,
+    _char = -1,
+    _unsigned = 0,
     _int,
     _float,
     _double,//to be extended

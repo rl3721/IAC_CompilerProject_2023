@@ -107,14 +107,14 @@ external_declaration //global declarations
 
 type_specifier
 	: VOID							{$$ = new typeSpecifier(variable_types::_void);}
-	| CHAR							//{$$ = new typeSpecifier(variable_types::_char);}
+	| CHAR							{$$ = new typeSpecifier(variable_types::_char);}
 	| SHORT							{std::cerr<<"short not assessed";exit(1);}
 	| INT							{$$ = new typeSpecifier(variable_types::_int);}
 	| LONG							{std::cerr<<"long not spported";exit(1);}
 	| FLOAT							{$$ = new typeSpecifier(variable_types::_float);}
 	| DOUBLE						//{$$ = new typeSpecifier("DOUBLE");}
 	| SIGNED						//{$$ = new typeSpecifier("INT");} //this is wrong, but just let it be
-	| UNSIGNED						//{$$ = new typeSpecifier("UNSIGNED");}
+	| UNSIGNED						{$$ = new typeSpecifier(variable_types::_unsigned);}
 	| struct_or_union_specifier		{$$ = $1;} //may be do struct
 	| enum_specifier				{$$ = $1;} //todo enum
 	//| TYPE_NAME //required for typedef, let's not worry about it.

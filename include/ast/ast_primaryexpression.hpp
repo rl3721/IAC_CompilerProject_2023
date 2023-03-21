@@ -256,7 +256,7 @@ public:
         dst<<" .string "<<'"'<<val<<'"'<<std::endl;
         dst<<"lui x"<<destReg<<", %hi("<<string_label<<")"<<std::endl;
         dst<<"addi x"<<destReg<<", x"<<destReg<<", %lo("<<string_label<<")"<<std::endl;
-        dst<<"lbu x"<<destReg<<", 0(x"<<destReg<<")"<<std::endl;
+        dst<<"andi x"<<destReg<<", x"<<destReg<<", 0xff"<<std::endl;
 
     }
     void print(std::ostream &dst)const override{
