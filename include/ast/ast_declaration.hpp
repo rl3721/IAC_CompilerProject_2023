@@ -45,10 +45,18 @@ public:
 
     int getSize(Context &context) const override{
         int listSize = 0;
+        int declaratorSize = 0;
         for (int i = 0; i< List->size();i++){
-            listSize += List->at(i)->getSize(context);
+            declaratorSize = List->at(i)->getSize(context);
+            if (List->at(i)->isPointer(context)){
+                listSize += declaratorSize*4;
+            }
+            else{
+                listSize += declaratorSize*declaration_specifiers->getSize(context);
+            }
+            //listSize += List->at(i)->getSize(context);
         }
-        return declaration_specifiers->getSize(context)*listSize;
+        return listSize; //declaration_specifiers->getSize(context)*listSize;
     }
     std::string getId() const override{
         return List->at(0)->getId(); //only returning the id of the first one. used for parameter. Can be buggy for later. Consider seperating
@@ -168,6 +176,9 @@ public:
         /*process each item on right,
         store each in a register
         store the register in the address allocated*/
+    }
+    bool isPointer(Context &context) override{
+        return declarator->isPointer(context);
     }
 };
 
