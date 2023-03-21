@@ -24,9 +24,9 @@ public:
     virtual void print(std::ostream &dst) const override
     {
         switch(type){
-            case _struct:
-                dst<<"struct";
-                break;
+            // case _struct:
+            //     dst<<"struct";
+            //     break;
             case _int:
                 dst<<"int";
                 break;
@@ -53,8 +53,8 @@ public:
 
     virtual int getSize(Context &context) const override{
         switch(type){
-            case _struct:
-                return 4; //its a trick here, assume all struct's size is 4 bytes
+            // case _struct:
+            //     return 4; //its a trick here, assume all struct's size is 4 bytes
             case _char:
                 return 1;
             case _int:

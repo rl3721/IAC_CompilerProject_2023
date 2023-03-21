@@ -25,7 +25,7 @@
 
 %token <ival> CONSTANT_INT
 %token <dval> CONSTANT_FLOAT
-%token <string> IDENTIFIER STRING_LITERAL //I won't actually use strings for now
+%token <string> IDENTIFIER STRING_LITERAL CHAR_LITERAL //I won't actually use strings for now
 
 %token  SIZEOF PTR_OP INC_OP DEC_OP LEFT_OP RIGHT_OP LE_OP GE_OP EQ_OP NE_OP
 %token  AND_OP OR_OP MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN
@@ -408,6 +408,7 @@ primary_expression
 	| CONSTANT_INT			{$$ = new intConstant($1);}
 	| CONSTANT_FLOAT		{$$ = new floatConstant($1);}
 	| STRING_LITERAL		{$$ = new stringConstant(*$1);}
+	| CHAR_LITERAL			{$$ = new charConstant(*$1);}
 	| '(' expression ')'	{$$ = $2;} 
 	;
 
