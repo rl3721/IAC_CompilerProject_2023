@@ -61,6 +61,7 @@
 %type <tree> labeled_statement compound_statement jump_statement
 %type <tree> expression_statement selection_statement iteration_statement 
 %type <tree> declaration_or_statement 
+%type <tree> unlabled_statement compound_unlabled_statement
 
 //expressions
 %type <tree> primary_expression postfix_expression unary_expression 
@@ -76,7 +77,7 @@
 %type <list> specifier_qualifier_list struct_declarator_list enumerator_list
 %type <list>  parameter_type_list identifier_list parameter_list 
 %type <list> initializer_list declaration_or_statement_list labeled_statement_list
-%type <list> array_index_list array_constant_index_list
+%type <list> array_index_list array_constant_index_list unlabled_statement_list
 //%type <tree> declaration_list statement_list
 
 //operator
@@ -330,8 +331,24 @@ statement
 
 labeled_statement //case and switch todo
 	: IDENTIFIER ':' statement
-	| CASE constant_expression ':' statement  {$$ = new caseStatement($2, $4);}
-	| DEFAULT ':' statement          //{$$ = new defaultStatement($3);}
+	| CASE constant_expression ':' compound_unlabled_statement  {$$ = new caseStatement($2, $4);}
+	| DEFAULT ':' statement          							{$$ = new caseStatement(NULL, $3);}
+	;
+
+compound_unlabled_statement
+	: unlabled_statement_list	{$$ = new compoundStatement($1);}
+
+unlabled_statement_list
+	: unlabled_statement	{$$ = initList($1);}
+	| unlabled_statement_list unlabled_statement {$$ = concatList($1, $2);}
+
+unlabled_statement
+	: declaration			{$$ = $1;}
+	| compound_statement	{$$ = $1;}
+	| expression_statement	{$$ = $1;}
+	| selection_statement	{$$ = $1;}
+	| iteration_statement	{$$ = $1;}
+	| jump_statement		{$$ = $1;}
 	;
 
 expression_statement

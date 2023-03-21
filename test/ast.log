@@ -1,9 +1,17 @@
-function definition:  int main{
+function definition:  int gdeclaration: 
+(int t)
+{
 declaration: 
-(float initialize: a = 1.1
-)
-declaration: 
-(float initialize: b = 2.2
-)
-RETURN (a + b) 
+(int x)
+(x = 0)switch statement: expression:
+tstatement:
+case statement: expression:
+0statement:
+(x = 1)break  
+case statement: expression:
+2statement:
+(x = 2)case statement: expression:
+1statement:
+(x = (x + 1))break  
+RETURN x 
 }
