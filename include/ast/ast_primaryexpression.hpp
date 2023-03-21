@@ -200,16 +200,6 @@ private:
 protected:
 public:
     float val;
-    // union FloatToInt {
-    //     float f;
-    //     unsigned int i;
-    // } FloatToInt;
-
-    // int processFloat(float f){
-    //     FloatToInt.f = f;
-    //     return FloatToInt.i;
-    // }
-
     floatConstant(float _val)
         :val(_val)
     {}
@@ -222,6 +212,34 @@ public:
     }
     void compile(std::ostream &dst, Context &context, int destReg)const override{
         dst<<"li x"<<destReg<<", "<<context.processFloat(val)<<std::endl;
+    }
+    void print(std::ostream &dst)const override{
+        dst<<val;
+    }
+    int getValue(Context &context) override{
+        return (int) val;
+    }
+};
+
+class doubleConstant
+    : public Tree
+{
+private:
+protected:
+public:
+    double val;
+    doubleConstant(double _val)
+        :val(_val)
+    {}
+    std::string getId()const override{
+        std::cerr<<"Error: Getting Id, of int immediate";
+        exit(1);
+    }
+    int getSize(Context &context)const override{
+        return 0;
+    }
+    void compile(std::ostream &dst, Context &context, int destReg)const override{
+        dst<<"li x"<<destReg<<", "<<context.processDouble(val)<<std::endl;
     }
     void print(std::ostream &dst)const override{
         dst<<val;

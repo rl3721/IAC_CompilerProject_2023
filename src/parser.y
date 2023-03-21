@@ -112,7 +112,7 @@ type_specifier
 	| INT							{$$ = new typeSpecifier(variable_types::_int);}
 	| LONG							{std::cerr<<"long not spported";exit(1);}
 	| FLOAT							{$$ = new typeSpecifier(variable_types::_float);}
-	| DOUBLE						//{$$ = new typeSpecifier("DOUBLE");}
+	| DOUBLE						{$$ = new typeSpecifier(variable_types::_double);}
 	| SIGNED						//{$$ = new typeSpecifier("INT");} //this is wrong, but just let it be
 	| UNSIGNED						{$$ = new typeSpecifier(variable_types::_unsigned);}
 	| struct_or_union_specifier		{$$ = $1;} //may be do struct

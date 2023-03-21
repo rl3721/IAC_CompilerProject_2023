@@ -200,10 +200,16 @@ struct Context{
     union FloatToInt {
         float f;
         unsigned int i;
+        double d;
     } FloatToInt;
 
     int processFloat(float f){
         FloatToInt.f = f;
+        return FloatToInt.i;
+    }
+
+    int processDouble(double d){
+        FloatToInt.d = d;
         return FloatToInt.i;
     }
 
