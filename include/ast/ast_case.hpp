@@ -76,13 +76,17 @@ public:
 
      virtual void compile(std::ostream &dst, Context &context, int destReg) const override{
         // dst<<context.stack.back().startLabel<<":"<<std::endl;
-        int conReg = context.RegisterFile.allocate();
-        // expressionList[index]->compile(dst,context,conReg);
-        expression->compile(dst,context,conReg);
+        
         std::string nextCase = context.makeupLabel("CASE");
-        context.stack.back().startLabel = nextCase;
-        dst<<"bne x"<<destReg<<", x"<<conReg<<", "<<nextCase<<std::endl;
-        context.RegisterFile.freeReg(conReg);
+        // context.stack.back().startLabel = nextCase;
+        // expressionList[index]->compile(dst,context,conReg);
+        if (expression != NULL){
+            int conReg = context.RegisterFile.allocate();
+            expression->compile(dst,context,conReg);
+            dst<<"bne x"<<destReg<<", x"<<conReg<<", "<<nextCase<<std::endl;
+            context.RegisterFile.freeReg(conReg);
+        }
+
         // int i = 0;
         // while(statement->at(i)!=nullptr){
         //     statement->at(i)->compile(dst,context,destReg);
@@ -97,7 +101,9 @@ public:
         // statementList[index]->compile(dst,context,destReg);
         statement->compile(dst,context,destReg);
         // dst<<"endCase----------------------"<<std::endl;
-        dst<<context.stack.back().startLabel<<":"<<std::endl;
+        
+        // dst<<context.stack.back().startLabel<<":"<<std::endl;
+        dst<<nextCase<<":"<<std::endl;
     }
 };
 
