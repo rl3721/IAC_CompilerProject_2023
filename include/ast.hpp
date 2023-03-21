@@ -24,7 +24,7 @@
 #include "ast/ast_case.hpp"
 #include "ast/ast_switch.hpp"
 #include "ast/ast_default.hpp"
-
+#include "ast/ast_struct.hpp"
 
 //todo: compress all list type subclass into one
 

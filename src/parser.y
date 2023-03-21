@@ -238,24 +238,31 @@ direct_abstract_declarator //Unsupported
 
 	/**************struct related************/
 struct_or_union_specifier
-	: struct_or_union IDENTIFIER '{' struct_declaration_list '}'
+	: struct_or_union IDENTIFIER '{' struct_declaration_list '}' //{$$ = new structDefinition($2, $4);}
 	| struct_or_union '{' struct_declaration_list '}'
-	| struct_or_union IDENTIFIER
+	| struct_or_union IDENTIFIER //{$$ = new structDefinition($2, NULL);}
 	;
 struct_or_union
-	: STRUCT //prob not gonna get to it
+	: STRUCT    //{$$ = new structIdentifier();}//{$$ = new struct($1);}//prob not gonna get to it
 	| UNION		{std::cerr<<"union not assessed"; exit(1);}
 	;
 
 struct_declaration_list
-	: struct_declaration
-	| struct_declaration_list struct_declaration
+	: struct_declaration                          {$$ = initList($1);}
+	| struct_declaration_list struct_declaration  {$$ = concatList($1, $2);}
 	;
+
 struct_declaration
-	: specifier_qualifier_list struct_declarator_list ';'
+	: type_specifier struct_declarator_list ';' //{$$ = new declaration($1, $2); }
 	;
+
+// struct_declaration
+// 	: specifier_qualifier_list struct_declarator_list ';' {$$ = new declaration($1, $2); }
+// 	;
+
+
 struct_declarator
-	: declarator
+	: declarator {$$ = $1;}
 	| ':' constant_expression
 	| declarator ':' constant_expression
 	;
@@ -410,7 +417,7 @@ postfix_expression
 	| postfix_expression array_index_list					{$$ = new arrayIndex($1, $2);}
 	| postfix_expression '(' ')'							{$$ = new functionCall($1, NULL);}
 	| postfix_expression '(' argument_expression_list ')'	{$$ = new functionCall($1, $3);}
-	| postfix_expression '.' IDENTIFIER //struct reference
+	| postfix_expression '.' IDENTIFIER 					//{$$ = new structMember($1, $3);}
 	| postfix_expression PTR_OP IDENTIFIER //struct pointer reference
 	| postfix_expression INC_OP								{$$ = new postIncrement($1);}
 	| postfix_expression DEC_OP								{$$ = new postDecrement($1);}
