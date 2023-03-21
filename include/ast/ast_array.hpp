@@ -215,7 +215,22 @@ class arrayIndex
 
         void compile(std::ostream &dst, Context &context, int destReg) const override{
             leftCompile(dst,context,destReg);
-            dst<<"lw x"<<destReg<<", 0(x"<<destReg<<")"<<std::endl;
+
+            int scale = 1;
+            if (context.stack.size() == 0){
+                scale = context.global.varBindings[identifier->getId()].ind_size;
+            }
+            else{
+                scale = context.stack.back().varBindings[identifier->getId()].ind_size;
+            }
+            
+            if (scale == 1){
+                dst<<"lbu x"<<destReg<<", 0(x"<<destReg<<")"<<std::endl;
+            }
+            else{
+                dst<<"lw x"<<destReg<<", 0(x"<<destReg<<")"<<std::endl;
+            }
+
             
         }
             

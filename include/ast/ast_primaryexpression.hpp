@@ -270,11 +270,13 @@ public:
     }
     void compile(std::ostream &dst, Context &context, int destReg)const override{
         std::string string_label = context.makeupLabel("string");
+        dst<<".data"<<std::endl;
         dst<<string_label<<":"<<std::endl;
         dst<<" .string "<<'"'<<val<<'"'<<std::endl;
+        dst<<".text"<<std::endl;
         dst<<"lui x"<<destReg<<", %hi("<<string_label<<")"<<std::endl;
         dst<<"addi x"<<destReg<<", x"<<destReg<<", %lo("<<string_label<<")"<<std::endl;
-        dst<<"andi x"<<destReg<<", x"<<destReg<<", 0xff"<<std::endl;
+        //dst<<"andi x"<<destReg<<", x"<<destReg<<", 0xff"<<std::endl;
 
     }
     void print(std::ostream &dst)const override{

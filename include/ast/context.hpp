@@ -197,12 +197,12 @@ struct Context{
             return "__"+id+"_"+"Label"+"__0";              //return label
         }
     }
-    union EverythingFloatToInt {
+    union FloatToInt {
         float f;
         unsigned int i;
         double d;
-        char c[1];
-        std::string s;
+        //char c[1];
+        //std::string s;
     } FloatToInt;
 
     int processFloat(float f){
@@ -215,10 +215,10 @@ struct Context{
         return FloatToInt.i;
     }
 
-    int processChar(char c){
-        FloatToInt.c[0] = c;
-        return FloatToInt.i;
-    }
+    // int processChar(char c){
+    //     FloatToInt.c[0] = c;
+    //     return FloatToInt.i;
+    // }
 
     // std::string adjustInstruction(std::string instruction){
     //     if (RegisterFile.isFloat = 1){
