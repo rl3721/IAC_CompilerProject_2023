@@ -197,10 +197,12 @@ struct Context{
             return "__"+id+"_"+"Label"+"__0";              //return label
         }
     }
-    union FloatToInt {
+    union EverythingFloatToInt {
         float f;
         unsigned int i;
         double d;
+        char c[1];
+        std::string s;
     } FloatToInt;
 
     int processFloat(float f){
@@ -210,6 +212,11 @@ struct Context{
 
     int processDouble(double d){
         FloatToInt.d = d;
+        return FloatToInt.i;
+    }
+
+    int processChar(char c){
+        FloatToInt.c[0] = c;
         return FloatToInt.i;
     }
 
