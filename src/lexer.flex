@@ -15,7 +15,6 @@ void count();
 
 %x CMNT
 %%
-"hello_world"			{ count(); return(HELLO_WORLD); }
 
 "auto"			{ count(); return(AUTO); }
 "break"			{ count(); return(BREAK); }
