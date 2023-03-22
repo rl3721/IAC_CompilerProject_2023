@@ -56,6 +56,7 @@ public:
             size += expression->at(i)->getSize(context);
         }
         return size;
+
     }
 
     std::string getId() const override{
@@ -200,7 +201,7 @@ public:
     }
 
     int getSize(Context &context) const override{
-        return 4;//identifier->getSize(context);
+        return identifier->getSize(context);
     }
     std::string getId() const override{
         // return identifier;

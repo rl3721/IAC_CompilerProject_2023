@@ -2,7 +2,7 @@ struct x{
     int y;
 };
 
-int main()
+int f()
 {
     struct x y;
     return sizeof(y);
