@@ -1,9 +1,10 @@
 struct x{
-    int y;
+    int z;
 };
 
 int main()
 {
     struct x y;
-    return sizeof(y);
+    y.z = 1;
+    return y.z;
 }

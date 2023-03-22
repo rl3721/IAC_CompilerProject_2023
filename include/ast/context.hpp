@@ -139,7 +139,8 @@ struct Scope{
     std::string return_type = "undefined"; //determine the type of the return value
 
     std::map<std::string, int> enumBindings = {}; //stores all available enums in the scope
-    std::map<std::string, std::vector<int>> enumSets = {}; //stores the availble enum sets in scope the available values to that scope. 
+    std::map<std::string, std::vector<int>> enumSets = {}; //stores the availble enum sets in scope the available values to that scope.
+    std::map<std::string, int> structIndex = {}; //stores the variable index of the struct in the struct
 };
 
 struct Context{

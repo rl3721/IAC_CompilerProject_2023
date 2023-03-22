@@ -1,1 +1,12 @@
 declaration: 
+(struct: x
+struct member:z
+finish struct def
+ )
+function definition:  int main{
+declaration: 
+(struct: x
+finish struct def
+ y)
+(member: z = 1)RETURN member: z 
+}

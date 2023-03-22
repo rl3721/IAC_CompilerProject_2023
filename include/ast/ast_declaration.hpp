@@ -29,10 +29,16 @@ public:
 
     virtual void print(std::ostream &dst) const override
     {
-        dst<<"declaration: "<<std::endl;
+        dst<<"declaration"<<": "<<std::endl;
         dst<<"(";
         declaration_specifiers->print(dst);
+        
+        
         dst<<" ";
+        if (List == NULL){
+            dst<<")\n";
+            return;
+        }
         for (int i = 0; i < List->size(); i++){
             List->at(i)->print(dst);
         }
