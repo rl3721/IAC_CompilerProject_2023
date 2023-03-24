@@ -1,6 +1,9 @@
 # The compiler
 
-## Supported features
+This is compiler is made for the EIE Y2 Instruction Architecture and Compilers Spring term compiler coursework. 
+
+
+## Supported and un supported features
 
 * int operations
     * memory allignment not complete
@@ -11,17 +14,21 @@
     * up to 8 only float/double arguments supported
          * not supporting alternating int and float arguments
          * not supporting more than 8 float arguments
-* enum
-* sizeof
+* enum: global and local
+* sizeof: for variables and types, size of struct slightly buggy
 * single layer pointers
 * array
     * multidimensional call and definition
     * initializer not complete
 * if else statement, while loop, for loop
+    * iterations over pointer address not supported
 * switch with default
     * only deals with default at end of switch 
-    
-
+* strings and chars
+    * escape characters supported, L prefixes not supported
+* struct
+    * works with int members
+    * not allowing more than one struct in the code
 
 
 ## 一些合法但有病的代码：
