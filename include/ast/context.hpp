@@ -62,11 +62,18 @@ class registers{
             usedReg[i] = 1;
         }
         void freeReg(int i){
-            usedReg[i] = 0;
-            std::cerr<<"free register index: "<<i<<std::endl;
+            if(type>=2){
+                floatReg[i] = 0;
+                std::cerr<<"free float register index: "<<i<<std::endl;
+                return;
+            }
+            else{
+                usedReg[i] = 0;
+                std::cerr<<"free register index: "<<i<<std::endl;
+            }
         }
         int allocate(){
-            if(type == 3 || type == 4){ //float or double
+            if(type >= 2){ //float or double
                 for(int i = 5; i < 32; i++){ //starting from 5 as first 5 non allocatable by program
                     if(floatReg[i]==0){
                         floatReg[i] = 1;
